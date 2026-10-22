@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-[#1E1E1E]">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diseñador de Clases Virtuales - Universidad Virtual</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts Inter & Playfair Display -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        academicRed: '#A51C30',
+                        darkBg: '#1E1E1E',
+                        goldAccent: '#C9A227',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1E1E1E;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #C9A227;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="h-full text-slate-100 font-sans flex flex-col antialiased bg-[#1E1E1E]">
+
+    <!-- Header / Navbar Universitario -->
+    <header class="bg-[#1E1E1E] text-white shadow-md border-b-2 border-[#C9A227] sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-academicRed text-white p-2.5 rounded-lg shadow-inner border-2 border-[#C9A227] flex items-center justify-center font-bold">
+                    <i class="fa-solid font-bold text-xl fa-graduation-cap text-[#C9A227]"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg sm:text-xl font-serif font-bold tracking-tight text-white">Universidad Virtual</h1>
+                    <p class="text-xs text-slate-300 mt-0.5 tracking-wide font-light">Plataforma de Diseño Instruccional Asistido por IA</p>
+                </div>
+            </div>
+            <div class="hidden md:flex items-center space-x-4">
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-academicRed text-white border-2 border-[#C9A227] shadow-sm">
+                    <span class="w-2 h-2 mr-2 bg-[#C9A227] rounded-full animate-pulse"></span> Equipo 2: Presentación Dinámica
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        
+        <!-- Welcome Banner Subtitle (Fondo Rojo Carmesí con bordes dorados) -->
+        <div class="mb-6 bg-academicRed text-white rounded-xl p-5 sm:p-6 border-2 border-[#C9A227] shadow-lg flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div>
+                <h2 class="text-xl sm:text-2xl font-bold font-serif text-white">Generador de Sesión de Aprendizaje Dinámica</h2>
+                <p class="text-xs sm:text-sm text-slate-100 mt-1">Sintetice temas complejos en estructuras pedagógicas listas para impartir en entornos virtuales universitarios.</p>
+            </div>
+            <button id="btn-quick-example" onclick="loadExampleData()" class="w-full sm:w-auto px-4 py-2.5 bg-white hover:bg-slate-100 text-academicRed text-xs sm:text-sm font-bold rounded-lg border-2 border-[#C9A227] transition duration-150 flex items-center justify-center space-x-2 shadow">
+                <i class="fa-solid fa-wand-magic-sparkles text-[#C9A227]"></i>
+                <span>Cargar Ejemplo Demostrativo</span>
+            </button>
+        </div>
+
+        <!-- Grid 2 Columnas principales -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            
+            <!-- COLUMNA IZQUIERDA: Configuración de la Clase y Credenciales API (5 Columnas en LG) -->
+            <section class="lg:col-span-5 bg-academicRed text-white rounded-xl shadow-xl border-2 border-[#C9A227] p-5 sm:p-6 space-y-6">
+                
+                <!-- Sección Configuración de APIs -->
+                <div class="bg-white text-[#1E1E1E] rounded-xl p-4 border-2 border-[#C9A227] space-y-3 shadow-inner">
+                    <div class="flex items-center justify-between border-b-2 border-[#C9A227]/40 pb-2">
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-academicRed flex items-center space-x-2">
+                            <i class="fa-solid fa-key text-[#C9A227]"></i>
+                            <span>Credenciales de API (Opcional)</span>
+                        </h4>
+                        <span class="text-[10px] bg-academicRed text-white font-mono px-2 py-0.5 rounded border border-[#C9A227]">Modo Activo</span>
+                    </div>
+
+                    <!-- API Gemini -->
+                    <div>
+                        <label for="apiKeyGemini" class="block text-[11px] font-bold text-slate-800 mb-1">
+                            API Key de Gemini
+                        </label>
+                        <input type="password" id="apiKeyGemini" placeholder="Ingrese su clave de Gemini..." 
+                            class="w-full px-3 py-2 text-xs bg-slate-50 border-2 border-[#C9A227]/60 rounded-lg focus:ring-1 focus:ring-academicRed focus:border-academicRed outline-none text-[#1E1E1E] font-mono">
+                    </div>
+
+                    <!-- API GROQ -->
+                    <div>
+                        <label for="apiKeyGroq" class="block text-[11px] font-bold text-slate-800 mb-1">
+                            API Key de GROQ
+                        </label>
+                        <input type="password" id="apiKeyGroq" placeholder="Ingrese su clave de GROQ..." 
+                            class="w-full px-3 py-2 text-xs bg-slate-50 border-2 border-[#C9A227]/60 rounded-lg focus:ring-1 focus:ring-academicRed focus:border-academicRed outline-none text-[#1E1E1E] font-mono">
+                    </div>
+                </div>
+
+                <!-- Formulario Parámetros de la Clase -->
+                <div>
+                    <div class="border-b-2 border-[#C9A227]/40 pb-3 mb-4 flex items-center justify-between">
+                        <h3 class="font-bold text-white text-base flex items-center space-x-2">
+                            <i class="fa-solid fa-sliders text-[#C9A227]"></i>
+                            <span>Parámetros de la Sesión</span>
+                        </h3>
+                        <span class="text-xs text-slate-200">Paso 2 de 2</span>
+                    </div>
+
+                    <form id="classForm" onsubmit="handleGenerate(event)" class="space-y-4">
+                        
+                        <!-- Tema de la clase -->
+                        <div>
+                            <label for="topic" class="block text-xs font-bold uppercase tracking-wider text-white mb-1">
+                                Tema de la Clase <span class="text-[#C9A227]">*</span>
+                            </label>
+                            <input type="text" id="topic" required placeholder="Ej. Inteligencia Artificial en la Educación Superior" 
+                                class="w-full px-3.5 py-2.5 text-sm bg-white border-2 border-[#C9A227] rounded-lg focus:ring-1 focus:ring-[#C9A227] outline-none transition text-[#1E1E1E] font-medium shadow-sm">
+                        </div>
+
+                        <!-- Nivel Educativo -->
+                        <div>
+                            <label for="level" class="block text-xs font-bold uppercase tracking-wider text-white mb-1">
+                                Nivel Educativo <span class="text-[#C9A227]">*</span>
+                            </label>
+                            <select id="level" required class="w-full px-3.5 py-2.5 text-sm bg-white border-2 border-[#C9A227] rounded-lg focus:ring-1 focus:ring-[#C9A227] outline-none transition text-[#1E1E1E] font-medium shadow-sm">
+                                <option value="" disabled selected>Seleccione el nivel escolar</option>
+                                <option value="Licenciatura">Licenciatura</option>
+                                <option value="Maestría">Maestría</option>
+                                <option value="Doctorado">Doctorado</option>
+                                <option value="Educación Continua">Educación Continua / Diplomado</option>
+                            </select>
+                        </div>
+
+                        <!-- Propósito Principal -->
+                        <div>
+                            <label for="purpose" class="block text-xs font-bold uppercase tracking-wider text-white mb-1">
+                                Propósito / Objetivo Didáctico <span class="text-[#C9A227]">*</span>
+                            </label>
+                            <textarea id="purpose" rows="2" required placeholder="¿Qué competencia o aprendizaje logrará el estudiante al finalizar?"
+                                class="w-full px-3.5 py-2 text-sm bg-white border-2 border-[#C9A227] rounded-lg focus:ring-1 focus:ring-[#C9A227] outline-none transition text-[#1E1E1E] shadow-sm"></textarea>
+                        </div>
+
+                        <!-- Contenidos Clave -->
+                        <div>
+                            <label for="contents" class="block text-xs font-bold uppercase tracking-wider text-white mb-1">
+                                Subtemas / Contenidos Clave <span class="text-[#C9A227]">*</span>
+                            </label>
+                            <textarea id="contents" rows="3" required placeholder="Escriba los puntos a cubrir (separados por comas o saltos de línea)"
+                                class="w-full px-3.5 py-2 text-sm bg-white border-2 border-[#C9A227] rounded-lg focus:ring-1 focus:ring-[#C9A227] outline-none transition text-[#1E1E1E] shadow-sm"></textarea>
+                        </div>
+
+                        <!-- Tipo de Recurso de Síntesis -->
+                        <div>
+                            <label for="resourceType" class="block text-xs font-bold uppercase tracking-wider text-white mb-1">
+                                Recurso de Síntesis Solicitado <span class="text-[#C9A227]">*</span>
+                            </label>
+                            <div class="relative">
+                                <select id="resourceType" required class="w-full px-3.5 py-2.5 text-sm bg-white border-2 border-[#C9A227] rounded-lg focus:ring-1 focus:ring-[#C9A227] outline-none transition text-[#1E1E1E] font-medium appearance-none shadow-sm">
+                                    <option value="mindmap">Mapa Mental Jerárquico</option>
+                                    <option value="summary">Resumen Estructurado e Ideas Fuerza</option>
+                                    <option value="slides">Presentación Interactiva por Diapositivas</option>
+                                    <option value="quiz">Cuestionario Formativo Autoevaluable</option>
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#1E1E1E]">
+                                    <i class="fa-solid fa-chevron-down text-xs"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Archivo de Material Base (Opcional) -->
+                        <div class="pt-1">
+                            <label class="block text-xs font-bold uppercase tracking-wider text-white mb-1">
+                                Material de Lectura / Lectura Base <span class="text-slate-200 font-normal">(Opcional)</span>
+                            </label>
+                            
+                            <!-- Drag & Drop Zone -->
+                            <div id="dropZone" onclick="document.getElementById('fileInput').click()" 
+                                class="border-2 border-dashed border-[#C9A227] bg-white/10 hover:bg-white/20 rounded-xl p-4 text-center cursor-pointer transition flex flex-col items-center justify-center group shadow-inner">
+                                
+                                <input type="file" id="fileInput" accept=".pdf,.docx,.doc,.txt" class="hidden" onchange="handleFileSelect(event)">
+                                
+                                <div id="uploadPrompt" class="space-y-1">
+                                    <i class="fa-solid fa-cloud-arrow-up text-2xl text-[#C9A227] group-hover:scale-110 transition"></i>
+                                    <p class="text-xs text-white font-medium">Haga clic o arrastre un documento (.PDF, .DOCX)</p>
+                                    <p class="text-[10px] text-slate-200">Soporta programas de estudio o lecturas complementarias</p>
+                                </div>
+
+                                <!-- Attached file info (Hidden by default) -->
+                                <div id="attachedFileContainer" class="hidden w-full flex items-center justify-between bg-white text-[#1E1E1E] border-2 border-[#C9A227] rounded-lg p-2.5 shadow-sm">
+                                    <div class="flex items-center space-x-2.5 truncate">
+                                        <i class="fa-solid fa-file-pdf text-academicRed text-lg flex-shrink-0"></i>
+                                        <span id="attachedFileName" class="text-xs font-semibold truncate max-w-[180px]">documento.pdf</span>
+                                    </div>
+                                    <button type="button" onclick="removeFile(event)" class="text-slate-500 hover:text-academicRed p-1 rounded-full hover:bg-slate-200 transition">
+                                        <i class="fa-solid fa-xmark text-sm"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Botón Generar -->
+                        <div class="pt-3">
+                            <button type="submit" id="btnSubmit" class="w-full bg-white hover:bg-slate-100 text-academicRed font-bold py-3.5 px-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center space-x-2 border-2 border-[#C9A227] disabled:opacity-75">
+                                <span id="btnText" class="flex items-center space-x-2">
+                                    <i class="fa-solid fa-wand-magic-sparkles text-[#C9A227]"></i>
+                                    <span>Generar Propuesta con IA</span>
+                                </span>
+                                <span id="btnSpinner" class="hidden flex items-center space-x-2">
+                                    <i class="fa-solid fa-circle-notch fa-spin text-lg text-[#C9A227]"></i>
+                                    <span>Procesando Didáctica...</span>
+                                </span>
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </section>
+
+            <!-- COLUMNA DERECHA: Propuesta Generada (7 Columnas en LG) -->
+            <section class="lg:col-span-7">
+                
+                <!-- ESTADO VACÍO (Placeholder inicial) -->
+                <div id="emptyState" class="bg-white text-[#1E1E1E] rounded-xl shadow-xl border-2 border-[#C9A227] p-8 sm:p-12 text-center min-h-[580px] flex flex-col items-center justify-center space-y-4">
+                    <div class="w-20 h-20 bg-academicRed text-[#C9A227] rounded-full flex items-center justify-center text-3xl shadow-inner border-2 border-[#C9A227]">
+                        <i class="fa-solid fa-chalkboard-user"></i>
+                    </div>
+                    <div class="max-w-md space-y-2">
+                        <h3 class="text-lg font-serif font-bold text-academicRed">Diseño Instruccional Listo para Generar</h3>
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Complete los parámetros de la izquierda o presione el botón <strong class="text-academicRed">"Cargar Ejemplo"</strong> para visualizar una propuesta de clase universitaria dinamizada.
+                        </p>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 text-left max-w-sm w-full pt-4">
+                        <div class="p-3 bg-slate-50 rounded-lg border-2 border-[#C9A227]/50 text-xs text-slate-700 font-medium flex items-center space-x-2 shadow-sm">
+                            <i class="fa-solid fa-clock text-[#C9A227]"></i>
+                            <span>Estructura Cronológica</span>
+                        </div>
+                        <div class="p-3 bg-slate-50 rounded-lg border-2 border-[#C9A227]/50 text-xs text-slate-700 font-medium flex items-center space-x-2 shadow-sm">
+                            <i class="fa-solid fa-diagram-project text-[#C9A227]"></i>
+                            <span>Síntesis Dinámica</span>
+                        </div>
+                        <div class="p-3 bg-slate-50 rounded-lg border-2 border-[#C9A227]/50 text-xs text-slate-700 font-medium flex items-center space-x-2 shadow-sm">
+                            <i class="fa-solid fa-lightbulb text-[#C9A227]"></i>
+                            <span>Enganche Pedagógico</span>
+                        </div>
+                        <div class="p-3 bg-slate-50 rounded-lg border-2 border-[#C9A227]/50 text-xs text-slate-700 font-medium flex items-center space-x-2 shadow-sm">
+                            <i class="fa-solid fa-book-bookmark text-[#C9A227]"></i>
+                            <span>Referencias APA 7ma</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONTENIDO GENERADO (Oculto por defecto) -->
+                <div id="outputContent" class="hidden space-y-6">
+                    
+                    <!-- 1. Contexto de Procesamiento Badge/Banner -->
+                    <div id="contextBadge" class="bg-white text-[#1E1E1E] rounded-xl p-4 shadow-md border-l-8 border-[#C9A227] flex items-center justify-between border-2 border-[#C9A227]">
+                        <div class="flex items-center space-x-3">
+                            <div id="contextIcon" class="p-2 bg-academicRed text-[#C9A227] rounded-lg border border-[#C9A227]">
+                                <i class="fa-solid fa-globe"></i>
+                            </div>
+                            <div>
+                                <p id="contextTitle" class="text-xs text-slate-500 uppercase tracking-wider font-bold">Fuente de Conocimiento Utilizada</p>
+                                <p id="contextText" class="text-sm font-semibold text-slate-800">Búsqueda y conocimientos generales del modelo pedagógico</p>
+                            </div>
+                        </div>
+                        <span class="text-[10px] bg-academicRed text-[#C9A227] font-mono px-2.5 py-1 rounded-md border border-[#C9A227] font-bold">IA Verificada</span>
+                    </div>
+
+                    <!-- Tarjeta Principal de la Propuesta -->
+                    <div class="bg-white text-[#1E1E1E] rounded-xl shadow-xl border-2 border-[#C9A227] overflow-hidden">
+                        
+                        <!-- Header de la Propuesta Generada -->
+                        <div class="bg-academicRed text-white p-5 border-b-2 border-[#C9A227]">
+                            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                                <span id="outLevel" class="px-2.5 py-0.5 text-xs font-bold bg-white text-academicRed rounded-full border-2 border-[#C9A227]">
+                                    Licenciatura
+                                </span>
+                                <span class="text-xs text-slate-100 font-mono"><i class="fa-regular fa-calendar-check mr-1 text-[#C9A227]"></i>Duración estimada: 90 min</span>
+                            </div>
+                            <h2 id="outTopic" class="text-xl sm:text-2xl font-serif font-bold text-white">
+                                Titulo de la Clase
+                            </h2>
+                            <p id="outPurpose" class="text-xs sm:text-sm text-slate-100 mt-2 italic bg-black/20 p-3 rounded-lg border border-[#C9A227]/40">
+                                "Propósito de la clase..."
+                            </p>
+                        </div>
+
+                        <div class="p-5 sm:p-6 space-y-6">
+                            
+                            <!-- 2. Introducción y Enganche (Hook) -->
+                            <div class="space-y-2">
+                                <h3 class="text-sm font-bold text-academicRed uppercase tracking-wider flex items-center space-x-2">
+                                    <i class="fa-solid fa-fire text-[#C9A227]"></i>
+                                    <span>Introducción y Enganche Pedagógico</span>
+                                </h3>
+                                <div class="bg-slate-50 rounded-xl p-4 border-2 border-[#C9A227]/40 space-y-2 shadow-inner">
+                                    <p class="text-xs font-bold text-academicRed uppercase">Estrategia de Detonación Inicial:</p>
+                                    <p id="outHook" class="text-xs sm:text-sm text-slate-700 leading-relaxed font-medium">
+                                        Detonador pedagógico cargando...
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- 3. Estructura Cronológica de la Sesión -->
+                            <div class="space-y-3">
+                                <h3 class="text-sm font-bold text-academicRed uppercase tracking-wider flex items-center space-x-2">
+                                    <i class="fa-solid fa-timeline text-[#C9A227]"></i>
+                                    <span>Estructura Cronológica Recomendada</span>
+                                </h3>
+                                
+                                <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                                    <!-- Apertura -->
+                                    <div class="p-3 bg-slate-50 rounded-lg border-2 border-[#C9A227]/50 shadow-sm">
+                                        <div class="flex justify-between items-center mb-1">
+                                            <span class="text-xs font-bold text-academicRed">Apertura</span>
+                                            <span class="text-[10px] font-bold bg-academicRed text-[#C9A227] px-1.5 py-0.5 rounded border border-[#C9A227]">15% (13m)</span>
+                                        </div>
+                                        <p class="text-[11px] text-slate-600 font-medium">Encuadre, recuperación de saberes y presentación del reto.</p>
+                                    </div>
+                                    <!-- Desarrollo -->
+                                    <div class="p-3 bg-slate-50 rounded-lg border-2 border-[#C9A227]/50 shadow-sm">
+                                        <div class="flex justify-between items-center mb-1">
+                                            <span class="text-xs font-bold text-academicRed">Desarrollo</span>
+                                            <span class="text-[10px] font-bold bg-academicRed text-[#C9A227] px-1.5 py-0.5 rounded border border-[#C9A227]">50% (45m)</span>
+                                        </div>
+                                        <p class="text-[11px] text-slate-600 font-medium">Transmisión de contenido, debate y análisis guiado.</p>
+                                    </div>
+                                    <!-- Aplicación -->
+                                    <div class="p-3 bg-slate-50 rounded-lg border-2 border-[#C9A227]/50 shadow-sm">
+                                        <div class="flex justify-between items-center mb-1">
+                                            <span class="text-xs font-bold text-academicRed">Aplicación</span>
+                                            <span class="text-[10px] font-bold bg-academicRed text-[#C9A227] px-1.5 py-0.5 rounded border border-[#C9A227]">25% (22m)</span>
+                                        </div>
+                                        <p class="text-[11px] text-slate-600 font-medium">Ejercicio práctico colaborativo o taller síncrono.</p>
+                                    </div>
+                                    <!-- Cierre -->
+                                    <div class="p-3 bg-slate-50 rounded-lg border-2 border-[#C9A227]/50 shadow-sm">
+                                        <div class="flex justify-between items-center mb-1">
+                                            <span class="text-xs font-bold text-academicRed">Cierre</span>
+                                            <span class="text-[10px] font-bold bg-academicRed text-[#C9A227] px-1.5 py-0.5 rounded border border-[#C9A227]">10% (10m)</span>
+                                        </div>
+                                        <p class="text-[11px] text-slate-600 font-medium">Síntesis, retroalimentación y aclaración de dudas.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 4. Recurso de Síntesis Dinámico -->
+                            <div class="space-y-3 pt-2">
+                                <div class="flex justify-between items-center border-b-2 border-[#C9A227]/40 pb-2">
+                                    <h3 class="text-sm font-bold text-academicRed uppercase tracking-wider flex items-center space-x-2">
+                                        <i class="fa-solid fa-cubes text-[#C9A227]"></i>
+                                        <span>Recurso de Síntesis Generado</span>
+                                    </h3>
+                                    <span id="resourceTypeBadge" class="text-xs bg-academicRed text-[#C9A227] font-bold px-2.5 py-0.5 rounded border border-[#C9A227]">
+                                        Recurso
+                                    </span>
+                                </div>
+
+                                <!-- Dynamic Container for Resource rendering -->
+                                <div id="synthesisResourceContainer" class="bg-slate-50 rounded-xl p-4 sm:p-5 border-2 border-[#C9A227]/50 min-h-[180px] shadow-inner">
+                                    <!-- Rendered dynamically via JS -->
+                                </div>
+                            </div>
+
+                            <!-- 5. Referencias APA 7ma -->
+                            <div class="space-y-2 pt-2">
+                                <h3 class="text-sm font-bold text-academicRed uppercase tracking-wider flex items-center space-x-2">
+                                    <i class="fa-solid fa-book text-[#C9A227]"></i>
+                                    <span>Referencias Bibliográficas Sugeridas (APA 7.ª Edición)</span>
+                                </h3>
+                                <ul id="outApa" class="bg-slate-50 rounded-lg p-4 border-2 border-[#C9A227]/40 text-xs font-serif text-slate-700 space-y-2 list-disc list-inside shadow-inner">
+                                    <!-- Rendered dynamically -->
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- 6. Cuadro Prominente de Advertencia Ética y Revisión Humana Obligatoria -->
+                    <div class="bg-academicRed text-white rounded-xl p-5 shadow-xl border-l-8 border-[#C9A227] space-y-2 border-2 border-[#C9A227]">
+                        <div class="flex items-center space-x-3">
+                            <div class="p-2 bg-white text-[#C9A227] rounded-lg text-xl flex-shrink-0 border-2 border-[#C9A227] shadow">
+                                <i class="fa-solid fa-triangle-exclamation"></i>
+                            </div>
+                            <h4 class="font-bold text-sm sm:text-base tracking-wide text-white">
+                                Protocolo Institucional de Revisión Humana Obligatoria (Supervisión Docente)
+                            </h4>
+                        </div>
+                        <p class="text-xs text-slate-100 leading-relaxed pl-11 font-medium">
+                            Esta propuesta didáctica ha sido sintetizada mediante inteligencia artificial. Con base en los principios éticos universitarios, el <strong>docente titular es responsable de validar</strong> la precisión disciplinar, evitar alucinaciones conceptuales y adaptar las secuencias de aprendizaje al contexto real de sus estudiantes antes de publicar en el aula virtual.
+                        </p>
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer Institucional -->
+    <footer class="mt-auto bg-[#1E1E1E] text-slate-300 text-xs py-6 border-t-2 border-[#C9A227]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:flex sm:justify-between sm:items-center">
+            <p>© 2026 Universidad Virtual - Prototipo Didáctico de IA Educativa.</p>
+            <p class="mt-2 sm:mt-0 text-slate-400">Diseño centrado en el docente • Equipo 2</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Integrado -->
+    <script>
+        let selectedFile = null;
+
+        const sampleData = {
+            topic: "Inteligencia Artificial y Ética en la Educación Superior",
+            level: "Maestría",
+            purpose: "Evaluar el impacto metodológico y las implicaciones éticas de la incorporación de modelos de IA generativa en procesos de evaluación y aprendizaje universitario.",
+            contents: "1. Evolución de la IA en entornos virtuales\n2. Sesgos algorítmicos e integridad académica\n3. Evaluación formativa apoyada por IA\n4. Marcos normativos y gobernanza institucional",
+            resourceType: "mindmap",
+            fileName: "Syllabus_Etica_IA_2026.pdf"
+        };
+
+        function loadExampleData() {
+            document.getElementById('topic').value = sampleData.topic;
+            document.getElementById('level').value = sampleData.level;
+            document.getElementById('purpose').value = sampleData.purpose;
+            document.getElementById('contents').value = sampleData.contents;
+            document.getElementById('resourceType').value = sampleData.resourceType;
+            setMockFile(sampleData.fileName);
+        }
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                selectedFile = file;
+                displayAttachedFile(file.name);
+            }
+        }
+
+        function setMockFile(fileName) {
+            selectedFile = { name: fileName };
+            displayAttachedFile(fileName);
+        }
+
+        function displayAttachedFile(name) {
+            document.getElementById('uploadPrompt').classList.add('hidden');
+            document.getElementById('attachedFileContainer').classList.remove('hidden');
+            document.getElementById('attachedFileName').textContent = name;
+        }
+
+        function removeFile(event) {
+            event.stopPropagation();
+            selectedFile = null;
+            document.getElementById('fileInput').value = '';
+            document.getElementById('uploadPrompt').classList.remove('hidden');
+            document.getElementById('attachedFileContainer').classList.add('hidden');
+        }
+
+        // Petición real al backend mediante Fetch API con paso de credenciales
+// Petición al backend con arquitectura de motor dual (Fallback Automático)
+async function handleGenerate(e) {
+    e.preventDefault();
+
+    const topic = document.getElementById('topic').value.trim();
+    const level = document.getElementById('level').value;
+    const purpose = document.getElementById('purpose').value.trim();
+    const contents = document.getElementById('contents').value.trim();
+    const rawResourceType = document.getElementById('resourceType').value;
+    
+    const apiKeyGemini = document.getElementById('apiKeyGemini').value.trim();
+    const apiKeyGroq = document.getElementById('apiKeyGroq').value.trim();
+
+    if (!topic || !level || !purpose || !contents) {
+        alert('Por favor complete todos los campos obligatorios.');
+        return;
+    }
+
+    if (!selectedFile) {
+        alert('Se requiere un documento adjunto.');
+        return;
+    }
+
+    if (!apiKeyGemini && !apiKeyGroq) {
+        alert('Debe proporcionar al menos una API Key (Gemini o Groq) para procesar.');
+        return;
+    }
+
+    const typeMapping = {
+        'mindmap': 'mind_map',
+        'summary': 'summary',
+        'slides': 'presentation',
+        'quiz': 'questions'
+    };
+
+    const btnSubmit = document.getElementById('btnSubmit');
+    const btnText = document.getElementById('btnText');
+    const btnSpinner = document.getElementById('btnSpinner');
+
+    btnSubmit.disabled = true;
+    btnText.classList.add('hidden');
+    btnSpinner.classList.remove('hidden');
+    // Reiniciar texto del spinner
+    btnSpinner.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin text-lg text-[#C9A227]"></i><span>Procesando Didáctica...</span>`;
+
+    const formData = new FormData();
+    formData.append('file', selectedFile);
+    formData.append('output_type', typeMapping[rawResourceType]);
+    formData.append('language', 'es');
+
+    try {
+        let iaData = null;
+        let success = false;
+        let lastError = "";
+
+        // INTENTO 1: Motor Principal (Gemini)
+        if (apiKeyGemini) {
+            try {
+                formData.set('provider', 'gemini');
+                formData.set('api_key', apiKeyGemini);
+                
+                const response = await fetch('http://localhost:8000/api/process', { method: 'POST', body: formData });
+                if (!response.ok) throw new Error((await response.json()).detail);
+                
+                iaData = (await response.json()).data;
+                success = true;
+            } catch (err) {
+                console.warn("Fallo en Gemini:", err.message);
+                lastError = err.message;
+            }
+        }
+
+        // INTENTO 2: Motor de Respaldo (Groq)
+        // Se activa si Gemini falló (ej. error 503) O si el usuario solo puso la llave de Groq
+        if (!success && apiKeyGroq) {
+            btnSpinner.innerHTML = `<i class="fa-solid fa-bolt text-[#C9A227]"></i><span>Enrutando a Groq (Respaldo)...</span>`;
+            
+            try {
+                formData.set('provider', 'groq');
+                formData.set('api_key', apiKeyGroq);
+                
+                const response = await fetch('http://localhost:8000/api/process', { method: 'POST', body: formData });
+                if (!response.ok) throw new Error((await response.json()).detail);
+                
+                iaData = (await response.json()).data;
+                success = true;
+            } catch (err) {
+                console.warn("Fallo en Groq:", err.message);
+                lastError = err.message;
+            }
+        }
+
+        // Si ambos fallaron
+        if (!success) {
+            throw new Error(lastError || "Ambos motores fallaron al generar el contenido.");
+        }
+
+        // Formatear salida
+        let outputContents = "";
+        const expectedType = typeMapping[rawResourceType];
+
+        if (expectedType === 'mind_map' && iaData.mind_map && iaData.mind_map.branches) {
+            outputContents = iaData.mind_map.branches.map(b => b.node).join('\n');
+        } else if (expectedType === 'summary' && iaData.key_concepts) {
+            outputContents = iaData.key_concepts.join('\n');
+        } else if (expectedType === 'presentation' && iaData.slides) {
+            outputContents = iaData.slides.map(s => s.title).join('\n');
+        } else if (expectedType === 'questions' && iaData.questions) {
+            outputContents = iaData.questions.map(q => q.question).join('\n');
+        } else {
+            outputContents = JSON.stringify(iaData, null, 2);
+        }
+
+        renderOutput({ 
+            topic, level, purpose, 
+            contents: outputContents, 
+            resourceType: rawResourceType 
+        });
+
+        document.getElementById('emptyState').classList.add('hidden');
+        document.getElementById('outputContent').classList.remove('hidden');
+
+        if (window.innerWidth < 1024) {
+            document.getElementById('outputContent').scrollIntoView({ behavior: 'smooth' });
+        }
+
+    } catch (error) {
+        console.error("Fallo de API:", error);
+        alert(`Error: ${error.message}`);
+    } finally {
+        btnSubmit.disabled = false;
+        btnText.classList.remove('hidden');
+        btnSpinner.classList.add('hidden');
+    }
+}
+        function renderOutput(data) {
+            const contextText = document.getElementById('contextText');
+            const contextIcon = document.getElementById('contextIcon');
+            const geminiKey = document.getElementById('apiKeyGemini').value.trim();
+            const groqKey = document.getElementById('apiKeyGroq').value.trim();
+
+            if (geminiKey || groqKey) {
+                contextText.innerHTML = `Procesamiento conectado mediante clave API provista (${geminiKey ? 'Gemini' : 'GROQ'}) y base documental.`;
+                contextIcon.innerHTML = `<i class="fa-solid fa-microchip text-[#C9A227]"></i>`;
+            } else if (selectedFile) {
+                contextText.innerHTML = `Análisis contextualizado basándose en el documento adjunto: <strong class="text-academicRed">${selectedFile.name}</strong>`;
+                contextIcon.innerHTML = `<i class="fa-solid fa-file-contract text-[#C9A227]"></i>`;
+            } else {
+                contextText.textContent = "Búsqueda y estructuración mediante base de conocimientos pedagógicos generales.";
+                contextIcon.innerHTML = `<i class="fa-solid fa-globe text-[#C9A227]"></i>`;
+            }
+
+            document.getElementById('outLevel').textContent = data.level;
+            document.getElementById('outTopic').textContent = data.topic;
+            document.getElementById('outPurpose').textContent = `"${data.purpose}"`;
+
+            document.getElementById('outHook').textContent = `Para iniciar la sesión sobre "${data.topic}", plantee el siguiente detonador síncrono: "Inicie proyectando un caso real de análisis sobre ${data.topic}. Solicite a los estudiantes una votación rápida en chat sobre el enfoque principal a discutir."`;
+
+            renderSynthesisResource(data.resourceType, data.contents, data.topic);
+            renderApaReferences(data.topic);
+        }
+
+        function renderSynthesisResource(type, rawContents, topic) {
+            const container = document.getElementById('synthesisResourceContainer');
+            const badge = document.getElementById('resourceTypeBadge');
+            const lines = rawContents.split('\n').filter(line => line.trim() !== '');
+
+            if (type === 'mindmap') {
+                badge.textContent = 'Mapa Mental Jerárquico';
+                let nodesHTML = lines.map((line, idx) => `
+                    <div class="p-3 bg-white border-2 border-[#C9A227]/60 rounded-lg shadow-sm flex items-center space-x-3">
+                        <div class="w-7 h-7 rounded-full bg-academicRed text-[#C9A227] flex items-center justify-center font-bold text-xs flex-shrink-0 border border-[#C9A227]">
+                            1.${idx+1}
+                        </div>
+                        <span class="text-xs font-bold text-slate-800">${line.replace(/^\d+[\.\,-]\s*/, '')}</span>
+                    </div>
+                `).join('');
+
+                container.innerHTML = `
+                    <div class="space-y-4">
+                        <div class="p-3 bg-academicRed text-white text-center font-bold text-xs rounded-lg uppercase tracking-wider shadow border-2 border-[#C9A227]">
+                            <i class="fa-solid fa-circle-nodes mr-2 text-[#C9A227]"></i> ${topic}
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pl-2 sm:pl-4 border-l-4 border-academicRed">
+                            ${nodesHTML}
+                        </div>
+                    </div>
+                `;
+            } 
+            else if (type === 'summary') {
+                badge.textContent = 'Resumen Estructurado';
+                let summaryHTML = lines.map(line => `
+                    <div class="border-l-4 border-academicRed pl-3 py-1">
+                        <h5 class="text-xs font-bold text-academicRed uppercase">${line.replace(/^\d+[\.\,-]\s*/, '')}</h5>
+                        <p class="text-xs text-slate-600 mt-1 font-medium">Síntesis teórica clave orientada a la aplicación práctica dentro de la materia.</p>
+                    </div>
+                `).join('');
+
+                container.innerHTML = `
+                    <div class="bg-white p-4 rounded-lg border-2 border-[#C9A227]/60 space-y-4 shadow-sm">
+                        <div class="text-xs font-bold text-academicRed uppercase tracking-wide border-b-2 border-[#C9A227]/40 pb-2">
+                            <i class="fa-solid fa-list-check mr-1 text-[#C9A227]"></i> Ideas Fuerza y Conceptos Fundamentales
+                        </div>
+                        <div class="space-y-3">
+                            ${summaryHTML}
+                        </div>
+                    </div>
+                `;
+            } 
+            else if (type === 'slides') {
+                badge.textContent = 'Presentación Interactiva';
+                let slidesHTML = lines.slice(0, 3).map((line, idx) => `
+                    <div class="bg-white p-3.5 rounded-lg border-2 border-[#C9A227]/60 shadow-sm flex flex-col justify-between space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="text-[10px] font-bold text-academicRed bg-slate-100 px-2 py-0.5 rounded border border-[#C9A227]">Diapositiva ${idx + 2}</span>
+                            <i class="fa-solid fa-display text-slate-500 text-xs"></i>
+                        </div>
+                        <p class="text-xs font-bold text-slate-800">${line.replace(/^\d+[\.\,-]\s*/, '')}</p>
+                        <p class="text-[11px] text-slate-600">Contenido visual sugerido: Gráfica conceptual y debate guiado.</p>
+                    </div>
+                `).join('');
+
+                container.innerHTML = `
+                    <div class="space-y-3">
+                        <p class="text-xs text-slate-700 font-bold">Secuencia de Diapositivas Sugeridas:</p>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <div class="bg-academicRed text-white p-3.5 rounded-lg shadow-sm flex flex-col justify-between space-y-2 border-2 border-[#C9A227]">
+                                <span class="text-[10px] font-bold text-[#1E1E1E] bg-[#C9A227] px-2 py-0.5 rounded w-max">Diapositiva 1</span>
+                                <p class="text-xs font-bold">${topic}</p>
+                                <p class="text-[10px] text-slate-100">Portada, Objetivos y Encuadre de la Sesión</p>
+                            </div>
+                            ${slidesHTML}
+                        </div>
+                    </div>
+                `;
+            } 
+            else if (type === 'quiz') {
+                badge.textContent = 'Cuestionario Formativo';
+                container.innerHTML = `
+                    <div class="space-y-3">
+                        <div class="bg-white p-3.5 rounded-lg border-2 border-[#C9A227]/60 space-y-2 shadow-sm">
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs font-bold text-academicRed">Pregunta Formativa 1</span>
+                                <span class="text-[10px] bg-slate-100 text-slate-700 px-2 py-0.5 rounded border border-[#C9A227]">Opción Múltiple</span>
+                            </div>
+                            <p class="text-xs text-slate-800 font-bold">¿Cuál es el propósito central al abordar "${topic}" en la práctica universitaria?</p>
+                            <details class="text-xs text-slate-700 pt-1 cursor-pointer">
+                                <summary class="font-bold text-academicRed hover:underline">Ver opción correcta y retroalimentación</summary>
+                                <div class="mt-2 p-2 bg-slate-50 border-2 border-[#C9A227]/40 rounded text-[11px] text-slate-700 font-medium">
+                                    <strong>Respuesta recomendada:</strong> Desarrollar pensamiento crítico y aplicación analítica en el contexto profesional.
+                                </div>
+                            </details>
+                        </div>
+
+                        <div class="bg-white p-3.5 rounded-lg border-2 border-[#C9A227]/60 space-y-2 shadow-sm">
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs font-bold text-academicRed">Pregunta Formativa 2</span>
+                                <span class="text-[10px] bg-slate-100 text-slate-700 px-2 py-0.5 rounded border border-[#C9A227]">Análisis de Caso</span>
+                            </div>
+                            <p class="text-xs text-slate-800 font-bold">Identifique el reto principal mencionado en el contenido clave de la clase.</p>
+                            <details class="text-xs text-slate-700 pt-1 cursor-pointer">
+                                <summary class="font-bold text-academicRed hover:underline">Ver opción correcta y retroalimentación</summary>
+                                <div class="mt-2 p-2 bg-slate-50 border-2 border-[#C9A227]/40 rounded text-[11px] text-slate-700 font-medium">
+                                    <strong>Respuesta recomendada:</strong> La integración eficiente de metodologías contemporáneas con rigor académico.
+                                </div>
+                            </details>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function renderApaReferences(topic) {
+            const container = document.getElementById('outApa');
+            const currentYear = new Date().getFullYear();
+            
+            container.innerHTML = `
+                <li>García-Aretio, L. (${currentYear - 1}). <em>Educación superior virtual: Retos y propuestas didácticas</em>. RIED. Revista Iberoamericana de Educación a Distancia, 26(1), 15-42.</li>
+                <li>UNESCO. (${currentYear - 2}). <em>Estándares de calidad e innovación en entornos virtuales universitarios</em>. UNESCO Publishing.</li>
+                <li>Martínez-Gómez, R. (${currentYear}). <em>Estrategias de síntesis y presentación dinámica para ${topic}</em>. Editorial Universitaria.</li>
+            `;
+        }
+    </script>
+</body>
+</html>
