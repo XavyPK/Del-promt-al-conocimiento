@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noticias visuales para estudiantes | Universidad Virtual - Equipo 3</title>
+    <meta name="description" content="Herramienta educativa asistida por IA (Google Gemini) para diseñar noticias y avisos visuales por correo electrónico para estudiantes, pensada para personas sin experiencia informática.">
+    <!-- Tipografías requeridas: Playfair Display para títulos e Inter para el cuerpo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Barra de accesibilidad y navegación superior amigable -->
+    <header class="site-header" id="top">
+        <div class="accessibility-bar">
+            <div class="container acc-container">
+                <span class="badge-no-login" title="No necesitas cuenta ni contraseña">
+                    🔓 Acceso libre y directo · Sin registro ni contraseña · Conectado a Gemini IA
+                </span>
+                <div class="acc-controls" aria-label="Herramientas de lectura fácil">
+                    <span class="acc-label">Tamaño de letra:</span>
+                    <button type="button" class="btn-acc active" id="btnFontNormal" aria-label="Tamaño de letra normal">A</button>
+                    <button type="button" class="btn-acc" id="btnFontLarge" aria-label="Tamaño de letra grande">A+</button>
+                    <button type="button" class="btn-acc" id="btnFontExtra" aria-label="Tamaño de letra muy grande">A++</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="container nav-container">
+            <a href="#inicio" class="brand-logo" aria-label="Ir al inicio de Noticias visuales para estudiantes">
+                <div class="brand-icon" aria-hidden="true">📬</div>
+                <div class="brand-text">
+                    <span class="brand-title">Noticias visuales para estudiantes</span>
+                    <span class="brand-subtitle">Equipo 3 · Universidad Virtual</span>
+                </div>
+            </a>
+
+            <nav class="main-nav" aria-label="Menú principal del sitio">
+                <ul>
+                    <li><a href="#inicio" class="nav-link active">🏠 Inicio</a></li>
+                    <li><a href="#descripcion" class="nav-link">📘 Descripción</a></li>
+                    <li><a href="#entrada-datos" class="nav-link">✨ Crear con IA</a></li>
+                    <li><a href="#resultado" class="nav-link">👁️ Vista previa</a></li>
+                    <li><a href="#limites" class="nav-link">⚠️ Límites</a></li>
+                    <li><a href="#bitacora" class="nav-link nav-link-highlight">📋 Bitácora IA</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- ==========================================
+             1. INICIO
+             ========================================== -->
+        <section id="inicio" class="hero-section">
+            <div class="container hero-grid">
+                <div class="hero-content">
+                    <div class="pill-tag">✨ Inteligencia Artificial Gemini en Tiempo Real</div>
+                    <h1>Noticias visuales para estudiantes</h1>
+                    <p class="hero-lead">
+                        Transforma una <strong>idea general</strong> en un comunicado visualmente impecable, claro y cálido para tus estudiantes en segundos. <strong>Diseñado con empatía para personas sin experiencia previa en informática.</strong>
+                    </p>
+
+                    <div class="step-preview-cards" aria-label="Cómo funciona en 3 pasos simples">
+                        <div class="mini-step">
+                            <span class="mini-step-num">1</span>
+                            <p>Escribe tu idea general y elige si la IA crea la imagen</p>
+                        </div>
+                        <div class="mini-step">
+                            <span class="mini-step-num">2</span>
+                            <p>Escoge una de las 3 plantillas institucionales</p>
+                        </div>
+                        <div class="mini-step">
+                            <span class="mini-step-num">3</span>
+                            <p>Previsualiza el correo de forma segura (sin envío real)</p>
+                        </div>
+                    </div>
+
+                    <div class="hero-actions">
+                        <a href="#entrada-datos" class="btn btn-primary btn-lg">
+                            🚀 Comenzar a crear mi noticia con IA
+                        </a>
+                        <a href="#bitacora" class="btn btn-secondary btn-lg">
+                            📋 Ver Bitácora del uso de la IA
+                        </a>
+                    </div>
+                </div>
+
+                <div class="hero-illustration" aria-hidden="true">
+                    <div class="illustration-card">
+                        <div class="illus-header">
+                            <span class="dot dot-gold"></span>
+                            <span class="dot dot-crimson"></span>
+                            <span class="dot dot-white"></span>
+                            <span class="illus-title">Simulador Editorial Universitario</span>
+                        </div>
+                        <div class="illus-body">
+                            <div class="illus-badge">🤖 Redactado e ilustrado por Gemini IA</div>
+                            <h4>📢 Aviso: Feria de Ciencias y Tecnología</h4>
+                            <p>Estimada comunidad estudiantil: les invitamos este viernes a las 10:00 a. m. en el aula virtual principal...</p>
+                            <div class="illus-img-mock">
+                                <span>🎓 Ilustración Académica Generada</span>
+                            </div>
+                            <span class="illus-btn-mock">🔗 Ver detalles del evento</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             2. DESCRIPCIÓN DEL SERVICIO
+             ========================================== -->
+        <section id="descripcion" class="section-block bg-soft">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-eyebrow">Conoce el proyecto educativo</span>
+                    <h2>Descripción del servicio</h2>
+                    <p>Una plataforma pensada para que cualquier integrante de la comunidad educativa pueda redactar y diseñar avisos estudiantiles con calidad editorial y sin barreras tecnológicas.</p>
+                </div>
+
+                <div class="info-cards-grid">
+                    <!-- Problema educativo que resuelve -->
+                    <article class="info-card">
+                        <div class="info-card-icon">🎯</div>
+                        <h3>Problema educativo que resuelve</h3>
+                        <p>
+                            En entornos escolares y universidades virtuales, los comunicados importantes (convocatorias de becas, fechas de exámenes, talleres o avisos urgentes) suelen enviarse como <strong>bloques de texto extensos y poco atractivos</strong> que los estudiantes no leen a tiempo.
+                        </p>
+                        <p>
+                            Al mismo tiempo, muchos docentes y orientadores <strong>no cuentan con experiencia en diseño digital ni redacción institucional</strong>, invirtiendo demasiado esfuerzo para estructurar un aviso claro.
+                        </p>
+                    </article>
+
+                    <!-- Usuario principal (sin login) -->
+                    <article class="info-card">
+                        <div class="info-card-icon">👩‍🏫</div>
+                        <h3>Usuario principal (Sin login)</h3>
+                        <p>
+                            <strong>Docentes, tutores académicos, coordinadores escolares, personal administrativo y voceros estudiantiles</strong> sin experiencia previa informática ni en herramientas digitales complejas.
+                        </p>
+                        <div class="callout-box">
+                            <strong>🔓 ¿Por qué sin inicio de sesión (sin login)?</strong>
+                            <p>Para garantizar una experiencia empática e inmediata: sin registros complicados, sin contraseñas que recordar y sin almacenar datos personales de los usuarios.</p>
+                        </div>
+                    </article>
+
+                    <!-- Cómo ayuda la IA -->
+                    <article class="info-card">
+                        <div class="info-card-icon">🤖</div>
+                        <h3>¿Cómo funciona la IA integrada?</h3>
+                        <ul class="friendly-list">
+                            <li><strong>Redacción inteligente con Gemini:</strong> Solo entregas una idea general con los detalles importantes y la IA redacta el asunto, título y cuerpo completo.</li>
+                            <li><strong>Imagen por IA o subida propia:</strong> Cuentas con un selector y casilla para que la IA cree la imagen de la noticia o, si la desmarcas, subir tu propia imagen sugerida.</li>
+                            <li><strong>3 Plantillas visuales y vista previa segura:</strong> Compara tres diseños académicos al instante sin riesgo de enviar correos reales por accidente.</li>
+                        </ul>
+                    </article>
+                </div>
+
+                <div class="section-QuickNav">
+                    <a href="#inicio" class="link-back-top">⬆️ Volver al inicio</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             3. ENTRADA DE DATOS (CON IA GEMINI FUNCIONAL)
+             ========================================== -->
+        <section id="entrada-datos" class="section-block">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-eyebrow">Asistente paso a paso</span>
+                    <h2>Entrada de datos: Diseña tu noticia con IA</h2>
+                    <p>Sigue los 4 pasos numerados. Si deseas hacer una prueba rápida, haz clic en cualquiera de los <strong>3 ejemplos de abajo</strong> y la IA redactará la noticia por ti.</p>
+                </div>
+
+                <!-- Barra de ejemplos rápidos para usuarios sin experiencia -->
+                <div class="quick-examples-banner" role="region" aria-label="Ejemplos rápidos para probar">
+                    <div class="qe-title">
+                        <span>💡 <strong>¿No sabes por dónde empezar?</strong> Toca uno de estos botones para cargar una idea de ejemplo y probar la IA:</span>
+                    </div>
+                    <div class="qe-buttons">
+                        <button type="button" class="btn-example" data-example="beca">
+                            🎓 Ejemplo 1: Convocatoria de Becas
+                        </button>
+                        <button type="button" class="btn-example" data-example="examen">
+                            ⏰ Ejemplo 2: Cambio de fecha de Examen
+                        </button>
+                        <button type="button" class="btn-example" data-example="taller">
+                            🎨 Ejemplo 3: Taller de Bienestar Estudiantil
+                        </button>
+                    </div>
+                </div>
+
+                <form id="newsAiForm" class="friendly-form" novalidate>
+                    <!-- PASO 1: Idea general para que la IA redacte -->
+                    <div class="form-step-card">
+                        <div class="step-header">
+                            <span class="step-badge">Paso 1 de 4</span>
+                            <h3>Entrega tu idea general con los detalles importantes</h3>
+                        </div>
+                        <p class="helper-text">
+                            Escribe con tus propias palabras qué quieres avisar a los estudiantes (puedes incluir fecha, hora, lugar o requisitos). <strong>La IA de Google Gemini redactará el asunto y el mensaje final basándose en tu idea.</strong>
+                        </p>
+
+                        <div class="form-group">
+                            <label for="userIdeaInput" class="form-label">
+                                📝 Idea general y detalles importantes de la noticia <span class="required-badge">(Obligatorio)</span>
+                            </label>
+                            <textarea
+                                id="userIdeaInput"
+                                class="form-control textarea-large"
+                                rows="4"
+                                placeholder="Ejemplo: Avisar a los estudiantes de primer ingreso que este viernes 25 de octubre a las 11:00 am tendremos una sesión de bienvenida en el Aula Virtual 1 para resolver dudas sobre sus materias..."
+                                required
+                            >Invitar a los estudiantes de todos los semestres a la Feria de Ciencias y Proyectos Virtuales que se realizará este viernes a las 10:00 a. m. en el Aula Virtual Principal. La entrada es libre y se entregará constancia de asistencia.</textarea>
+                        </div>
+
+                        <div class="form-row-two">
+                            <div class="form-group">
+                                <label for="aiToneSelect" class="form-label">
+                                    🗣️ Tono del mensaje que redactará la IA:
+                                </label>
+                                <select id="aiToneSelect" class="form-control">
+                                    <option value="cercano" selected>😊 Cercano, empático y motivador (Recomendado)</option>
+                                    <option value="institucional">🏛️ Institucional, solemne y académico</option>
+                                    <option value="urgente">⚡ Directo, breve y urgente (Recordatorio)</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="newsLinkInput" class="form-label">
+                                    🔗 Enlace web para más información <span class="optional-badge">(Opcional)</span>
+                                </label>
+                                <input
+                                    type="url"
+                                    id="newsLinkInput"
+                                    class="form-control"
+                                    placeholder="https://universidadvirtual.edu.mx/avisos"
+                                    value="https://universidadvirtual.edu.mx/comunidad"
+                                >
+                                <small class="field-hint">Se mostrará como un botón destacado dentro del correo.</small>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="newsLinkText" class="form-label">
+                                👆 Texto que dirá el botón del enlace <span class="optional-badge">(Opcional)</span>
+                            </label>
+                            <input
+                                type="text"
+                                id="newsLinkText"
+                                class="form-control"
+                                placeholder="Ej: Consultar convocatoria completa aquí"
+                                value="Ver más detalles en el portal estudiantil"
+                            >
+                        </div>
+                    </div>
+
+                    <!-- PASO 2: Combobox / casilla para decidir si la IA crea la imagen o el usuario sube la suya -->
+                    <div class="form-step-card">
+                        <div class="step-header">
+                            <span class="step-badge">Paso 2 de 4</span>
+                            <h3>Imagen opcional: Creada por la IA o subida por ti</h3>
+                        </div>
+                        <p class="helper-text">
+                            Marca la casilla o elige en el combobox si deseas que la <strong>IA cree la imagen de la noticia</strong> a partir de tu idea, o <strong>desmárcala para subir tú mismo tu imagen sugerida</strong> para el correo.
+                        </p>
+
+                        <div class="image-choice-panel">
+                            <!-- Casilla marcable clara y empática -->
+                            <div class="checkbox-highlight-wrapper">
+                                <label class="checkbox-friendly-label" for="aiImageCheckbox">
+                                    <input type="checkbox" id="aiImageCheckbox" checked>
+                                    <span class="checkbox-custom-text">
+                                        🎨 <strong>Marcar para que la IA cree la imagen de la noticia automáticamente</strong>
+                                        <small>(Desmarca esta casilla si prefieres subir tu propia imagen sugerida desde tu computadora o celular)</small>
+                                    </span>
+                                </label>
+                            </div>
+
+                            <!-- Combobox sincronizado -->
+                            <div class="form-group combobox-group">
+                                <label for="imageModeCombobox" class="form-label">
+                                    🖼️ Combobox de selección de imagen para el correo:
+                                </label>
+                                <select id="imageModeCombobox" class="form-control" aria-label="Elegir cómo obtener la imagen del correo">
+                                    <option value="ai" selected>✅ Marcado: Quiero que la IA cree la imagen de la noticia en base a mi idea</option>
+                                    <option value="upload">📁 Desmarcado: Yo mismo subiré mi imagen sugerida para el correo</option>
+                                    <option value="none">🚫 Sin imagen (Incluir únicamente asunto, cuerpo y enlace)</option>
+                                </select>
+                            </div>
+
+                            <!-- Sub-panel cuando está marcada la creación de imagen con IA -->
+                            <div id="aiImageOptionsBox" class="sub-panel ai-sub-panel">
+                                <div class="sub-panel-header">
+                                    <span>✨ <strong>Diseño de imagen asistido por IA</strong></span>
+                                </div>
+                                <p class="small-note">
+                                    La IA analizará el tema de tu noticia y creará una ilustración académica acorde con la identidad visual. Elige el estilo que prefieras:
+                                </p>
+                                <div class="form-group">
+                                    <label for="aiImageStyle" class="form-label">Estilo visual de la imagen creada por IA:</label>
+                                    <select id="aiImageStyle" class="form-control">
+                                        <option value="ilustracion" selected>🏛️ Ilustración Universitaria Clásica (Carmesí y Dorado)</option>
+                                        <option value="infografia">📊 Cartel Editorial con Íconos Académicos (Grafito y Oro)</option>
+                                        <option value="acuarela">🖌️ Lienzo Académico Minimalista (Blanco Marfil y Carmesí)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Sub-panel cuando está desmarcada (el usuario sube su propia imagen) -->
+                            <div id="userUploadOptionsBox" class="sub-panel upload-sub-panel hidden">
+                                <div class="sub-panel-header">
+                                    <span>📤 <strong>Sube tu propia imagen sugerida para el correo</strong></span>
+                                </div>
+                                <p class="small-note">
+                                    Haz clic en el botón de abajo para seleccionar una imagen guardada en tu computadora o teléfono (formatos JPG, PNG, WEBP o SVG):
+                                </p>
+                                <div class="upload-zone" id="uploadDropZone">
+                                    <input
+                                        type="file"
+                                        id="userImageFileInput"
+                                        accept="image/*"
+                                        class="file-input-accessible"
+                                    >
+                                    <div id="uploadFilePreviewInfo" class="upload-preview-status">
+                                        Ningún archivo seleccionado todavía. Elige una imagen de tu equipo o pega una dirección web abajo.
+                                    </div>
+                                </div>
+                                <div class="form-group" style="margin-top: 14px;">
+                                    <label for="userImageUrlInput" class="form-label">
+                                        🌐 O pega aquí el enlace web (URL) de tu imagen sugerida: <span class="optional-badge">(Opcional)</span>
+                                    </label>
+                                    <input
+                                        type="url"
+                                        id="userImageUrlInput"
+                                        class="form-control"
+                                        placeholder="https://ejemplo.com/mi-imagen-escolar.jpg"
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PASO 3: Selección de las 3 plantillas visuales -->
+                    <div class="form-step-card">
+                        <div class="step-header">
+                            <span class="step-badge">Paso 3 de 4</span>
+                            <h3>Escoge una de las 3 plantillas visuales</h3>
+                        </div>
+                        <p class="helper-text">
+                            Selecciona el estilo visual con el que deseas presentar tu comunicado. Puedes alternar entre las 3 plantillas en cualquier momento.
+                        </p>
+
+                        <div class="templates-selector-grid" role="radiogroup" aria-label="Seleccionar plantilla visual">
+                            <!-- Plantilla 1 -->
+                            <label class="template-option-card selected" data-template="academica">
+                                <input type="radio" name="emailTemplate" value="academica" checked>
+                                <div class="template-preview-mini theme-academica">
+                                    <div class="tp-bar">🏛️ Boletín Carmesí</div>
+                                    <div class="tp-lines"></div>
+                                </div>
+                                <div class="template-option-info">
+                                    <strong>Plantilla 1: Clásica Institucional</strong>
+                                    <span>Cabecera en carmesí universitario (#A51C30) con filetes dorados (#C9A227) y fondo blanco.</span>
+                                </div>
+                            </label>
+
+                            <!-- Plantilla 2 -->
+                            <label class="template-option-card" data-template="urgente">
+                                <input type="radio" name="emailTemplate" value="urgente">
+                                <div class="template-preview-mini theme-urgente">
+                                    <div class="tp-bar">⏰ Aviso Prioritario</div>
+                                    <div class="tp-lines"></div>
+                                </div>
+                                <div class="template-option-info">
+                                    <strong>Plantilla 2: Aviso Destacado Grafito</strong>
+                                    <span>Cabecera en negro carbón (#1E1E1E) con marco superior dorado y acentos carmesí de alta visibilidad.</span>
+                                </div>
+                            </label>
+
+                            <!-- Plantilla 3 -->
+                            <label class="template-option-card" data-template="comunidad">
+                                <input type="radio" name="emailTemplate" value="comunidad">
+                                <div class="template-preview-mini theme-comunidad">
+                                    <div class="tp-bar">📜 Gaceta Editorial</div>
+                                    <div class="tp-lines"></div>
+                                </div>
+                                <div class="template-option-info">
+                                    <strong>Plantilla 3: Gaceta Editorial con Marco Dorado</strong>
+                                    <span>Diseño luminoso sobre blanco (#FFFFFF) con marco doble dorado (#C9A227) para eventos y comunidad.</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- PASO 4: Botón de acción principal y ajuste opcional del texto -->
+                    <div class="form-step-card step-action-card">
+                        <div class="step-header">
+                            <span class="step-badge">Paso 4 de 4</span>
+                            <h3>Genera el mensaje final con Gemini IA y revisa el resultado</h3>
+                        </div>
+                        <p class="helper-text">
+                            Haz clic en el botón principal para que <strong>Google Gemini (`gemini-3-flash-preview`)</strong> redacte el asunto y el cuerpo del correo a partir de tu idea y actualice la vista previa.
+                        </p>
+
+                        <div id="formAlertMessage" class="form-alert hidden" role="alert"></div>
+
+                        <div class="form-submit-area">
+                            <button type="submit" id="btnGenerateAiNews" class="btn btn-primary btn-xl">
+                                ✨ Redactar noticia y generar vista previa con Gemini IA
+                            </button>
+                            <button type="button" id="btnResetForm" class="btn btn-outline">
+                                🔄 Limpiar campos
+                            </button>
+                        </div>
+
+                        <!-- Panel para que el usuario revise y edite el Asunto y Cuerpo producidos por la IA -->
+                        <div class="human-edit-box" id="humanReviewPanel">
+                            <div class="human-edit-header">
+                                <h4>✍️ Revisión y ajuste humano (Mensaje final redactado por la IA)</h4>
+                                <span class="status-pill" id="aiGenerationStatus">Listo para generar con Gemini IA</span>
+                            </div>
+                            <p class="small-note">
+                                Aquí aparece el <strong>asunto</strong> y el <strong>cuerpo del correo</strong> creados por la IA. Puedes modificar cualquier palabra manualmente y verás el cambio reflejado al instante en la vista previa:
+                            </p>
+                            <div class="form-group">
+                                <label for="generatedSubjectInput" class="form-label">📌 Asunto del correo (Creado por IA / Editable):</label>
+                                <input
+                                    type="text"
+                                    id="generatedSubjectInput"
+                                    class="form-control"
+                                    value="📢 [Comunidad Estudiantil] Invitación a la Feria de Ciencias y Proyectos Virtuales"
+                                >
+                            </div>
+                            <div class="form-group">
+                                <label for="generatedBodyInput" class="form-label">📄 Cuerpo del mensaje (Creado por IA / Editable):</label>
+                                <textarea
+                                    id="generatedBodyInput"
+                                    class="form-control"
+                                    rows="6"
+                                >¡Hola, estimada comunidad estudiantil!
+
+Queremos invitarte cordialmente a participar en nuestra próxima Feria de Ciencias y Proyectos Virtuales, un espacio académico pensado para compartir aprendizajes y conocer las propuestas innovadoras de todos los semestres.
+
+📍 Detalles importantes de la actividad:
+• Fecha y hora: Este viernes a las 10:00 a. m.
+• Lugar: Aula Virtual Principal.
+• Beneficio: Entrada libre con entrega de constancia de asistencia.
+
+Te sugerimos conectarte 10 minutos antes del inicio. ¡Esperamos contar con tu valiosa participación!
+
+Atentamente,
+Coordinación Académica · Universidad Virtual</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="section-QuickNav">
+                    <a href="#inicio" class="link-back-top">⬆️ Volver al inicio</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             4. RESULTADO O PROPUESTA (VISTA PREVIA SIN ENVÍO REAL)
+             ========================================== -->
+        <section id="resultado" class="section-block bg-preview-section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-eyebrow">Simulación interactiva</span>
+                    <h2>Resultado o propuesta: Vista previa del correo</h2>
+                    <p>Revisa cómo lucirá tu noticia en la bandeja de entrada de los estudiantes. <strong>Esta es una vista previa 100% segura y sin envío real.</strong></p>
+                </div>
+
+                <!-- Aviso de seguridad de no envío real -->
+                <div class="simulation-notice-banner" role="status">
+                    <span class="sim-icon">🛡️</span>
+                    <div>
+                        <strong>Simulación Segura (Sin envío real de correos):</strong>
+                        Este entorno es exclusivamente de diseño y previsualización. Ningún correo se enviará de forma automática a los estudiantes.
+                    </div>
+                </div>
+
+                <!-- Barra de herramientas interactivas de la vista previa -->
+                <div class="preview-toolbar">
+                    <div class="toolbar-group">
+                        <span class="toolbar-label">Probar las 3 plantillas:</span>
+                        <button type="button" class="btn-tool active" data-quick-template="academica">1. Clásica Carmesí</button>
+                        <button type="button" class="btn-tool" data-quick-template="urgente">2. Aviso Grafito</button>
+                        <button type="button" class="btn-tool" data-quick-template="comunidad">3. Gaceta Marco Dorado</button>
+                    </div>
+
+                    <div class="toolbar-group">
+                        <span class="toolbar-label">Pantalla:</span>
+                        <button type="button" class="btn-device active" id="btnViewDesktop" aria-label="Ver como en computadora">💻 Computadora</button>
+                        <button type="button" class="btn-device" id="btnViewMobile" aria-label="Ver como en teléfono celular">📱 Celular</button>
+                    </div>
+
+                    <div class="toolbar-group">
+                        <button type="button" class="btn btn-secondary btn-sm" id="btnCopyEmailText">
+                            📋 Copiar texto del correo
+                        </button>
+                    </div>
+                </div>
+
+                <div id="copyFeedbackToast" class="toast-feedback hidden" role="status">
+                    ✅ ¡Texto copiado con éxito! Ya puedes pegarlo en tu correo institucional cuando termines de revisarlo.
+                </div>
+
+                <!-- Contenedor del cliente de correo simulado -->
+                <div class="email-client-wrapper" id="emailClientWrapper">
+                    <!-- Cabecera tipo bandeja de correo -->
+                    <div class="email-client-window-bar">
+                        <div class="window-dots">
+                            <span class="dot dot-crimson"></span>
+                            <span class="dot dot-gold"></span>
+                            <span class="dot dot-white"></span>
+                        </div>
+                        <div class="window-title">Vista Previa de Correo Estudiantil (Simulación)</div>
+                        <div class="window-badge">SIN ENVÍO REAL</div>
+                    </div>
+
+                    <!-- Metadatos del correo (De, Para, Asunto) -->
+                    <div class="email-meta-header">
+                        <div class="meta-row">
+                            <span class="meta-label">De:</span>
+                            <span class="meta-value">Coordinación Educativa &lt;avisos@universidadvirtual.edu.mx&gt;</span>
+                        </div>
+                        <div class="meta-row">
+                            <span class="meta-label">Para:</span>
+                            <span class="meta-value">Comunidad de Estudiantes &lt;estudiantes@universidadvirtual.edu.mx&gt;</span>
+                        </div>
+                        <div class="meta-row meta-subject-row">
+                            <span class="meta-label">Asunto:</span>
+                            <strong class="meta-subject-value" id="previewEmailSubject">
+                                📢 [Comunidad Estudiantil] Invitación a la Feria de Ciencias y Proyectos Virtuales
+                            </strong>
+                        </div>
+                    </div>
+
+                    <!-- Lienzo visual del correo con plantilla dinámica -->
+                    <article id="emailVisualCanvas" class="email-canvas template-academica" aria-label="Vista previa visual de la noticia">
+                        <div class="email-template-banner">
+                            <div class="email-banner-tag" id="previewTemplateTag">🏛️ BOLETÍN INSTITUCIONAL UNIVERSITARIO</div>
+                            <h3 class="email-banner-heading" id="previewBannerHeading">
+                                Invitación a la Feria de Ciencias y Proyectos Virtuales
+                            </h3>
+                            <div class="email-banner-date" id="previewCurrentDate">Fecha del aviso: Hoy</div>
+                        </div>
+
+                        <div class="email-template-content">
+                            <!-- Contenedor de la imagen (IA o subida por el usuario) -->
+                            <figure class="email-image-container" id="previewImageContainer">
+                                <div class="image-source-ribbon" id="previewImageSourceBadge">
+                                    🤖 Imagen creada por IA
+                                </div>
+                                <img
+                                    id="previewEmailImage"
+                                    src=""
+                                    alt="Ilustración visual de la noticia para estudiantes"
+                                    class="email-featured-image"
+                                >
+                                <figcaption id="previewImageCaption" class="email-image-caption">
+                                    Ilustración generada automáticamente a partir de la idea de la noticia.
+                                </figcaption>
+                            </figure>
+
+                            <!-- Cuerpo del correo -->
+                            <div class="email-body-text" id="previewEmailBody">
+                                <!-- Se inyecta dinámicamente -->
+                            </div>
+
+                            <!-- Botón de enlace (Call to Action) -->
+                            <div class="email-cta-wrapper" id="previewLinkWrapper">
+                                <a
+                                    href="https://universidadvirtual.edu.mx/comunidad"
+                                    id="previewEmailLinkBtn"
+                                    class="email-cta-button"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    🔗 Ver más detalles en el portal estudiantil
+                                </a>
+                                <p class="email-link-raw" id="previewEmailLinkUrl">
+                                    Enlace directo: https://universidadvirtual.edu.mx/comunidad
+                                </p>
+                            </div>
+                        </div>
+
+                        <footer class="email-template-footer">
+                            <p>📚 <strong>Noticias visuales para estudiantes</strong> · Universidad Virtual</p>
+                            <p class="footer-tiny">Mensaje redactado con apoyo de Inteligencia Artificial Gemini y verificado por personal docente.</p>
+                        </footer>
+                    </article>
+                </div>
+
+                <div class="section-QuickNav">
+                    <a href="#entrada-datos" class="link-back-top">✏️ Volver arriba para editar datos</a>
+                    <a href="#inicio" class="link-back-top">⬆️ Volver al inicio</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             5. LÍMITES Y RECOMENDACIONES (AVISO HUMANO)
+             ========================================== -->
+        <section id="limites" class="section-block">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-eyebrow">Ética, verificación y privacidad</span>
+                    <h2>Límites y recomendaciones sobre el uso de la IA</h2>
+                    <p>La Inteligencia Artificial agiliza la redacción y el diseño, pero <strong>la supervisión humana es indispensable antes de compartir cualquier aviso escolar.</strong></p>
+                </div>
+
+                <div class="warning-banner-human">
+                    <div class="wb-icon">🧐</div>
+                    <div class="wb-content">
+                        <h3>Aviso obligatorio sobre límites, revisión humana y verificación necesaria</h3>
+                        <p>
+                            Todo texto o imagen generado por el modelo de Inteligencia Artificial debe ser <strong>revisado y validado por el docente o responsable académico</strong> antes de su difusión. Si la idea inicial omite datos precisos, la IA puede completar el contexto con sugerencias generales que requieren confirmación humana.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="limits-grid">
+                    <div class="limit-card">
+                        <h4>1. 🚫 Límites del servicio</h4>
+                        <ul>
+                            <li><strong>Sin envío real de correos:</strong> Esta aplicación genera el diseño visual y la redacción, pero no despacha correos masivos para evitar envíos accidentales.</li>
+                            <li><strong>Exactitud sujeta a tu idea inicial:</strong> El modelo Gemini redacta basándose únicamente en los detalles que escribas en el Paso 1.</li>
+                            <li><strong>Carácter ilustrativo de las imágenes:</strong> Las imágenes creadas por IA son decorativas y de apoyo visual, no documentos oficiales.</li>
+                        </ul>
+                    </div>
+
+                    <div class="limit-card">
+                        <h4>2. ✅ Verificación humana necesaria</h4>
+                        <ul>
+                            <li>✔️ <strong>Confirmar fechas y horarios:</strong> Revisa en el panel de edición que el día y la hora coincidan exactamente con el calendario escolar.</li>
+                            <li>✔️ <strong>Probar el enlace incluido:</strong> Verifica que la dirección web lleve al sitio institucional correcto.</li>
+                            <li>✔️ <strong>Adecuación del tono:</strong> Asegúrate de que el lenguaje sea inclusivo, claro y empático con el alumnado.</li>
+                        </ul>
+                    </div>
+
+                    <div class="limit-card">
+                        <h4>3. 🔒 Privacidad y protección de datos</h4>
+                        <ul>
+                            <li><strong>No ingreses datos personales sensibles:</strong> Evita escribir nombres completos de estudiantes, matrículas, calificaciones privadas, teléfonos personales o expedientes médicos.</li>
+                            <li><strong>Uso de información general:</strong> Redacta únicamente avisos grupales, eventos públicos y comunicados académicos generales.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section-QuickNav">
+                    <a href="#inicio" class="link-back-top">⬆️ Volver al inicio</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             6. BITÁCORA DEL USO DE LA IA
+             ========================================== -->
+        <section id="bitacora" class="section-block bg-bitacora">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-eyebrow">Transparencia académica · Equipo 3</span>
+                    <h2>Bitácora del uso de la Inteligencia Artificial</h2>
+                    <p>Documentación detallada sobre las herramientas, prompts, decisiones y pruebas realizadas por el equipo para construir <strong>"Noticias visuales para estudiantes"</strong>.</p>
+                </div>
+
+                <div class="bitacora-actions-bar">
+                    <span class="bitacora-badge-info">
+                        💡 Puedes activar la edición interactiva para añadir observaciones en clase o imprimir esta bitácora en PDF.
+                    </span>
+                    <div class="bitacora-btn-group">
+                        <button type="button" class="btn btn-secondary btn-sm" id="btnToggleEditBitacora">
+                            ✏️ Activar edición de bitácora
+                        </button>
+                        <button type="button" class="btn btn-outline btn-sm" id="btnPrintBitacora">
+                            🖨️ Imprimir / Guardar PDF
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bitacora-grid" id="bitacoraContainer">
+                    <!-- 1. Herramienta utilizada -->
+                    <article class="bitacora-card">
+                        <div class="bitacora-num">01</div>
+                        <h3>Herramienta utilizada</h3>
+                        <div class="bitacora-editable" contenteditable="false">
+                            <p>
+                                <strong>Google Gemini API (`gemini-3-flash-preview` y `gemini-flash-lite-latest`)</strong> integrada en vivo mediante peticiones REST (`fetch`) en JavaScript para generar el asunto, cuerpo e ilustración temática de cada noticia, junto con el asistente de desarrollo <strong>Google Antigravity</strong> para la maquetación HTML5, CSS3 y diseño UX/UI.
+                            </p>
+                        </div>
+                    </article>
+
+                    <!-- 2. Enlace a la herramienta, chat o recurso empleado -->
+                    <article class="bitacora-card">
+                        <div class="bitacora-num">02</div>
+                        <h3>Enlace a la herramienta, chat o recurso empleado</h3>
+                        <div class="bitacora-editable" contenteditable="false">
+                            <p>
+                                • API de Google Gemini (Generative Language API): <a href="https://ai.google.dev/" target="_blank" rel="noopener noreferrer">https://ai.google.dev/</a><br>
+                                • Plataforma Google Gemini: <a href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer">https://gemini.google.com/</a><br>
+                                • Tipografías académicas empleadas (Playfair Display e Inter): <a href="https://fonts.google.com/" target="_blank" rel="noopener noreferrer">https://fonts.google.com/</a>
+                            </p>
+                        </div>
+                    </article>
+
+                    <!-- 3. Prompt o instrucción utilizada -->
+                    <article class="bitacora-card bitacora-card-wide">
+                        <div class="bitacora-num">03</div>
+                        <h3>Prompt o instrucción utilizada</h3>
+                        <div class="bitacora-editable" contenteditable="false">
+                            <blockquote class="prompt-quote">
+                                "Actúa como un desarrollador web, experto en UX/UI y en sitios web educativos. Crea una página web con html, javascript y css. La página tiene el siguiente nombre de proyecto: Noticias visuales para estudiantes, debe cubrir lo siguiente: Diseñar una noticia o aviso con asunto, cuerpo, imagen opcional y enlace; Ofrecer 3 plantillas visuales; Generar una vista previa del correo, sin envío real... La página debe ser empática para usuarios que no tengan experiencia previa informática ni en el uso de herramientas digitales... La página debe implementar IA dentro de sus funciones, el usuario únicamente entregará una idea general de la noticia con detalles importantes de la misma y la IA creará en base a esta idea el mensaje final, se debe agregar un combobox donde el usuario deberá marcarla si quiere que la IA cree la imagen de la noticia o en su defecto, desmarcarla y el mismo subir su imagen sugerida para el correo. Colores: #A51C30, #FFFFFF, #1E1E1E, #C9A227. Tipografía Playfair Display para títulos e Inter para el cuerpo. El dorado va en detalles y bordes, no en texto pequeño para mantener el contraste."
+                            </blockquote>
+                        </div>
+                    </article>
+
+                    <!-- 4. Resultado obtenido -->
+                    <article class="bitacora-card">
+                        <div class="bitacora-num">04</div>
+                        <h3>Resultado obtenido</h3>
+                        <div class="bitacora-editable" contenteditable="false">
+                            <p>
+                                Se obtuvo una aplicación web educativa 100% funcional conectada a la API de Gemini que recibe la idea general del usuario y produce en segundos un correo estructurado con asunto, cuerpo amigable, ilustración vectorial/IA personalizada, botón de enlace y vista previa en 3 plantillas visuales con paleta institucional (`#A51C30`, `#FFFFFF`, `#1E1E1E` y detalles en `#C9A227`).
+                            </p>
+                        </div>
+                    </article>
+
+                    <!-- 5. Cambios realizados por la pareja / equipo -->
+                    <article class="bitacora-card">
+                        <div class="bitacora-num">05</div>
+                        <h3>Cambios realizados por la pareja / el equipo</h3>
+                        <div class="bitacora-editable" contenteditable="false">
+                            <p>
+                                • Refinamos la identidad visual aplicando estrictamente los colores `#A51C30`, `#FFFFFF`, `#1E1E1E` y `#C9A227`, cuidando que el dorado se use únicamente en bordes, filetes e insignias y nunca en texto pequeño para asegurar legibilidad.<br>
+                                • Incorporamos las fuentes <strong>Playfair Display</strong> en títulos e <strong>Inter</strong> en el cuerpo.<br>
+                                • Conectamos la API Key de Gemini seleccionando el modelo `gemini-3-flash-preview` con respaldo automático en `gemini-flash-lite-latest`.
+                            </p>
+                        </div>
+                    </article>
+
+                    <!-- 6. Errores detectados -->
+                    <article class="bitacora-card">
+                        <div class="bitacora-num">06</div>
+                        <h3>Errores detectados</h3>
+                        <div class="bitacora-editable" contenteditable="false">
+                            <p>
+                                • Al probar distintos endpoints de la API de Gemini, detectamos que algunos nombres de modelos antiguos devolvían código `404` o saturación `429/503`.<br>
+                                • También detectamos que usar color dorado `#C9A227` sobre fondo blanco en textos pequeños reducía el contraste visual para personas con baja visión.
+                            </p>
+                        </div>
+                    </article>
+
+                    <!-- 7. ¿Qué funcionó y qué no? -->
+                    <article class="bitacora-card">
+                        <div class="bitacora-num">07</div>
+                        <h3>¿Qué funcionó y qué no?</h3>
+                        <div class="bitacora-editable" contenteditable="false">
+                            <p>
+                                <strong>✅ Qué funcionó:</strong> El modelo `gemini-3-flash-preview` con respaldo en `gemini-flash-lite-latest` respondió con gran rapidez y precisión en formato JSON estructurado, y la combinación de casilla + combobox facilitó alternar entre imagen de IA e imagen subida por el usuario.<br>
+                                <strong>❌ Qué no funcionó:</strong> Invocar modelos sin sistema de respaldo o usar dorado en textos pequeños; ambos aspectos fueron corregidos.
+                            </p>
+                        </div>
+                    </article>
+
+                    <!-- 8. ¿Qué produjo la IA? -->
+                    <article class="bitacora-card">
+                        <div class="bitacora-num">08</div>
+                        <h3>¿Qué produjo la IA?</h3>
+                        <div class="bitacora-editable" contenteditable="false">
+                            <p>
+                                1. Durante el desarrollo: produjo la estructura semántica HTML5, el sistema de diseño CSS3 con variables para las 3 plantillas y el código JavaScript.<br>
+                                2. En tiempo de uso dentro de la página: la IA de Gemini produce en vivo el asunto del correo, el título del encabezado, el cuerpo redactado con puntos clave y los elementos gráficos de la ilustración temática.
+                            </p>
+                        </div>
+                    </article>
+
+                    <!-- 9. ¿Qué decidió el equipo? -->
+                    <article class="bitacora-card">
+                        <div class="bitacora-num">09</div>
+                        <h3>¿Qué decidió el equipo?</h3>
+                        <div class="bitacora-editable" contenteditable="false">
+                            <p>
+                                El Equipo 3 decidió:<br>
+                                • Mantener el acceso <strong>sin login</strong> y agregar botones de ejemplos rápidos para apoyar a usuarios sin experiencia informática.<br>
+                                • Permitir que el usuario siempre pueda editar manualmente el asunto y el cuerpo generados por Gemini antes de copiar el mensaje.<br>
+                                • Resaltar que la vista previa es una simulación segura sin envío real.
+                            </p>
+                        </div>
+                    </article>
+
+                    <!-- 10. ¿Qué datos evitaron introducir por privacidad? -->
+                    <article class="bitacora-card">
+                        <div class="bitacora-num">10</div>
+                        <h3>¿Qué datos evitaron introducir por privacidad?</h3>
+                        <div class="bitacora-editable" contenteditable="false">
+                            <p>
+                                Por ética y protección de datos personales en el ámbito educativo, evitamos introducir:<br>
+                                • Nombres reales de alumnos o docentes, matrículas escolares, direcciones de correo privadas o números telefónicos.<br>
+                                • Calificaciones individuales o situaciones académicas confidenciales.<br>
+                                Solo se emplean avisos académicos generales y enlaces institucionales públicos.
+                            </p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             7. REGRESO AL SITIO PRINCIPAL
+             ========================================== -->
+        <section id="regreso" class="return-main-section">
+            <div class="container return-box">
+                <div class="return-text">
+                    <h2>¿Deseas volver al inicio o redactar otra noticia estudiantil?</h2>
+                    <p>Navega con un solo clic hacia la portada principal o al generador asistido por IA.</p>
+                </div>
+                <div class="return-buttons">
+                    <a href="#inicio" class="btn btn-primary btn-lg">
+                        🏠 Regresar al sitio principal (Inicio)
+                    </a>
+                    <a href="#entrada-datos" class="btn btn-secondary btn-lg">
+                        ✨ Crear nueva noticia con IA
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Pie de página -->
+    <footer class="site-footer">
+        <div class="container footer-flex">
+            <div>
+                <strong class="footer-brand">📬 Noticias visuales para estudiantes</strong>
+                <p>Proyecto educativo desarrollado por el <strong>Equipo 3 · Universidad Virtual</strong>.</p>
+            </div>
+            <div class="footer-links">
+                <a href="#inicio">Inicio</a>
+                <a href="#descripcion">Descripción</a>
+                <a href="#entrada-datos">Entrada de datos</a>
+                <a href="#resultado">Vista previa</a>
+                <a href="#limites">Límites</a>
+                <a href="#bitacora">Bitácora IA</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
