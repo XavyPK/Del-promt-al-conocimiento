@@ -819,31 +819,6 @@ Temperatura de trabajo: ${state.temperature.toFixed(1)} (Escala 0.0 a 1.0)`;
   }
 
   // =========================================================================
-  // SIMULACIÓN DE CHAT EN TIEMPO REAL CON EL ASISTENTE CREADO
-  // =========================================================================
-  function sendChatMessage() {
-    const text = dom.inputChat.value.trim();
-    if (!text) return;
-
-    addChatBubble(text, 'user');
-    dom.inputChat.value = '';
-
-    // Burbuja de espera
-    const waitBubble = document.createElement('div');
-    waitBubble.className = 'chat-bubble bubble-assistant';
-    waitBubble.textContent = 'Analizando tu pregunta con las reglas de tu asistente...';
-    dom.chatBox.appendChild(waitBubble);
-    dom.chatBox.scrollTop = dom.chatBox.scrollHeight;
-
-    setTimeout(() => {
-      waitBubble.remove();
-      const topic = state.topicName;
-      const temp = state.temperature;
-
-      let answer = "";
-      let note = "";
-
-  // =========================================================================
   // MOTOR DE CONOCIMIENTO Y RESPUESTA EDUCATIVA REAL
   // Responde con definiciones auténticas, explicaciones sustantivas y rigor
   // =========================================================================
