@@ -561,11 +561,100 @@
       margin-bottom: 1rem;
     }
     .chat-bubble {
-      padding: 0.85rem 1.1rem;
+      padding: 0.95rem 1.25rem;
       border-radius: var(--radius-md);
       font-size: 0.92rem;
-      line-height: 1.55;
-      max-width: 90%;
+      line-height: 1.6;
+      max-width: 92%;
+      word-break: break-word;
+    }
+    .chat-bubble p.chat-p {
+      margin-bottom: 0.65rem;
+    }
+    .chat-bubble p.chat-p:last-child {
+      margin-bottom: 0;
+    }
+    .chat-bubble .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+      margin: 0.75rem 0;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-medium);
+      background: #ffffff;
+    }
+    .chat-bubble table.chat-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.86rem;
+      text-align: left;
+    }
+    .chat-bubble table.chat-table th {
+      background: var(--bg-subtle);
+      color: var(--text-main);
+      font-weight: 700;
+      padding: 0.65rem 0.85rem;
+      border-bottom: 2px solid var(--border-medium);
+      white-space: nowrap;
+    }
+    .chat-bubble table.chat-table td {
+      padding: 0.55rem 0.85rem;
+      border-bottom: 1px solid var(--border-light);
+      color: var(--text-main);
+      vertical-align: top;
+    }
+    .chat-bubble table.chat-table tr:last-child td {
+      border-bottom: none;
+    }
+    .chat-bubble table.chat-table tr:nth-child(even) td {
+      background: #fafaf9;
+    }
+    .chat-bubble h2.chat-h2, .chat-bubble h3.chat-h3, .chat-bubble h4.chat-h4 {
+      color: var(--text-main);
+      font-weight: 700;
+      margin: 0.9rem 0 0.4rem;
+      line-height: 1.35;
+    }
+    .chat-bubble h2.chat-h2 { font-size: 1.15rem; }
+    .chat-bubble h3.chat-h3 { font-size: 1.05rem; }
+    .chat-bubble h4.chat-h4 { font-size: 0.95rem; }
+    .chat-bubble ul.chat-ul, .chat-bubble ol.chat-ol {
+      margin: 0.4rem 0 0.7rem 1.4rem;
+      padding: 0;
+    }
+    .chat-bubble ul.chat-ul li, .chat-bubble ol.chat-ol li {
+      margin-bottom: 0.35rem;
+      line-height: 1.5;
+    }
+    .chat-bubble hr.chat-hr {
+      border: none;
+      border-top: 1px solid var(--border-medium);
+      margin: 0.9rem 0;
+    }
+    .chat-bubble code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.84em;
+      background: var(--bg-subtle);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      border: 1px solid var(--border-light);
+      color: var(--pom-600);
+    }
+    .chat-bubble pre {
+      background: #0f172a;
+      color: #f1f5f9;
+      padding: 0.85rem 1rem;
+      border-radius: var(--radius-sm);
+      overflow-x: auto;
+      margin: 0.75rem 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.84rem;
+      line-height: 1.5;
+    }
+    .chat-bubble pre code {
+      background: transparent;
+      border: none;
+      color: inherit;
+      padding: 0;
     }
     .bubble-user {
       align-self: flex-end;
@@ -581,14 +670,16 @@
       border-bottom-left-radius: 2px;
     }
     .model-groq-badge {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
       font-size: 0.72rem;
-      padding: 0.15rem 0.45rem;
+      padding: 0.2rem 0.5rem;
       border-radius: 4px;
       background: var(--pom-50);
       color: var(--pom-600);
       font-weight: 700;
-      margin-bottom: 0.4rem;
+      margin-bottom: 0.6rem;
     }
 
     .chat-input-row {
@@ -809,14 +900,23 @@
     <!-- VISTA 5: PASO 3 - ASISTENTE, PROMPT EDITABLE Y CHAT GROQ REAL -->
     <section class="view-section" id="view-lab">
       <div style="display: flex; justify-content: space-between; margin-bottom: 1.25rem;">
-        <button type="button" class="btn-text-back" id="btn-lab-back-quiz">← Volver al Quiz</button>
-        <button type="button" class="btn-text-back" id="btn-lab-change-topic">✏️ Cambiar de tema</button>
+        <button type="button" class="btn-text-back" id="btn-lab-back-quiz">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+          Volver al Quiz
+        </button>
+        <button type="button" class="btn-text-back" id="btn-lab-change-topic">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          Cambiar de tema
+        </button>
       </div>
 
       <!-- PROMPT 100% EDITABLE -->
       <div class="card-panel editable-prompt-card">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-          <h3 style="font-size: 1.2rem; font-weight: 700;">Instrucciones Finales de tu Asistente (Prompt)</h3>
+          <h3 style="font-size: 1.2rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Instrucciones Finales de tu Asistente (Prompt)
+          </h3>
           <span class="badge badge-success">100% Editable</span>
         </div>
         <p style="font-size: 0.88rem; color: var(--text-muted);">
@@ -827,10 +927,19 @@
 
         <div style="display: flex; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap;">
           <div style="display: flex; gap: 0.5rem;">
-            <button class="btn btn-primary" id="btn-save-prompt">💾 Guardar Cambios</button>
-            <button class="btn btn-secondary" id="btn-copy-prompt">📋 Copiar Prompt</button>
+            <button class="btn btn-primary" id="btn-save-prompt">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+              Guardar Cambios
+            </button>
+            <button class="btn btn-secondary" id="btn-copy-prompt">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              Copiar Prompt
+            </button>
           </div>
-          <button class="btn-text-back" id="btn-reset-prompt">Restablecer sugerencia</button>
+          <button class="btn-text-back" id="btn-reset-prompt">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+            Restablecer sugerencia
+          </button>
         </div>
       </div>
 
@@ -854,7 +963,10 @@
       <!-- CHAT CONECTADO A GROQ API -->
       <div class="card-panel">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem;">
-          <h4 style="font-size: 1.15rem; font-weight: 700;">💬 Prueba a tu Asistente en Vivo (Groq AI)</h4>
+          <h4 style="font-size: 1.15rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            Prueba a tu Asistente en Vivo (Groq AI)
+          </h4>
           <span class="badge badge-pomegranate" id="badge-sandbox-topic">Tema Activo</span>
         </div>
         <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1rem;">
@@ -906,7 +1018,7 @@
         chatHistory: []
       };
 
-      // Preguntas universales
+      // Preguntas universales con prompts adaptados a cada opción
       function getQuestions() {
         const t = state.topicName || "el tema";
         const l = state.educationLevel;
@@ -920,13 +1032,31 @@
             title: isT ? `Para tus clases de ${t}, ¿cómo prefieres que actúe el asistente?` : `Para estudiar ${t}, ¿qué rol esperas del asistente?`,
             tip: "Definir quién es la IA orienta su tono y su paciencia al responderte.",
             options: [
-              { text: isT ? "Un colega docente que me ayude a estructurar explicaciones claras y amenas." : "Un tutor paciente que me guíe paso a paso con ejemplos cotidianos sin darme todo resuelto.", feedback: "¡Excelente elección! Promueve la colaboración y el aprendizaje autónomo." },
-              { text: isT ? "Un generador rápido para tener materiales listos y luego adaptarlos." : "Un asesor directo que me brinde resúmenes y puntos clave para estudiar más rápido.", feedback: "Buena perspectiva: ayuda a la agilidad conservando tu rol como evaluador final." },
-              { text: "Un orientador reflexivo que me haga preguntas para comprobar que comprendí el tema.", feedback: "¡Muy pedagógico! Fomenta el método socrático y el razonamiento activo." }
+              {
+                text: isT ? "Un colega docente que me ayude a estructurar explicaciones claras y amenas." : "Un tutor paciente que me guíe paso a paso con ejemplos cotidianos sin darme todo resuelto.",
+                feedback: "Excelente elección: fomenta la colaboración y el aprendizaje autónomo.",
+                promptText: isT
+                  ? `Actúa como un colega docente especialista en didáctica y pedagogía para "${t}". Tu propósito es colaborar en el diseño de explicaciones amenas, actividades participativas y dinámicas de clase para estudiantes de ${l}.`
+                  : `Actúa como un tutor educativo paciente y empático sobre "${t}". Tu propósito es orientarme paso a paso con ejemplos sencillos de la vida diaria, guiándome con pistas para que yo mismo razone sin darme las soluciones de golpe.`
+              },
+              {
+                text: isT ? "Un generador rápido para tener materiales listos y luego adaptarlos." : "Un asesor directo que me brinde resúmenes y puntos clave para estudiar más rápido.",
+                feedback: "Buena perspectiva: ayuda a la agilidad conservando tu rol como evaluador final.",
+                promptText: isT
+                  ? `Actúa como un asistente eficiente y estructurado de planificación pedagógica para "${t}". Genera esquemas de clase, guías de estudio, borradores de evaluaciones y rúbricas listas para ser adaptadas al nivel de ${l}.`
+                  : `Actúa como un asesor académico directo y conciso en "${t}". Brinda resúmenes estructurados, esquemas de estudio, definiciones clave y tablas comparativas para optimizar el tiempo de aprendizaje en ${l}.`
+              },
+              {
+                text: "Un orientador reflexivo que me haga preguntas para comprobar que comprendí el tema.",
+                feedback: "Muy formativo: fomenta el método socrático y el razonamiento activo.",
+                promptText: isT
+                  ? `Actúa como un facilitador pedagógico reflexivo sobre "${t}". Formula preguntas metacognitivas y desafíos didácticos para enriquecer el diseño instruccional en ${l}.`
+                  : `Actúa como un mentor socrático sobre "${t}". En lugar de dar respuestas largas, formula preguntas orientadoras, retos breves y ejercicios de reflexión para comprobar y fortalecer mi comprensión activa.`
+              }
             ],
             preset: isT
-              ? `Actúa como un asesor pedagógico experto en ${t}. Tu propósito es ayudar al docente a estructurar explicaciones amenas y actividades didácticas adaptadas a ${l}.`
-              : `Actúa como un tutor educativo paciente sobre ${t}. Tu propósito es orientarme paso a paso con ejemplos sencillos y ayudarme a razonar por mí mismo.`
+              ? `Actúa como un colega docente especialista en didáctica y pedagogía para "${t}". Tu propósito es colaborar en el diseño de explicaciones amenas y actividades para estudiantes de ${l}.`
+              : `Actúa como un tutor educativo paciente y empático sobre "${t}". Tu propósito es orientarme paso a paso con ejemplos cotidianos y hacerme razonar.`
           },
           {
             key: "objective",
@@ -934,11 +1064,23 @@
             title: `Respecto a tu meta ("${g}"), ¿cuál es el objetivo más claro?`,
             tip: "El objetivo define qué se espera lograr en la sesión.",
             options: [
-              { text: `Comprender los conceptos esenciales de ${t} para poder explicarlos con mis propias palabras.`, feedback: "¡Estupendo! La meta se enfoca en comprensión genuina." },
-              { text: `Desglosar dudas puntuales y resolver ejercicios prácticos paso a paso.`, feedback: "Muy práctico: permite avanzar sobre las dificultades específicas del tema." },
-              { text: `Construir un mapa o resumen claro que sintetice las ideas principales.`, feedback: "Excelente para organizar y consolidar el conocimiento." }
+              {
+                text: `Comprender los conceptos esenciales de ${t} para poder explicarlos con mis propias palabras.`,
+                feedback: "Estupendo: la meta se enfoca en comprensión genuina y transferencia del conocimiento.",
+                promptText: `Objetivo Central: Lograr una comprensión profunda y conceptual de "${t}". Asegura que el usuario sea capaz de explicar las ideas con sus propias palabras mediante analogías claras, cumpliendo la meta: "${g}".`
+              },
+              {
+                text: `Desglosar dudas puntuales y resolver ejercicios prácticos paso a paso.`,
+                feedback: "Muy práctico: permite avanzar sobre las dificultades específicas del tema.",
+                promptText: `Objetivo Central: Resolver dudas concretas y problemas de aplicación práctica sobre "${t}". Desglosa cada procedimiento paso por paso con retroalimentación inmediata para cumplir la meta: "${g}".`
+              },
+              {
+                text: `Construir un mapa o resumen claro que sintetice las ideas principales.`,
+                feedback: "Excelente para organizar, jerarquizar y consolidar el conocimiento.",
+                promptText: `Objetivo Central: Sintetizar y estructurar los temas fundamentales de "${t}" en un esquema claro, jerarquizado y fácil de memorizar, orientado a la meta: "${g}".`
+              }
             ],
-            preset: `Objetivo: Guiar al usuario a comprender a fondo los conceptos de "${t}" para alcanzar esta meta: ${g}.`
+            preset: `Objetivo Central: Lograr una comprensión profunda y conceptual de "${t}", cumpliendo la meta: "${g}".`
           },
           {
             key: "context",
@@ -946,11 +1088,23 @@
             title: `¿Por qué es clave especificar que el nivel es "${l}"?`,
             tip: "El contexto sitúa el vocabulario y la profundidad justa.",
             options: [
-              { text: `Para que la dificultad, los términos y los ejemplos sean exactamente los adecuados para ${l}.`, feedback: "¡Correcto! Evita explicaciones incomprensibles o demasiado infantiles." },
-              { text: `Para que el asistente entienda el punto de partida y no dé por sabidas cosas complejas.`, feedback: "Muy acertado: asegura una progresión pedagógica natural." },
-              { text: `Para adaptar el ritmo de la explicación al tiempo y necesidades de este nivel.`, feedback: "Excelente consideración didáctica." }
+              {
+                text: `Para que la dificultad, los términos y los ejemplos sean exactamente los adecuados para ${l}.`,
+                feedback: "Correcto: calibra el nivel para evitar explicaciones incomprensibles o infantiles.",
+                promptText: `Contexto y Audiencia: Nivel educativo fijado en "${l}". Ajusta la complejidad técnica, la profundidad y los ejemplos para que sean rigurosamente acordes a este nivel pedagógico en la materia "${t}".`
+              },
+              {
+                text: `Para que el asistente entienda el punto de partida y no dé por sabidas cosas complejas.`,
+                feedback: "Muy acertado: asegura una progresión pedagógica natural.",
+                promptText: `Contexto y Nivel de Entrada: Nivel "${l}" sobre "${t}". Asume que el usuario está consolidando los fundamentos; define previamente cualquier término técnico antes de emplearlo.`
+              },
+              {
+                text: `Para adaptar el ritmo de la explicación al tiempo y necesidades de este nivel.`,
+                feedback: "Excelente consideración didáctica para la asimilación del contenido.",
+                promptText: `Contexto Didáctico: Destinado a nivel "${l}". Mantén un ritmo pedagógico pausado, estructurado en módulos cortos y con transiciones claras para el tema "${t}".`
+              }
             ],
-            preset: `Contexto: La interacción está dirigida al nivel de "${l}". El tema es "${t}". Se requiere un vocabulario claro, ordenado y cercano.`
+            preset: `Contexto y Audiencia: Nivel educativo fijado en "${l}". Ajusta la complejidad técnica y los ejemplos al tema "${t}".`
           },
           {
             key: "instructions",
@@ -958,14 +1112,35 @@
             title: `¿Cómo debe estructurar sus respuestas para que las entiendas mejor?`,
             tip: "Una estructura predecible facilita la lectura.",
             options: [
-              { text: "1. Explicar la idea principal. 2. Dar un ejemplo de la vida real. 3. Hacer una pregunta de repaso.", feedback: "¡Estructura ideal! Cubre teoría, práctica y verificación activa." },
-              { text: "Respuestas directas organizadas con viñetas y conceptos destacados en negrita.", feedback: "Muy visual: facilita el escaneo rápido y la retención." },
-              { text: "Explicaciones progresivas con analogías sencillas antes de pasar a lo técnico.", feedback: "Excelente para temas abstractos o que parecen difíciles." }
+              {
+                text: "1. Explicar la idea principal. 2. Dar un ejemplo de la vida real. 3. Hacer una pregunta de repaso.",
+                feedback: "Estructura ideal: cubre teoría, aplicación práctica y verificación activa.",
+                promptText: `Formato e Instrucciones de Respuesta:
+1. Idea Central: Explica el concepto fundamental de "${t}" con máxima claridad.
+2. Ejemplo Cotidiano / Aplicación: Ilustra con una situación real o analogía práctica.
+3. Pregunta de Repaso: Finaliza siempre planteando una pregunta breve para evaluar la comprensión del usuario.`
+              },
+              {
+                text: "Respuestas directas organizadas con viñetas y conceptos destacados en negrita.",
+                feedback: "Muy visual: facilita el escaneo rápido, la jerarquía y la retención.",
+                promptText: `Formato e Instrucciones de Respuesta:
+- Organización Visual: Emplea viñetas ordenadas, listas estructuradas y negritas en los conceptos clave de "${t}".
+- Tablas comparativas cuando haya clasificaciones o diferencias entre conceptos.
+- Respuestas directas, bien jerarquizadas y de fácil lectura visual.`
+              },
+              {
+                text: "Explicaciones progresivas con analogías sencillas antes de pasar a lo técnico.",
+                feedback: "Excelente para temas abstractos o que parecen difíciles.",
+                promptText: `Formato e Instrucciones de Respuesta:
+1. Puente Intuitivo: Inicia con una analogía intuitiva y cotidiana del mundo real aplicable a "${t}".
+2. Desarrollo Formal: Introduce gradualmente la terminología técnica y definiciones esenciales.
+3. Síntesis Práctica: Cierra con un resumen breve de los puntos indispensables.`
+              }
             ],
-            preset: `Instrucciones paso a paso:
-1. Explica la idea principal con claridad y precisión.
-2. Muestra un ejemplo real o analogía cotidiana aplicable a "${t}".
-3. Concluye con una pregunta de reflexión o comprobación para el usuario.`
+            preset: `Formato e Instrucciones de Respuesta:
+1. Idea Central: Explica el concepto fundamental de "${t}".
+2. Ejemplo Cotidiano: Ilustra con una situación tangible.
+3. Pregunta de Repaso: Plantea una pregunta para verificar la comprensión.`
           },
           {
             key: "limits",
@@ -973,14 +1148,33 @@
             title: `¿Qué límite es imprescindible ponerle a la IA respecto a "${t}"?`,
             tip: "Los límites garantizan la verdad y evitan datos inventados.",
             options: [
-              { text: "Prohibirle inventar datos o fechas. Si duda, debe decir: 'No tengo ese dato comprobado'.", feedback: "¡Regla de oro! La honestidad intelectual es la mayor garantía contra la desinformación." },
-              { text: "Pedirle que siempre cite las fuentes, libros o leyes científicas en las que se basa.", feedback: "¡Fundamental para el rigor académico y la verificación!" },
-              { text: "Indicarle que no dé la respuesta directa de inmediato sin antes guiar el razonamiento.", feedback: "Muy formativo: preserva el esfuerzo intelectual del estudiante." }
+              {
+                text: "Prohibirle inventar datos o fechas. Si duda, debe decir: 'No tengo ese dato comprobado'.",
+                feedback: "Regla de oro: la honestidad intelectual es la mayor garantía contra la desinformación.",
+                promptText: `Límites y Rigor Factual:
+- Cero Alucinaciones: Queda estrictamente prohibido inventar fechas, fórmulas, autores, citas o teorías sobre "${t}".
+- Cláusula de Duda: Ante cualquier incertidumbre o dato no verificado, responde explícitamente: "No dispongo de ese dato comprobado con certeza".
+- Honestidad Intelectual: No intentes adivinar ni rellenes vacíos con información especulativa.`
+              },
+              {
+                text: "Pedirle que siempre cite las fuentes, libros o leyes científicas en las que se basa.",
+                feedback: "Fundamental para el rigor académico, el cotejo y la verificación.",
+                promptText: `Límites y Sustento Académico:
+- Cita Obligatoria: Toda afirmación teórica, ley o dato sobre "${t}" debe fundamentarse en principios científicos, bibliografía estándar o autores reconocidos.
+- Verificabilidad: Facilita el nombre de teorías, leyes o fuentes formales para que el usuario pueda cotejarlas.`
+              },
+              {
+                text: "Indicarle que no dé la respuesta directa de inmediato sin antes guiar el razonamiento.",
+                feedback: "Muy formativo: preserva el esfuerzo intelectual y el criterio del estudiante.",
+                promptText: `Límites Pedagógicos y Prohibición de Respuestas Directas:
+- No Resolver Tareas Completas: Prohibido entregar ejercicios resueltos o respuestas de evaluación de inmediato sobre "${t}".
+- Guía Progresiva: Proporciona pistas escalonadas, preguntas orientadoras y el método de razonamiento para que el usuario elabore su propia conclusión.`
+              }
             ],
-            preset: `Límites y Cuidado de la Verdad:
-- No inventes fechas, fórmulas, autores ni afirmaciones dudosas sobre "${t}".
-- Si dudas o no tienes la certeza de un dato, di claramente: "No dispongo de ese dato comprobado".
-- Prioriza siempre el pensamiento crítico del usuario y la ética académica.`
+            preset: `Límites y Rigor Factual:
+- Cero Alucinaciones: Queda estrictamente prohibido inventar datos o afirmaciones dudosas sobre "${t}".
+- Cláusula de Duda: Si no tienes la certeza de un dato, di claramente: "No dispongo de ese dato comprobado".
+- Prioriza siempre el pensamiento crítico y la ética académica.`
           }
         ];
       }
@@ -1121,7 +1315,7 @@
           return;
         }
         state.currentUser = { name: name || email.split('@')[0] };
-        showToast(`Bienvenido/a, ${state.currentUser.name}`);
+        showToast(`Acceso correcto. Bienvenido/a, ${state.currentUser.name}`);
         showView('topic');
       });
 
@@ -1170,7 +1364,7 @@
         showView('quiz');
       });
 
-      // PASO 2 QUIZ (SIN MARCAR INCORRECTO)
+      // PASO 2 QUIZ (PROMPT ADAPTATIVO A LA OPCIÓN ELEGIDA)
       function loadQuizStep(stepIdx) {
         const questions = getQuestions();
         const q = questions[stepIdx];
@@ -1199,17 +1393,31 @@
           dom.quizOptionsList.appendChild(btn);
         });
 
-        dom.inputLiveDraft.value = state.promptParts[q.key] || q.preset;
-        dom.btnQuizNext.textContent = (stepIdx === total - 1) ? "Terminar y Ver Asistente →" : "Siguiente Paso →";
-
-        if (state.answersLog[stepIdx] !== undefined) {
-          displayConstructiveFeedback(stepIdx, state.answersLog[stepIdx]);
+        // Cargar texto adaptado a la opción previamente seleccionada o preset
+        const curOptIdx = state.answersLog[stepIdx];
+        if (curOptIdx !== undefined && q.options[curOptIdx]) {
+          dom.inputLiveDraft.value = state.promptParts[q.key] || q.options[curOptIdx].promptText;
+          displayConstructiveFeedback(stepIdx, curOptIdx);
+        } else {
+          const defaultOptText = q.options[0].promptText || q.preset;
+          dom.inputLiveDraft.value = state.promptParts[q.key] || defaultOptText;
+          if (!state.promptParts[q.key]) state.promptParts[q.key] = defaultOptText;
         }
+
+        dom.btnQuizNext.textContent = (stepIdx === total - 1) ? "Terminar y Ver Asistente →" : "Siguiente Paso →";
       }
 
       function selectQuizOption(stepIdx, optIdx) {
         state.answersLog[stepIdx] = optIdx;
-        saveDraft(stepIdx);
+        const q = getQuestions()[stepIdx];
+        const opt = q.options[optIdx];
+
+        // El prompt se adapta inmediatamente a la opción elegida
+        if (opt && opt.promptText) {
+          state.promptParts[q.key] = opt.promptText;
+          dom.inputLiveDraft.value = opt.promptText;
+        }
+
         displayConstructiveFeedback(stepIdx, optIdx);
       }
 
@@ -1234,9 +1442,13 @@
 
       dom.btnApplyRecommended.addEventListener('click', () => {
         const q = getQuestions()[state.currentQuizPillar];
-        dom.inputLiveDraft.value = q.preset;
-        state.promptParts[q.key] = q.preset;
-        showToast("Sugerencia aplicada.");
+        const curOptIdx = state.answersLog[state.currentQuizPillar];
+        const targetText = (curOptIdx !== undefined && q.options[curOptIdx])
+          ? q.options[curOptIdx].promptText
+          : (q.options[0].promptText || q.preset);
+        dom.inputLiveDraft.value = targetText;
+        state.promptParts[q.key] = targetText;
+        showToast("Sugerencia aplicada al prompt.");
       });
 
       dom.inputLiveDraft.addEventListener('input', () => saveDraft(state.currentQuizPillar));
@@ -1267,7 +1479,9 @@
       function setupLabView() {
         const questions = getQuestions();
         questions.forEach(q => {
-          if (!state.promptParts[q.key]) state.promptParts[q.key] = q.preset;
+          if (!state.promptParts[q.key]) {
+            state.promptParts[q.key] = q.options[0].promptText || q.preset;
+          }
         });
 
         state.finalPromptText = `### DIRECTIVA DEL ASISTENTE EDUCATIVO
@@ -1325,7 +1539,7 @@ Temperatura asignada: ${state.temperature.toFixed(1)}`;
 
       dom.btnSavePrompt.addEventListener('click', () => {
         state.finalPromptText = dom.finalPromptTextarea.value;
-        showToast("¡Instrucciones del prompt guardadas con éxito!");
+        showToast("Instrucciones del prompt guardadas con éxito.");
       });
 
       dom.btnCopyPrompt.addEventListener('click', () => {
@@ -1339,6 +1553,161 @@ Temperatura asignada: ${state.temperature.toFixed(1)}`;
         setupLabView();
         showToast("Texto restablecido.");
       });
+
+      // RENDERIZADOR ELEGANTE DE MARKDOWN (TABLAS, CÓDIGO, LISTAS, TÍTULOS)
+      function renderMarkdown(md) {
+        if (!md) return '';
+
+        // 1. Bloques de código
+        const codeBlocks = [];
+        md = md.replace(/```([a-zA-Z0-9_-]*)\n([\s\S]*?)```/g, (match, lang, code) => {
+          const idx = codeBlocks.length;
+          const escaped = code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+          codeBlocks.push('<pre><code>' + escaped + '</code></pre>');
+          return '___CODEBLOCK_' + idx + '___';
+        });
+
+        // 2. Código en línea
+        const inlineCodes = [];
+        md = md.replace(/`([^`\n]+)`/g, (match, code) => {
+          const idx = inlineCodes.length;
+          const escaped = code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+          inlineCodes.push('<code>' + escaped + '</code>');
+          return '___INLINECODE_' + idx + '___';
+        });
+
+        const lines = md.split('\n');
+        const out = [];
+        let inTable = false;
+        let tableRows = [];
+        let inList = false;
+        let listType = null;
+
+        function flushTable() {
+          if (!inTable) return;
+          if (tableRows.length > 0) {
+            let html = '<div class="table-responsive"><table class="chat-table">';
+            let hasHeader = false;
+            let startBodyIdx = 0;
+            if (tableRows.length >= 2 && tableRows[1].some(c => /^:?-+:?$/.test(c.trim()))) {
+              hasHeader = true;
+              html += '<thead><tr>';
+              tableRows[0].forEach(cell => { html += '<th>' + inlineFormat(cell) + '</th>'; });
+              html += '</tr></thead>';
+              startBodyIdx = 2;
+            }
+            html += '<tbody>';
+            for (let r = startBodyIdx; r < tableRows.length; r++) {
+              if (r === 1 && hasHeader) continue;
+              html += '<tr>';
+              tableRows[r].forEach(cell => { html += '<td>' + inlineFormat(cell) + '</td>'; });
+              html += '</tr>';
+            }
+            html += '</tbody></table></div>';
+            out.push(html);
+          }
+          tableRows = [];
+          inTable = false;
+        }
+
+        function flushList() {
+          if (!inList) return;
+          out.push('</' + listType + '>');
+          inList = false;
+          listType = null;
+        }
+
+        function inlineFormat(text) {
+          return text
+            .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+            .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+            .replace(/___INLINECODE_(\d+)___/g, (m, i) => inlineCodes[i]);
+        }
+
+        for (let i = 0; i < lines.length; i++) {
+          const rawLine = lines[i];
+          const line = rawLine.trim();
+
+          // Detección de filas de tabla markdown
+          if (line.includes('|') && line.split('|').length >= 3) {
+            flushList();
+            if (!inTable) inTable = true;
+            const trimmedPipes = line.replace(/^\|/, '').replace(/\|$/, '');
+            const cells = trimmedPipes.split('|').map(c => c.trim());
+            tableRows.push(cells);
+            continue;
+          } else {
+            flushTable();
+          }
+
+          // Separador horizontal
+          if (/^(\*{3,}|-{3,}|_{3,})$/.test(line)) {
+            flushList();
+            out.push('<hr class="chat-hr">');
+            continue;
+          }
+
+          // Encabezados
+          if (/^###\s+(.*)$/.test(line)) {
+            flushList();
+            out.push('<h4 class="chat-h4">' + inlineFormat(line.replace(/^###\s+/, '')) + '</h4>');
+            continue;
+          }
+          if (/^##\s+(.*)$/.test(line)) {
+            flushList();
+            out.push('<h3 class="chat-h3">' + inlineFormat(line.replace(/^##\s+/, '')) + '</h3>');
+            continue;
+          }
+          if (/^#\s+(.*)$/.test(line)) {
+            flushList();
+            out.push('<h2 class="chat-h2">' + inlineFormat(line.replace(/^#\s+/, '')) + '</h2>');
+            continue;
+          }
+
+          // Listas no ordenadas
+          if (/^[-*]\s+(.*)$/.test(line)) {
+            const itemContent = line.replace(/^[-*]\s+/, '');
+            if (!inList || listType !== 'ul') {
+              flushList();
+              inList = true;
+              listType = 'ul';
+              out.push('<ul class="chat-ul">');
+            }
+            out.push('<li>' + inlineFormat(itemContent) + '</li>');
+            continue;
+          }
+
+          // Listas ordenadas
+          if (/^\d+\.\s+(.*)$/.test(line)) {
+            const itemContent = line.replace(/^\d+\.\s+/, '');
+            if (!inList || listType !== 'ol') {
+              flushList();
+              inList = true;
+              listType = 'ol';
+              out.push('<ol class="chat-ol">');
+            }
+            out.push('<li>' + inlineFormat(itemContent) + '</li>');
+            continue;
+          }
+
+          flushList();
+
+          if (line === '') continue;
+
+          if (line.startsWith('___CODEBLOCK_')) {
+            out.push(line);
+          } else {
+            out.push('<p class="chat-p">' + inlineFormat(line) + '</p>');
+          }
+        }
+
+        flushTable();
+        flushList();
+
+        let finalHtml = out.join('');
+        finalHtml = finalHtml.replace(/___CODEBLOCK_(\d+)___/g, (m, i) => codeBlocks[i]);
+        return finalHtml;
+      }
 
       // CONEXIÓN EN TIEMPO REAL CON GROQ API BAJO LA DIRECTIVA DEL PROMPT FINAL
       dom.btnSendChat.addEventListener('click', sendGroqMessage);
@@ -1356,7 +1725,7 @@ Temperatura asignada: ${state.temperature.toFixed(1)}`;
         // Burbuja de carga
         const waitBubble = document.createElement('div');
         waitBubble.className = 'chat-bubble bubble-assistant';
-        waitBubble.innerHTML = `<em>Consultando a la IA con Groq bajo tus instrucciones...</em>`;
+        waitBubble.innerHTML = `<em>Consultando a la IA con Groq bajo tus directivas...</em>`;
         dom.chatBox.appendChild(waitBubble);
         dom.chatBox.scrollTop = dom.chatBox.scrollHeight;
 
@@ -1408,10 +1777,9 @@ Temperatura asignada: ${state.temperature.toFixed(1)}`;
           console.warn("Fallo de red o API en Groq, usando respaldo inteligente:", err);
 
           // Respaldo educativo automático si falla la red
-          const fallback = `
-            Hola. Con respecto a tu consulta sobre "${text}" en el marco de ${state.topicName}:<br><br>
-            Seguí la directiva de tu prompt final con temperatura ${state.temperature.toFixed(1)}. Explica la idea esencial paso a paso y recuerda contrastar las fuentes oficiales.
-          `;
+          const fallback = `Con respecto a tu consulta sobre "${text}" en el marco de ${state.topicName}:
+
+Se aplica la directiva de tu prompt final con temperatura ${state.temperature.toFixed(1)}. Revisa los conceptos esenciales paso a paso y recuerda contrastar las fuentes oficiales.`;
           appendBubble(fallback, 'assistant', false);
         }
       }
@@ -1420,10 +1788,11 @@ Temperatura asignada: ${state.temperature.toFixed(1)}`;
         const div = document.createElement('div');
         div.className = `chat-bubble bubble-${sender}`;
         if (sender === 'assistant') {
+          const badgeSvg = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:inline-block;vertical-align:middle;margin-right:4px;"><polyline points="20 6 9 17 4 12"/></svg>`;
           const badge = isRealApi
-            ? `<div class="model-groq-badge">✓ Groq AI (${GROQ_MODEL}) &bull; Temp: ${state.temperature.toFixed(1)}</div><br>`
-            : `<div class="model-groq-badge">Respaldo Local</div><br>`;
-          div.innerHTML = badge + content.replace(/\n/g, '<br>');
+            ? `<div class="model-groq-badge">${badgeSvg}Groq AI (${GROQ_MODEL}) &bull; Temp: ${state.temperature.toFixed(1)}</div>`
+            : `<div class="model-groq-badge">${badgeSvg}Respaldo Local</div>`;
+          div.innerHTML = badge + renderMarkdown(content);
         } else {
           div.textContent = content;
         }
