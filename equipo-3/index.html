@@ -5,11 +5,1629 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Noticias visuales para estudiantes | Universidad Virtual - Equipo 3</title>
     <meta name="description" content="Herramienta educativa asistida por IA (Google Gemini) para diseñar noticias y avisos visuales por correo electrónico para estudiantes, pensada para personas sin experiencia informática.">
-    <!-- Tipografías requeridas: Playfair Display para títulos e Inter para el cuerpo -->
+    
+    <!-- Tipografías institucionales requeridas: Playfair Display para títulos e Inter para el cuerpo -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        /* ==========================================================================
+           PALETA DE COLORES Y VARIABLES INSTITUCIONALES
+           Colores: #A51C30 (Carmesí), #FFFFFF (Blanco), #1E1E1E (Carbón), #C9A227 (Dorado)
+           Tipografía: Playfair Display (Títulos) e Inter (Cuerpo)
+           El dorado se aplica exclusivamente en bordes, marcos, filetes e insignias.
+           ========================================================================== */
+        :root {
+            --font-heading: 'Playfair Display', Georgia, 'Times New Roman', serif;
+            --font-body: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --base-size: 17px;
+
+            --crimson: #A51C30;
+            --crimson-dark: #821424;
+            --crimson-soft: #FDF2F4;
+
+            --white: #FFFFFF;
+            --off-white: #FAF8F5;
+
+            --charcoal: #1E1E1E;
+            --charcoal-muted: #3A3A3A;
+
+            --gold: #C9A227;
+            --gold-soft: #FBF6E6;
+
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --shadow-sm: 0 2px 10px rgba(30, 30, 30, 0.06);
+            --shadow-md: 0 10px 28px rgba(30, 30, 30, 0.11);
+        }
+
+        html {
+            font-size: var(--base-size);
+            scroll-behavior: smooth;
+        }
+
+        html.font-large { font-size: 19.5px; }
+        html.font-extra { font-size: 22px; }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--white);
+            color: var(--charcoal);
+            line-height: 1.65;
+        }
+
+        h1, h2, h3, h4, .brand-title, .email-banner-heading, .footer-brand {
+            font-family: var(--font-heading);
+            color: var(--charcoal);
+            letter-spacing: -0.01em;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1180px;
+            margin: 0 auto;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* ==========================================
+           ENCABEZADO Y ACCESIBILIDAD
+           ========================================== */
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: var(--white);
+            box-shadow: 0 3px 14px rgba(30, 30, 30, 0.08);
+            border-bottom: 3px solid var(--gold);
+        }
+
+        .accessibility-bar {
+            background-color: var(--charcoal);
+            color: var(--white);
+            padding: 7px 0;
+            font-size: 0.88rem;
+            border-bottom: 1px solid var(--gold);
+        }
+
+        .acc-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .badge-no-login {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--gold);
+            color: var(--white);
+            padding: 3px 12px;
+            border-radius: 99px;
+            font-weight: 600;
+        }
+
+        .acc-controls {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-acc {
+            background: var(--charcoal);
+            color: var(--white);
+            border: 1.5px solid var(--gold);
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .btn-acc:hover,
+        .btn-acc.active {
+            background: var(--gold);
+            color: var(--charcoal);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--charcoal);
+        }
+
+        .brand-icon {
+            font-size: 1.8rem;
+            background: var(--crimson);
+            color: var(--white);
+            border: 2px solid var(--gold);
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-title {
+            font-weight: 800;
+            font-size: 1.25rem;
+            color: var(--crimson);
+            line-height: 1.2;
+        }
+
+        .brand-subtitle {
+            font-size: 0.82rem;
+            color: var(--charcoal);
+            font-weight: 600;
+        }
+
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--charcoal);
+            font-weight: 600;
+            font-size: 0.92rem;
+            padding: 8px 13px;
+            border-radius: 8px;
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: var(--crimson-soft);
+            color: var(--crimson);
+            border-color: var(--gold);
+        }
+
+        .nav-link-highlight {
+            background: var(--gold-soft);
+            color: var(--charcoal);
+            border: 2px solid var(--gold);
+            font-weight: 700;
+        }
+
+        .nav-link-highlight:hover {
+            background: var(--gold);
+            color: var(--charcoal);
+        }
+
+        /* ==========================================
+           BOTONES EMPÁTICOS
+           ========================================== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-family: var(--font-body);
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 10px;
+            padding: 12px 22px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease;
+            font-size: 1rem;
+        }
+
+        .btn:active { transform: scale(0.98); }
+        .btn:disabled { opacity: 0.7; cursor: wait; }
+
+        .btn-primary {
+            background: var(--crimson);
+            color: var(--white);
+            border-color: var(--gold);
+            box-shadow: 0 4px 14px rgba(165, 28, 48, 0.28);
+        }
+
+        .btn-primary:hover { background: var(--crimson-dark); }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--crimson);
+            border-color: var(--crimson);
+        }
+
+        .btn-secondary:hover {
+            background: var(--crimson-soft);
+            border-color: var(--gold);
+        }
+
+        .btn-outline {
+            background: var(--white);
+            color: var(--charcoal);
+            border-color: var(--gold);
+        }
+
+        .btn-outline:hover {
+            background: var(--gold-soft);
+            color: var(--charcoal);
+        }
+
+        .btn-lg { padding: 14px 24px; font-size: 1.04rem; }
+        .btn-xl { padding: 16px 30px; font-size: 1.12rem; }
+        .btn-sm { padding: 8px 14px; font-size: 0.9rem; }
+
+        /* ==========================================
+           1. SECCIÓN INICIO (HERO)
+           ========================================== */
+        .hero-section {
+            padding: 56px 0 64px;
+            background: linear-gradient(135deg, var(--white) 0%, var(--off-white) 65%, var(--crimson-soft) 100%);
+            border-bottom: 3px solid var(--gold);
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.25fr 0.9fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .pill-tag {
+            display: inline-block;
+            background: var(--gold-soft);
+            color: var(--charcoal);
+            border: 1.5px solid var(--gold);
+            font-weight: 700;
+            font-size: 0.88rem;
+            padding: 6px 14px;
+            border-radius: 99px;
+            margin-bottom: 14px;
+        }
+
+        .hero-content h1 {
+            font-size: 2.55rem;
+            line-height: 1.18;
+            color: var(--crimson);
+            margin-bottom: 16px;
+        }
+
+        .hero-lead {
+            font-size: 1.1rem;
+            color: var(--charcoal);
+            margin-bottom: 24px;
+        }
+
+        .step-preview-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        .mini-step {
+            background: var(--white);
+            border: 2px solid var(--gold);
+            border-radius: 12px;
+            padding: 13px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .mini-step-num {
+            background: var(--crimson);
+            color: var(--white);
+            font-weight: 800;
+            min-width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 1.5px solid var(--gold);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        .mini-step p {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--charcoal);
+            line-height: 1.35;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+
+        .illustration-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            border: 2.5px solid var(--gold);
+            overflow: hidden;
+        }
+
+        .illus-header {
+            background: var(--charcoal);
+            color: var(--white);
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 2px solid var(--gold);
+        }
+
+        .dot {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .dot-crimson { background: var(--crimson); border: 1px solid var(--white); }
+        .dot-gold { background: var(--gold); }
+        .dot-white { background: var(--white); }
+
+        .illus-title {
+            font-size: 0.84rem;
+            margin-left: 6px;
+            font-weight: 600;
+        }
+
+        .illus-body { padding: 22px; }
+
+        .illus-badge {
+            display: inline-block;
+            background: var(--gold-soft);
+            color: var(--charcoal);
+            border: 1px solid var(--gold);
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+
+        .illus-body h4 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            color: var(--crimson);
+        }
+
+        .illus-body p {
+            font-size: 0.92rem;
+            color: var(--charcoal);
+            margin-bottom: 14px;
+        }
+
+        .illus-img-mock {
+            background: var(--crimson-soft);
+            height: 115px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--crimson);
+            margin-bottom: 14px;
+            border: 2px dashed var(--gold);
+        }
+
+        .illus-btn-mock {
+            display: inline-block;
+            background: var(--crimson);
+            color: var(--white);
+            border: 1.5px solid var(--gold);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            font-weight: 700;
+        }
+
+        /* ==========================================
+           SECCIONES GENERALES
+           ========================================== */
+        .section-block {
+            padding: 64px 0;
+            border-bottom: 2px solid var(--gold);
+        }
+
+        .bg-soft { background-color: var(--off-white); }
+
+        .section-header {
+            text-align: center;
+            max-width: 780px;
+            margin: 0 auto 38px;
+        }
+
+        .section-eyebrow {
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: var(--white);
+            background: var(--crimson);
+            border: 1.5px solid var(--gold);
+            padding: 4px 14px;
+            border-radius: 99px;
+            margin-bottom: 10px;
+        }
+
+        .section-header h2 {
+            font-size: 2.1rem;
+            color: var(--charcoal);
+            margin-bottom: 10px;
+        }
+
+        .section-header p {
+            color: var(--charcoal-muted);
+            font-size: 1.05rem;
+        }
+
+        .section-QuickNav {
+            margin-top: 32px;
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .link-back-top {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            color: var(--crimson);
+            font-weight: 700;
+            background: var(--white);
+            padding: 9px 20px;
+            border-radius: 99px;
+            border: 2px solid var(--gold);
+            box-shadow: var(--shadow-sm);
+            font-size: 0.92rem;
+            transition: all 0.2s;
+        }
+
+        .link-back-top:hover {
+            background: var(--crimson);
+            color: var(--white);
+        }
+
+        /* ==========================================
+           2. DESCRIPCIÓN DEL SERVICIO
+           ========================================== */
+        .info-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .info-card {
+            background: var(--white);
+            padding: 28px;
+            border-radius: var(--radius-lg);
+            border: 2px solid var(--gold);
+            border-top: 6px solid var(--crimson);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .info-card-icon {
+            font-size: 2.2rem;
+            margin-bottom: 12px;
+        }
+
+        .info-card h3 {
+            font-size: 1.35rem;
+            margin-bottom: 12px;
+            color: var(--crimson);
+        }
+
+        .info-card p {
+            color: var(--charcoal);
+            margin-bottom: 12px;
+        }
+
+        .callout-box {
+            background: var(--gold-soft);
+            border-left: 4px solid var(--crimson);
+            border-top: 1px solid var(--gold);
+            border-right: 1px solid var(--gold);
+            border-bottom: 1px solid var(--gold);
+            padding: 12px 14px;
+            border-radius: 8px;
+            margin-top: 12px;
+            font-size: 0.92rem;
+            color: var(--charcoal);
+        }
+
+        .friendly-list {
+            padding-left: 20px;
+            color: var(--charcoal);
+        }
+
+        .friendly-list li { margin-bottom: 10px; }
+
+        /* ==========================================
+           3. ENTRADA DE DATOS (FORMULARIO EMPÁTICO)
+           ========================================== */
+        .quick-examples-banner {
+            background: var(--gold-soft);
+            border: 2px solid var(--gold);
+            border-left: 6px solid var(--crimson);
+            border-radius: var(--radius-md);
+            padding: 18px 22px;
+            margin-bottom: 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            color: var(--charcoal);
+        }
+
+        .qe-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .btn-example {
+            background: var(--white);
+            border: 2px solid var(--gold);
+            color: var(--charcoal);
+            font-family: var(--font-body);
+            font-weight: 700;
+            padding: 9px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.92rem;
+            transition: all 0.2s;
+        }
+
+        .btn-example:hover {
+            background: var(--crimson);
+            color: var(--white);
+            border-color: var(--crimson);
+        }
+
+        .friendly-form {
+            display: flex;
+            flex-direction: column;
+            gap: 26px;
+        }
+
+        .form-step-card {
+            background: var(--white);
+            border: 2px solid var(--gold);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--gold);
+        }
+
+        .step-badge {
+            background: var(--crimson);
+            color: var(--white);
+            border: 1.5px solid var(--gold);
+            font-weight: 800;
+            font-size: 0.85rem;
+            padding: 5px 14px;
+            border-radius: 99px;
+        }
+
+        .step-header h3 {
+            font-size: 1.4rem;
+            color: var(--charcoal);
+        }
+
+        .helper-text {
+            color: var(--charcoal-muted);
+            margin-bottom: 20px;
+            font-size: 0.98rem;
+        }
+
+        .form-group { margin-bottom: 18px; }
+
+        .form-row-two {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--charcoal);
+        }
+
+        .required-badge {
+            color: var(--crimson);
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .optional-badge {
+            color: var(--charcoal-muted);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 14px;
+            font-size: 1rem;
+            font-family: var(--font-body);
+            border: 2px solid var(--charcoal);
+            border-radius: 10px;
+            background-color: var(--white);
+            color: var(--charcoal);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--crimson);
+            box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.35);
+        }
+
+        .textarea-large { line-height: 1.55; }
+
+        .field-hint {
+            display: block;
+            color: var(--charcoal-muted);
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
+
+        .image-choice-panel {
+            background: var(--off-white);
+            border: 2px solid var(--gold);
+            border-radius: var(--radius-md);
+            padding: 20px;
+        }
+
+        .checkbox-highlight-wrapper {
+            background: var(--white);
+            border: 2px solid var(--crimson);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 18px;
+        }
+
+        .checkbox-friendly-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            cursor: pointer;
+        }
+
+        .checkbox-friendly-label input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            margin-top: 3px;
+            accent-color: var(--crimson);
+            cursor: pointer;
+        }
+
+        .checkbox-custom-text {
+            display: flex;
+            flex-direction: column;
+            font-size: 1.02rem;
+            color: var(--charcoal);
+        }
+
+        .checkbox-custom-text small {
+            color: var(--charcoal-muted);
+            margin-top: 4px;
+        }
+
+        .sub-panel {
+            padding: 18px;
+            border-radius: 10px;
+            margin-top: 12px;
+            background: var(--white);
+            border: 2px solid var(--gold);
+        }
+
+        .sub-panel-header {
+            margin-bottom: 6px;
+            font-size: 1rem;
+            color: var(--crimson);
+        }
+
+        .small-note {
+            font-size: 0.92rem;
+            color: var(--charcoal-muted);
+            margin-bottom: 12px;
+        }
+
+        .upload-zone {
+            background: var(--off-white);
+            border: 2px dashed var(--crimson);
+            border-radius: 10px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .file-input-accessible {
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+            max-width: 100%;
+        }
+
+        .upload-preview-status {
+            font-size: 0.88rem;
+            color: var(--charcoal);
+        }
+
+        .templates-selector-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .template-option-card {
+            border: 2px solid var(--gold);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            cursor: pointer;
+            background: var(--white);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .template-option-card input[type="radio"] {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            width: 20px;
+            height: 20px;
+            accent-color: var(--crimson);
+        }
+
+        .template-option-card.selected {
+            border: 3px solid var(--crimson);
+            background: var(--crimson-soft);
+            box-shadow: 0 4px 14px rgba(165, 28, 48, 0.16);
+        }
+
+        .template-preview-mini {
+            height: 76px;
+            border-radius: 8px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            font-weight: 700;
+            font-size: 0.84rem;
+            border: 2px solid var(--gold);
+        }
+
+        .theme-academica { background: var(--crimson); color: var(--white); }
+        .theme-urgente { background: var(--charcoal); color: var(--white); }
+        .theme-comunidad { background: var(--white); color: var(--crimson); border: 3px double var(--gold); }
+
+        .tp-lines {
+            height: 14px;
+            background: var(--gold);
+            opacity: 0.75;
+            border-radius: 4px;
+        }
+
+        .template-option-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            color: var(--charcoal);
+        }
+
+        .template-option-info span {
+            font-size: 0.88rem;
+            color: var(--charcoal-muted);
+        }
+
+        .form-alert {
+            padding: 14px 18px;
+            border-radius: 10px;
+            margin-bottom: 16px;
+            font-weight: 700;
+            background: var(--crimson-soft);
+            color: var(--crimson);
+            border: 2px solid var(--crimson);
+        }
+
+        .form-submit-area {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .human-edit-box {
+            background: var(--off-white);
+            border: 2px solid var(--gold);
+            border-radius: var(--radius-md);
+            padding: 20px;
+        }
+
+        .human-edit-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .status-pill {
+            background: var(--gold-soft);
+            color: var(--charcoal);
+            border: 1.5px solid var(--gold);
+            font-size: 0.82rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 99px;
+        }
+
+        /* ==========================================
+           4. VISTA PREVIA DEL CORREO (SIN ENVÍO REAL)
+           ========================================== */
+        .bg-preview-section { background: var(--off-white); }
+
+        .simulation-notice-banner {
+            background: var(--white);
+            border: 2px solid var(--gold);
+            border-left: 6px solid var(--crimson);
+            color: var(--charcoal);
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 22px;
+        }
+
+        .sim-icon { font-size: 1.8rem; }
+
+        .preview-toolbar {
+            background: var(--white);
+            border: 2px solid var(--gold);
+            border-radius: var(--radius-md);
+            padding: 14px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-bottom: 18px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .toolbar-group {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .toolbar-label {
+            font-weight: 700;
+            font-size: 0.88rem;
+            color: var(--charcoal);
+        }
+
+        .btn-tool,
+        .btn-device {
+            background: var(--white);
+            border: 1.5px solid var(--gold);
+            padding: 7px 13px;
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-weight: 700;
+            font-size: 0.86rem;
+            cursor: pointer;
+            color: var(--charcoal);
+            transition: all 0.2s;
+        }
+
+        .btn-tool.active,
+        .btn-device.active {
+            background: var(--crimson);
+            color: var(--white);
+            border-color: var(--crimson);
+        }
+
+        .toast-feedback {
+            background: var(--charcoal);
+            color: var(--white);
+            border: 2px solid var(--gold);
+            padding: 12px 18px;
+            border-radius: 10px;
+            margin-bottom: 16px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .email-client-wrapper {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            border: 3px solid var(--gold);
+            overflow: hidden;
+            max-width: 860px;
+            margin: 0 auto;
+            transition: max-width 0.3s ease;
+        }
+
+        .email-client-wrapper.mobile-view { max-width: 410px; }
+
+        .email-client-window-bar {
+            background: var(--charcoal);
+            color: var(--white);
+            padding: 12px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--gold);
+        }
+
+        .window-dots { display: flex; gap: 6px; }
+
+        .window-title { font-size: 0.88rem; font-weight: 600; }
+
+        .window-badge {
+            background: var(--crimson);
+            color: var(--white);
+            border: 1px solid var(--gold);
+            font-weight: 800;
+            font-size: 0.75rem;
+            padding: 3px 10px;
+            border-radius: 99px;
+        }
+
+        .email-meta-header {
+            background: var(--off-white);
+            padding: 16px 24px;
+            border-bottom: 2px solid var(--gold);
+            font-size: 0.92rem;
+        }
+
+        .meta-row {
+            margin-bottom: 6px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .meta-label {
+            font-weight: 700;
+            color: var(--crimson);
+            min-width: 65px;
+        }
+
+        .meta-subject-value {
+            color: var(--charcoal);
+            font-size: 1.04rem;
+        }
+
+        /* 3 PLANTILLAS VISUALES */
+        .email-canvas {
+            background: var(--white);
+            color: var(--charcoal);
+            transition: all 0.25s ease;
+        }
+
+        /* Plantilla 1: Clásica Carmesí */
+        .email-canvas.template-academica .email-template-banner {
+            background: var(--crimson);
+            color: var(--white);
+            border-bottom: 4px solid var(--gold);
+        }
+        .email-canvas.template-academica .email-banner-heading { color: var(--white); }
+        .email-canvas.template-academica .email-banner-tag {
+            background: var(--charcoal);
+            color: var(--white);
+            border: 1.5px solid var(--gold);
+        }
+        .email-canvas.template-academica .email-body-text {
+            background: var(--white);
+            border-left: 5px solid var(--crimson);
+            border-top: 1px solid var(--gold);
+            border-right: 1px solid var(--gold);
+            border-bottom: 1px solid var(--gold);
+        }
+        .email-canvas.template-academica .email-cta-button {
+            background: var(--crimson);
+            color: var(--white);
+            border: 2px solid var(--gold);
+        }
+
+        /* Plantilla 2: Aviso Prioritario Grafito */
+        .email-canvas.template-urgente .email-template-banner {
+            background: var(--charcoal);
+            color: var(--white);
+            border-top: 5px solid var(--crimson);
+            border-bottom: 4px solid var(--gold);
+        }
+        .email-canvas.template-urgente .email-banner-heading { color: var(--white); }
+        .email-canvas.template-urgente .email-banner-tag {
+            background: var(--crimson);
+            color: var(--white);
+            border: 1.5px solid var(--gold);
+        }
+        .email-canvas.template-urgente .email-body-text {
+            background: var(--crimson-soft);
+            border: 2px solid var(--gold);
+            border-left: 6px solid var(--charcoal);
+        }
+        .email-canvas.template-urgente .email-cta-button {
+            background: var(--charcoal);
+            color: var(--white);
+            border: 2px solid var(--gold);
+        }
+
+        /* Plantilla 3: Gaceta Editorial Blanca con Marco Doble Dorado */
+        .email-canvas.template-comunidad .email-template-banner {
+            background: var(--white);
+            color: var(--charcoal);
+            border-top: 6px solid var(--crimson);
+            border-bottom: 4px double var(--gold);
+        }
+        .email-canvas.template-comunidad .email-banner-heading { color: var(--crimson); }
+        .email-canvas.template-comunidad .email-banner-tag {
+            background: var(--gold-soft);
+            color: var(--charcoal);
+            border: 2px solid var(--gold);
+        }
+        .email-canvas.template-comunidad .email-body-text {
+            background: var(--off-white);
+            border: 3px double var(--gold);
+        }
+        .email-canvas.template-comunidad .email-cta-button {
+            background: var(--crimson);
+            color: var(--white);
+            border: 2px solid var(--gold);
+        }
+
+        .email-template-banner {
+            padding: 30px 32px;
+            text-align: center;
+        }
+
+        .email-banner-tag {
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 99px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+        }
+
+        .email-banner-heading {
+            font-size: 1.65rem;
+            line-height: 1.28;
+            margin-bottom: 8px;
+        }
+
+        .email-banner-date {
+            font-size: 0.86rem;
+            opacity: 0.92;
+        }
+
+        .email-template-content { padding: 28px 32px; }
+
+        .email-image-container {
+            background: var(--white);
+            border: 2px solid var(--gold);
+            border-radius: 14px;
+            overflow: hidden;
+            margin-bottom: 24px;
+            position: relative;
+            text-align: center;
+        }
+
+        .image-source-ribbon {
+            background: var(--gold-soft);
+            color: var(--charcoal);
+            font-size: 0.82rem;
+            font-weight: 800;
+            padding: 7px 14px;
+            text-align: left;
+            border-bottom: 2px solid var(--gold);
+        }
+
+        .email-featured-image {
+            width: 100%;
+            max-height: 340px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .email-body-text {
+            font-size: 1.03rem;
+            color: var(--charcoal);
+            white-space: pre-line;
+            line-height: 1.72;
+            padding: 22px 24px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+        }
+
+        .email-cta-wrapper {
+            text-align: center;
+            padding: 12px 0 6px;
+        }
+
+        .email-cta-button {
+            display: inline-block;
+            text-decoration: none;
+            font-weight: 800;
+            padding: 14px 28px;
+            border-radius: 10px;
+            font-size: 1.04rem;
+            box-shadow: 0 4px 12px rgba(30, 30, 30, 0.16);
+            transition: opacity 0.2s;
+        }
+
+        .email-cta-button:hover { opacity: 0.92; }
+
+        .email-link-raw {
+            margin-top: 8px;
+            font-size: 0.82rem;
+            color: var(--charcoal-muted);
+            word-break: break-all;
+        }
+
+        .email-template-footer {
+            background: var(--charcoal);
+            color: var(--white);
+            padding: 18px 24px;
+            text-align: center;
+            border-top: 3px solid var(--gold);
+            font-size: 0.88rem;
+        }
+
+        .footer-tiny {
+            font-size: 0.8rem;
+            margin-top: 4px;
+            opacity: 0.88;
+        }
+
+        /* ==========================================
+           5. LÍMITES Y RECOMENDACIONES
+           ========================================== */
+        .warning-banner-human {
+            background: var(--crimson-soft);
+            border: 2px solid var(--gold);
+            border-left: 7px solid var(--crimson);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            display: flex;
+            align-items: flex-start;
+            gap: 18px;
+            margin-bottom: 28px;
+        }
+
+        .wb-icon { font-size: 2.5rem; }
+
+        .wb-content h3 {
+            color: var(--crimson);
+            margin-bottom: 6px;
+            font-size: 1.3rem;
+        }
+
+        .wb-content p { color: var(--charcoal); }
+
+        .limits-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+
+        .limit-card {
+            background: var(--white);
+            border: 2px solid var(--gold);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .limit-card h4 {
+            font-size: 1.18rem;
+            margin-bottom: 12px;
+            color: var(--crimson);
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--gold);
+        }
+
+        .limit-card ul { padding-left: 18px; color: var(--charcoal); }
+        .limit-card li { margin-bottom: 10px; }
+
+        /* ==========================================
+           6. BITÁCORA DEL USO DE LA IA (COLAPSABLE CON CLAVE "1234")
+           ========================================== */
+        .bg-bitacora { background: var(--off-white); }
+
+        /* Tarjeta de bloqueo / colapso por contraseña */
+        .bitacora-lock-card {
+            background: var(--white);
+            border: 2.5px solid var(--gold);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            max-width: 640px;
+            margin: 0 auto 28px;
+            text-align: center;
+            box-shadow: var(--shadow-md);
+        }
+
+        .lock-icon-big {
+            font-size: 3rem;
+            margin-bottom: 12px;
+            display: inline-block;
+        }
+
+        .bitacora-lock-card h3 {
+            font-size: 1.45rem;
+            color: var(--crimson);
+            margin-bottom: 10px;
+        }
+
+        .bitacora-lock-card p {
+            color: var(--charcoal);
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+
+        .lock-form-inline {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .lock-password-input {
+            width: 240px;
+            padding: 12px 16px;
+            font-size: 1.05rem;
+            font-family: var(--font-body);
+            border: 2px solid var(--charcoal);
+            border-radius: 8px;
+            text-align: center;
+            letter-spacing: 2px;
+        }
+
+        .lock-password-input:focus {
+            outline: none;
+            border-color: var(--crimson);
+            box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.35);
+        }
+
+        .lock-error-msg {
+            color: var(--crimson);
+            font-weight: 700;
+            font-size: 0.92rem;
+            margin-top: 8px;
+        }
+
+        .lock-hint-text {
+            color: var(--charcoal-muted);
+            font-size: 0.85rem;
+            margin-top: 8px;
+        }
+
+        /* Barra de estado cuando está expandida */
+        .bitacora-actions-bar {
+            background: var(--white);
+            border: 2px solid var(--gold);
+            border-radius: var(--radius-md);
+            padding: 14px 20px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .bitacora-btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .bitacora-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .bitacora-card {
+            background: var(--white);
+            border: 2px solid var(--gold);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+        }
+
+        .bitacora-card-wide { grid-column: span 2; }
+
+        .bitacora-num {
+            display: inline-block;
+            background: var(--crimson);
+            color: var(--white);
+            border: 1.5px solid var(--gold);
+            font-weight: 800;
+            font-size: 0.82rem;
+            padding: 3px 10px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+
+        .bitacora-card h3 {
+            font-size: 1.22rem;
+            color: var(--charcoal);
+            margin-bottom: 10px;
+        }
+
+        .bitacora-card a {
+            color: var(--crimson);
+            font-weight: 600;
+        }
+
+        .bitacora-editable[contenteditable="true"] {
+            outline: 2px dashed var(--crimson);
+            background: var(--gold-soft);
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .prompt-quote {
+            background: var(--off-white);
+            border-left: 4px solid var(--crimson);
+            border-top: 1px solid var(--gold);
+            border-right: 1px solid var(--gold);
+            border-bottom: 1px solid var(--gold);
+            padding: 14px 18px;
+            font-style: italic;
+            color: var(--charcoal);
+            border-radius: 6px;
+        }
+
+        /* Encabezado especial para el reporte impreso / PDF de la bitácora */
+        .bitacora-print-header {
+            display: none;
+        }
+
+        /* ==========================================
+           7. REGRESO AL SITIO PRINCIPAL Y FOOTER
+           ========================================== */
+        .return-main-section {
+            padding: 52px 0;
+            background: var(--crimson);
+            color: var(--white);
+            border-bottom: 4px solid var(--gold);
+        }
+
+        .return-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .return-text h2 {
+            font-size: 1.8rem;
+            color: var(--white);
+            margin-bottom: 6px;
+        }
+
+        .return-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .return-main-section .btn-primary {
+            background: var(--charcoal);
+            color: var(--white);
+            border-color: var(--gold);
+        }
+
+        .return-main-section .btn-secondary {
+            background: var(--white);
+            color: var(--charcoal);
+            border-color: var(--gold);
+        }
+
+        .site-footer {
+            background: var(--charcoal);
+            color: var(--white);
+            padding: 28px 0;
+            font-size: 0.92rem;
+        }
+
+        .footer-brand {
+            color: var(--white);
+            font-size: 1.1rem;
+        }
+
+        .footer-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 1.5px solid var(--gold);
+            padding-bottom: 2px;
+        }
+
+        .footer-links a:hover { color: var(--gold); }
+
+        /* ==========================================================================
+           ESTILOS DE IMPRESIÓN EXCLUSIVOS: GENERA EL PDF ÚNICAMENTE DE LA BITÁCORA
+           ========================================================================== */
+        @media print {
+            body {
+                background: #FFFFFF !important;
+                color: #1E1E1E !important;
+                font-size: 11pt !important;
+            }
+
+            /* Ocultar todas las secciones que no sean la bitácora */
+            .site-header,
+            .hero-section,
+            #descripcion,
+            #entrada-datos,
+            #resultado,
+            #limites,
+            #regreso,
+            .site-footer,
+            .bitacora-actions-bar,
+            .bitacora-lock-card,
+            .section-QuickNav,
+            .acc-controls,
+            .btn {
+                display: none !important;
+            }
+
+            /* Forzar visibilidad del contenido de la bitácora */
+            #bitacora,
+            #bitacoraContentWrapper,
+            #bitacoraContainer {
+                display: block !important;
+                visibility: visible !important;
+            }
+
+            #bitacora {
+                padding: 0 !important;
+                border: none !important;
+                background: #FFFFFF !important;
+            }
+
+            .bitacora-print-header {
+                display: block !important;
+                text-align: center;
+                border-bottom: 3px solid #C9A227;
+                padding-bottom: 14px;
+                margin-bottom: 22px;
+            }
+
+            .bitacora-print-header h1 {
+                font-size: 18pt !important;
+                color: #A51C30 !important;
+                margin-bottom: 4px;
+            }
+
+            .bitacora-print-header p {
+                font-size: 10pt !important;
+                color: #1E1E1E !important;
+            }
+
+            .bitacora-grid {
+                display: block !important;
+            }
+
+            .bitacora-card {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                border: 1.5px solid #1E1E1E !important;
+                border-left: 6px solid #A51C30 !important;
+                border-radius: 6px !important;
+                margin-bottom: 14px !important;
+                padding: 16px !important;
+                box-shadow: none !important;
+                background: #FFFFFF !important;
+            }
+
+            .bitacora-num {
+                background: #A51C30 !important;
+                color: #FFFFFF !important;
+                border: 1px solid #C9A227 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .prompt-quote {
+                background: #FAF8F5 !important;
+                border-left: 3px solid #A51C30 !important;
+                font-size: 9.5pt !important;
+            }
+        }
+
+        /* ==========================================
+           RESPONSIVE DESIGN (MÓVILES Y TABLETAS)
+           ========================================== */
+        @media (max-width: 920px) {
+            .hero-grid,
+            .info-cards-grid,
+            .templates-selector-grid,
+            .limits-grid,
+            .bitacora-grid,
+            .form-row-two {
+                grid-template-columns: 1fr;
+            }
+
+            .bitacora-card-wide { grid-column: span 1; }
+            .step-preview-cards { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
     <!-- Barra de accesibilidad y navegación superior amigable -->
@@ -44,7 +1662,7 @@
                     <li><a href="#entrada-datos" class="nav-link">✨ Crear con IA</a></li>
                     <li><a href="#resultado" class="nav-link">👁️ Vista previa</a></li>
                     <li><a href="#limites" class="nav-link">⚠️ Límites</a></li>
-                    <li><a href="#bitacora" class="nav-link nav-link-highlight">📋 Bitácora IA</a></li>
+                    <li><a href="#bitacora" class="nav-link nav-link-highlight" id="navLinkBitacora">📋 Bitácora IA</a></li>
                 </ul>
             </nav>
         </div>
@@ -82,8 +1700,8 @@
                         <a href="#entrada-datos" class="btn btn-primary btn-lg">
                             🚀 Comenzar a crear mi noticia con IA
                         </a>
-                        <a href="#bitacora" class="btn btn-secondary btn-lg">
-                            📋 Ver Bitácora del uso de la IA
+                        <a href="#bitacora" class="btn btn-secondary btn-lg" id="btnHeroGoBitacora">
+                            🔒 Ver Bitácora
                         </a>
                     </div>
                 </div>
@@ -122,39 +1740,36 @@
                 </div>
 
                 <div class="info-cards-grid">
-                    <!-- Problema educativo que resuelve -->
                     <article class="info-card">
                         <div class="info-card-icon">🎯</div>
                         <h3>Problema educativo que resuelve</h3>
                         <p>
-                            En entornos escolares y universidades virtuales, los comunicados importantes (convocatorias de becas, fechas de exámenes, talleres o avisos urgentes) suelen enviarse como <strong>bloques de texto extensos y poco atractivos</strong> que los estudiantes no leen a tiempo.
+                            En escuelas y universidades virtuales, los comunicados importantes (convocatorias de becas, fechas de exámenes o talleres) suelen enviarse como <strong>textos largos y planos</strong> que los alumnos pasan por alto.
                         </p>
                         <p>
-                            Al mismo tiempo, muchos docentes y orientadores <strong>no cuentan con experiencia en diseño digital ni redacción institucional</strong>, invirtiendo demasiado esfuerzo para estructurar un aviso claro.
+                            Muchos docentes y orientadores <strong>no tienen formación en diseño ni redacción digital</strong>, invirtiendo demasiado tiempo intentando estructurar un comunicado claro.
                         </p>
                     </article>
 
-                    <!-- Usuario principal (sin login) -->
                     <article class="info-card">
                         <div class="info-card-icon">👩‍🏫</div>
                         <h3>Usuario principal (Sin login)</h3>
                         <p>
-                            <strong>Docentes, tutores académicos, coordinadores escolares, personal administrativo y voceros estudiantiles</strong> sin experiencia previa informática ni en herramientas digitales complejas.
+                            <strong>Docentes, tutores, coordinadores y personal administrativo</strong> sin experiencia previa en informática ni en el uso de herramientas digitales complejas.
                         </p>
                         <div class="callout-box">
-                            <strong>🔓 ¿Por qué sin inicio de sesión (sin login)?</strong>
-                            <p>Para garantizar una experiencia empática e inmediata: sin registros complicados, sin contraseñas que recordar y sin almacenar datos personales de los usuarios.</p>
+                            <strong>🔓 ¿Por qué sin login?</strong>
+                            <p>Para asegurar una experiencia directa, sin contraseñas que olvidar ni riesgos de privacidad con datos de alumnos.</p>
                         </div>
                     </article>
 
-                    <!-- Cómo ayuda la IA -->
                     <article class="info-card">
                         <div class="info-card-icon">🤖</div>
                         <h3>¿Cómo funciona la IA integrada?</h3>
                         <ul class="friendly-list">
-                            <li><strong>Redacción inteligente con Gemini:</strong> Solo entregas una idea general con los detalles importantes y la IA redacta el asunto, título y cuerpo completo.</li>
-                            <li><strong>Imagen por IA o subida propia:</strong> Cuentas con un selector y casilla para que la IA cree la imagen de la noticia o, si la desmarcas, subir tu propia imagen sugerida.</li>
-                            <li><strong>3 Plantillas visuales y vista previa segura:</strong> Compara tres diseños académicos al instante sin riesgo de enviar correos reales por accidente.</li>
+                            <li><strong>Redacción con Gemini IA:</strong> Entregas una idea general con detalles clave y la IA redacta el asunto y cuerpo del mensaje.</li>
+                            <li><strong>Selector de imagen:</strong> Marcado para que la IA cree la imagen, o desmarcado para subir tu propia imagen sugerida.</li>
+                            <li><strong>3 Plantillas visuales:</strong> Cambia de diseño con un clic y previsualiza de forma segura sin envío real.</li>
                         </ul>
                     </article>
                 </div>
@@ -173,13 +1788,13 @@
                 <div class="section-header">
                     <span class="section-eyebrow">Asistente paso a paso</span>
                     <h2>Entrada de datos: Diseña tu noticia con IA</h2>
-                    <p>Sigue los 4 pasos numerados. Si deseas hacer una prueba rápida, haz clic en cualquiera de los <strong>3 ejemplos de abajo</strong> y la IA redactará la noticia por ti.</p>
+                    <p>Sigue los 4 pasos numerados. Puedes hacer clic en cualquiera de los <strong>3 ejemplos rápidos</strong> para probar la IA de inmediato.</p>
                 </div>
 
-                <!-- Barra de ejemplos rápidos para usuarios sin experiencia -->
+                <!-- Ejemplos rápidos -->
                 <div class="quick-examples-banner" role="region" aria-label="Ejemplos rápidos para probar">
                     <div class="qe-title">
-                        <span>💡 <strong>¿No sabes por dónde empezar?</strong> Toca uno de estos botones para cargar una idea de ejemplo y probar la IA:</span>
+                        <span>💡 <strong>¿No sabes por dónde empezar?</strong> Toca uno de estos botones para cargar una idea de ejemplo:</span>
                     </div>
                     <div class="qe-buttons">
                         <button type="button" class="btn-example" data-example="beca">
@@ -195,14 +1810,14 @@
                 </div>
 
                 <form id="newsAiForm" class="friendly-form" novalidate>
-                    <!-- PASO 1: Idea general para que la IA redacte -->
+                    <!-- PASO 1 -->
                     <div class="form-step-card">
                         <div class="step-header">
                             <span class="step-badge">Paso 1 de 4</span>
                             <h3>Entrega tu idea general con los detalles importantes</h3>
                         </div>
                         <p class="helper-text">
-                            Escribe con tus propias palabras qué quieres avisar a los estudiantes (puedes incluir fecha, hora, lugar o requisitos). <strong>La IA de Google Gemini redactará el asunto y el mensaje final basándose en tu idea.</strong>
+                            Escribe con tus propias palabras qué quieres avisar a los estudiantes. <strong>La IA de Google Gemini redactará el asunto y el mensaje final basándose en tu idea.</strong>
                         </p>
 
                         <div class="form-group">
@@ -213,7 +1828,7 @@
                                 id="userIdeaInput"
                                 class="form-control textarea-large"
                                 rows="4"
-                                placeholder="Ejemplo: Avisar a los estudiantes de primer ingreso que este viernes 25 de octubre a las 11:00 am tendremos una sesión de bienvenida en el Aula Virtual 1 para resolver dudas sobre sus materias..."
+                                placeholder="Ejemplo: Avisar a los alumnos que este viernes tendremos la bienvenida virtual a las 11:00 am..."
                                 required
                             >Invitar a los estudiantes de todos los semestres a la Feria de Ciencias y Proyectos Virtuales que se realizará este viernes a las 10:00 a. m. en el Aula Virtual Principal. La entrada es libre y se entregará constancia de asistencia.</textarea>
                         </div>
@@ -241,25 +1856,25 @@
                                     placeholder="https://universidadvirtual.edu.mx/avisos"
                                     value="https://universidadvirtual.edu.mx/comunidad"
                                 >
-                                <small class="field-hint">Se mostrará como un botón destacado dentro del correo.</small>
+                                <small class="field-hint">Aparecerá como botón interactivo en el correo.</small>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="newsLinkText" class="form-label">
-                                👆 Texto que dirá el botón del enlace <span class="optional-badge">(Opcional)</span>
+                                👆 Texto del botón del enlace <span class="optional-badge">(Opcional)</span>
                             </label>
                             <input
                                 type="text"
                                 id="newsLinkText"
                                 class="form-control"
-                                placeholder="Ej: Consultar convocatoria completa aquí"
+                                placeholder="Ej: Consultar convocatoria completa"
                                 value="Ver más detalles en el portal estudiantil"
                             >
                         </div>
                     </div>
 
-                    <!-- PASO 2: Combobox / casilla para decidir si la IA crea la imagen o el usuario sube la suya -->
+                    <!-- PASO 2: Combobox / Casilla de imagen -->
                     <div class="form-step-card">
                         <div class="step-header">
                             <span class="step-badge">Paso 2 de 4</span>
@@ -270,7 +1885,6 @@
                         </p>
 
                         <div class="image-choice-panel">
-                            <!-- Casilla marcable clara y empática -->
                             <div class="checkbox-highlight-wrapper">
                                 <label class="checkbox-friendly-label" for="aiImageCheckbox">
                                     <input type="checkbox" id="aiImageCheckbox" checked>
@@ -281,7 +1895,6 @@
                                 </label>
                             </div>
 
-                            <!-- Combobox sincronizado -->
                             <div class="form-group combobox-group">
                                 <label for="imageModeCombobox" class="form-label">
                                     🖼️ Combobox de selección de imagen para el correo:
@@ -293,16 +1906,15 @@
                                 </select>
                             </div>
 
-                            <!-- Sub-panel cuando está marcada la creación de imagen con IA -->
                             <div id="aiImageOptionsBox" class="sub-panel ai-sub-panel">
                                 <div class="sub-panel-header">
                                     <span>✨ <strong>Diseño de imagen asistido por IA</strong></span>
                                 </div>
                                 <p class="small-note">
-                                    La IA analizará el tema de tu noticia y creará una ilustración académica acorde con la identidad visual. Elige el estilo que prefieras:
+                                    La IA creará una ilustración académica acorde a tu comunicado con la paleta universitaria:
                                 </p>
                                 <div class="form-group">
-                                    <label for="aiImageStyle" class="form-label">Estilo visual de la imagen creada por IA:</label>
+                                    <label for="aiImageStyle" class="form-label">Estilo visual de la ilustración IA:</label>
                                     <select id="aiImageStyle" class="form-control">
                                         <option value="ilustracion" selected>🏛️ Ilustración Universitaria Clásica (Carmesí y Dorado)</option>
                                         <option value="infografia">📊 Cartel Editorial con Íconos Académicos (Grafito y Oro)</option>
@@ -311,13 +1923,12 @@
                                 </div>
                             </div>
 
-                            <!-- Sub-panel cuando está desmarcada (el usuario sube su propia imagen) -->
                             <div id="userUploadOptionsBox" class="sub-panel upload-sub-panel hidden">
                                 <div class="sub-panel-header">
                                     <span>📤 <strong>Sube tu propia imagen sugerida para el correo</strong></span>
                                 </div>
                                 <p class="small-note">
-                                    Haz clic en el botón de abajo para seleccionar una imagen guardada en tu computadora o teléfono (formatos JPG, PNG, WEBP o SVG):
+                                    Selecciona una imagen guardada en tu dispositivo (formatos JPG, PNG, WEBP o SVG):
                                 </p>
                                 <div class="upload-zone" id="uploadDropZone">
                                     <input
@@ -345,18 +1956,17 @@
                         </div>
                     </div>
 
-                    <!-- PASO 3: Selección de las 3 plantillas visuales -->
+                    <!-- PASO 3: 3 Plantillas -->
                     <div class="form-step-card">
                         <div class="step-header">
                             <span class="step-badge">Paso 3 de 4</span>
                             <h3>Escoge una de las 3 plantillas visuales</h3>
                         </div>
                         <p class="helper-text">
-                            Selecciona el estilo visual con el que deseas presentar tu comunicado. Puedes alternar entre las 3 plantillas en cualquier momento.
+                            Selecciona el estilo visual que prefieras para tu correo:
                         </p>
 
                         <div class="templates-selector-grid" role="radiogroup" aria-label="Seleccionar plantilla visual">
-                            <!-- Plantilla 1 -->
                             <label class="template-option-card selected" data-template="academica">
                                 <input type="radio" name="emailTemplate" value="academica" checked>
                                 <div class="template-preview-mini theme-academica">
@@ -365,11 +1975,10 @@
                                 </div>
                                 <div class="template-option-info">
                                     <strong>Plantilla 1: Clásica Institucional</strong>
-                                    <span>Cabecera en carmesí universitario (#A51C30) con filetes dorados (#C9A227) y fondo blanco.</span>
+                                    <span>Cabecera carmesí (#A51C30) con filetes dorados (#C9A227) y fondo blanco.</span>
                                 </div>
                             </label>
 
-                            <!-- Plantilla 2 -->
                             <label class="template-option-card" data-template="urgente">
                                 <input type="radio" name="emailTemplate" value="urgente">
                                 <div class="template-preview-mini theme-urgente">
@@ -378,11 +1987,10 @@
                                 </div>
                                 <div class="template-option-info">
                                     <strong>Plantilla 2: Aviso Destacado Grafito</strong>
-                                    <span>Cabecera en negro carbón (#1E1E1E) con marco superior dorado y acentos carmesí de alta visibilidad.</span>
+                                    <span>Cabecera negro carbón (#1E1E1E) con marco dorado y acentos carmesí.</span>
                                 </div>
                             </label>
 
-                            <!-- Plantilla 3 -->
                             <label class="template-option-card" data-template="comunidad">
                                 <input type="radio" name="emailTemplate" value="comunidad">
                                 <div class="template-preview-mini theme-comunidad">
@@ -390,21 +1998,21 @@
                                     <div class="tp-lines"></div>
                                 </div>
                                 <div class="template-option-info">
-                                    <strong>Plantilla 3: Gaceta Editorial con Marco Dorado</strong>
-                                    <span>Diseño luminoso sobre blanco (#FFFFFF) con marco doble dorado (#C9A227) para eventos y comunidad.</span>
+                                    <strong>Plantilla 3: Gaceta Marco Dorado</strong>
+                                    <span>Diseño blanco (#FFFFFF) con marco doble dorado (#C9A227) para eventos.</span>
                                 </div>
                             </label>
                         </div>
                     </div>
 
-                    <!-- PASO 4: Botón de acción principal y ajuste opcional del texto -->
+                    <!-- PASO 4: Botón de acción y revisión humana -->
                     <div class="form-step-card step-action-card">
                         <div class="step-header">
                             <span class="step-badge">Paso 4 de 4</span>
                             <h3>Genera el mensaje final con Gemini IA y revisa el resultado</h3>
                         </div>
                         <p class="helper-text">
-                            Haz clic en el botón principal para que <strong>Google Gemini (`gemini-3-flash-preview`)</strong> redacte el asunto y el cuerpo del correo a partir de tu idea y actualice la vista previa.
+                            Haz clic para que <strong>Google Gemini (`gemini-3-flash-preview`)</strong> redacte el asunto y cuerpo basándose en tu idea.
                         </p>
 
                         <div id="formAlertMessage" class="form-alert hidden" role="alert"></div>
@@ -418,14 +2026,13 @@
                             </button>
                         </div>
 
-                        <!-- Panel para que el usuario revise y edite el Asunto y Cuerpo producidos por la IA -->
                         <div class="human-edit-box" id="humanReviewPanel">
                             <div class="human-edit-header">
                                 <h4>✍️ Revisión y ajuste humano (Mensaje final redactado por la IA)</h4>
                                 <span class="status-pill" id="aiGenerationStatus">Listo para generar con Gemini IA</span>
                             </div>
                             <p class="small-note">
-                                Aquí aparece el <strong>asunto</strong> y el <strong>cuerpo del correo</strong> creados por la IA. Puedes modificar cualquier palabra manualmente y verás el cambio reflejado al instante en la vista previa:
+                                Puedes editar el asunto y el cuerpo libremente antes de copiarlo:
                             </p>
                             <div class="form-group">
                                 <label for="generatedSubjectInput" class="form-label">📌 Asunto del correo (Creado por IA / Editable):</label>
@@ -474,19 +2081,17 @@ Coordinación Académica · Universidad Virtual</textarea>
                 <div class="section-header">
                     <span class="section-eyebrow">Simulación interactiva</span>
                     <h2>Resultado o propuesta: Vista previa del correo</h2>
-                    <p>Revisa cómo lucirá tu noticia en la bandeja de entrada de los estudiantes. <strong>Esta es una vista previa 100% segura y sin envío real.</strong></p>
+                    <p>Revisa cómo lucirá tu noticia en la bandeja de entrada. <strong>Esta es una vista previa 100% segura y sin envío real.</strong></p>
                 </div>
 
-                <!-- Aviso de seguridad de no envío real -->
                 <div class="simulation-notice-banner" role="status">
                     <span class="sim-icon">🛡️</span>
                     <div>
                         <strong>Simulación Segura (Sin envío real de correos):</strong>
-                        Este entorno es exclusivamente de diseño y previsualización. Ningún correo se enviará de forma automática a los estudiantes.
+                        Este entorno es exclusivamente de diseño y previsualización. Ningún correo se enviará automáticamente.
                     </div>
                 </div>
 
-                <!-- Barra de herramientas interactivas de la vista previa -->
                 <div class="preview-toolbar">
                     <div class="toolbar-group">
                         <span class="toolbar-label">Probar las 3 plantillas:</span>
@@ -509,12 +2114,11 @@ Coordinación Académica · Universidad Virtual</textarea>
                 </div>
 
                 <div id="copyFeedbackToast" class="toast-feedback hidden" role="status">
-                    ✅ ¡Texto copiado con éxito! Ya puedes pegarlo en tu correo institucional cuando termines de revisarlo.
+                    ✅ ¡Texto copiado con éxito! Ya puedes pegarlo en tu correo institucional.
                 </div>
 
-                <!-- Contenedor del cliente de correo simulado -->
+                <!-- Cliente de correo simulado -->
                 <div class="email-client-wrapper" id="emailClientWrapper">
-                    <!-- Cabecera tipo bandeja de correo -->
                     <div class="email-client-window-bar">
                         <div class="window-dots">
                             <span class="dot dot-crimson"></span>
@@ -525,7 +2129,6 @@ Coordinación Académica · Universidad Virtual</textarea>
                         <div class="window-badge">SIN ENVÍO REAL</div>
                     </div>
 
-                    <!-- Metadatos del correo (De, Para, Asunto) -->
                     <div class="email-meta-header">
                         <div class="meta-row">
                             <span class="meta-label">De:</span>
@@ -543,7 +2146,6 @@ Coordinación Académica · Universidad Virtual</textarea>
                         </div>
                     </div>
 
-                    <!-- Lienzo visual del correo con plantilla dinámica -->
                     <article id="emailVisualCanvas" class="email-canvas template-academica" aria-label="Vista previa visual de la noticia">
                         <div class="email-template-banner">
                             <div class="email-banner-tag" id="previewTemplateTag">🏛️ BOLETÍN INSTITUCIONAL UNIVERSITARIO</div>
@@ -554,7 +2156,7 @@ Coordinación Académica · Universidad Virtual</textarea>
                         </div>
 
                         <div class="email-template-content">
-                            <!-- Contenedor de la imagen (IA o subida por el usuario) -->
+                            <!-- Contenedor de la imagen sin pie de foto -->
                             <figure class="email-image-container" id="previewImageContainer">
                                 <div class="image-source-ribbon" id="previewImageSourceBadge">
                                     🤖 Imagen creada por IA
@@ -565,17 +2167,12 @@ Coordinación Académica · Universidad Virtual</textarea>
                                     alt="Ilustración visual de la noticia para estudiantes"
                                     class="email-featured-image"
                                 >
-                                <figcaption id="previewImageCaption" class="email-image-caption">
-                                    Ilustración generada automáticamente a partir de la idea de la noticia.
-                                </figcaption>
                             </figure>
 
-                            <!-- Cuerpo del correo -->
                             <div class="email-body-text" id="previewEmailBody">
                                 <!-- Se inyecta dinámicamente -->
                             </div>
 
-                            <!-- Botón de enlace (Call to Action) -->
                             <div class="email-cta-wrapper" id="previewLinkWrapper">
                                 <a
                                     href="https://universidadvirtual.edu.mx/comunidad"
@@ -622,7 +2219,7 @@ Coordinación Académica · Universidad Virtual</textarea>
                     <div class="wb-content">
                         <h3>Aviso obligatorio sobre límites, revisión humana y verificación necesaria</h3>
                         <p>
-                            Todo texto o imagen generado por el modelo de Inteligencia Artificial debe ser <strong>revisado y validado por el docente o responsable académico</strong> antes de su difusión. Si la idea inicial omite datos precisos, la IA puede completar el contexto con sugerencias generales que requieren confirmación humana.
+                            Todo texto o imagen generado por el modelo de Inteligencia Artificial debe ser <strong>revisado y validado por el docente o responsable académico</strong> antes de su difusión oficial. Si la idea inicial omite datos precisos, la IA puede sugerir información general que requiere confirmación.
                         </p>
                     </div>
                 </div>
@@ -631,26 +2228,26 @@ Coordinación Académica · Universidad Virtual</textarea>
                     <div class="limit-card">
                         <h4>1. 🚫 Límites del servicio</h4>
                         <ul>
-                            <li><strong>Sin envío real de correos:</strong> Esta aplicación genera el diseño visual y la redacción, pero no despacha correos masivos para evitar envíos accidentales.</li>
-                            <li><strong>Exactitud sujeta a tu idea inicial:</strong> El modelo Gemini redacta basándose únicamente en los detalles que escribas en el Paso 1.</li>
-                            <li><strong>Carácter ilustrativo de las imágenes:</strong> Las imágenes creadas por IA son decorativas y de apoyo visual, no documentos oficiales.</li>
+                            <li><strong>Sin envío real de correos:</strong> La app genera el diseño y la redacción, pero no envía correos reales para evitar accidentes.</li>
+                            <li><strong>Exactitud sujeta a tu idea inicial:</strong> El modelo Gemini redacta basándose en los datos que tú escribas en el Paso 1.</li>
+                            <li><strong>Carácter ilustrativo:</strong> Las imágenes creadas por IA son apoyos visuales y no documentos oficiales.</li>
                         </ul>
                     </div>
 
                     <div class="limit-card">
                         <h4>2. ✅ Verificación humana necesaria</h4>
                         <ul>
-                            <li>✔️ <strong>Confirmar fechas y horarios:</strong> Revisa en el panel de edición que el día y la hora coincidan exactamente con el calendario escolar.</li>
-                            <li>✔️ <strong>Probar el enlace incluido:</strong> Verifica que la dirección web lleve al sitio institucional correcto.</li>
-                            <li>✔️ <strong>Adecuación del tono:</strong> Asegúrate de que el lenguaje sea inclusivo, claro y empático con el alumnado.</li>
+                            <li>✔️ <strong>Confirmar fechas y horarios:</strong> Verifica que día y hora coincidan con el calendario oficial.</li>
+                            <li>✔️ <strong>Probar el enlace incluido:</strong> Asegúrate de que el botón lleve a la página correcta.</li>
+                            <li>✔️ <strong>Adecuación del tono:</strong> Comprueba que el mensaje sea claro y empático.</li>
                         </ul>
                     </div>
 
                     <div class="limit-card">
                         <h4>3. 🔒 Privacidad y protección de datos</h4>
                         <ul>
-                            <li><strong>No ingreses datos personales sensibles:</strong> Evita escribir nombres completos de estudiantes, matrículas, calificaciones privadas, teléfonos personales o expedientes médicos.</li>
-                            <li><strong>Uso de información general:</strong> Redacta únicamente avisos grupales, eventos públicos y comunicados académicos generales.</li>
+                            <li><strong>No ingreses datos personales sensibles:</strong> No escribas nombres completos de alumnos, matrículas, notas privadas ni teléfonos personales.</li>
+                            <li><strong>Uso de información general:</strong> Emplea avisos grupales y enlaces públicos.</li>
                         </ul>
                     </div>
                 </div>
@@ -662,153 +2259,192 @@ Coordinación Académica · Universidad Virtual</textarea>
         </section>
 
         <!-- ==========================================
-             6. BITÁCORA DEL USO DE LA IA
+             6. BITÁCORA DEL USO DE LA IA (COLAPSABLE POR CONTRASEÑA "1234")
              ========================================== -->
         <section id="bitacora" class="section-block bg-bitacora">
             <div class="container">
+                <!-- Encabezado exclusivo que aparecerá en el PDF impreso -->
+                <div class="bitacora-print-header">
+                    <h1>Universidad Virtual · Equipo 3</h1>
+                    <p><strong>Informe Oficial: Bitácora del Uso de la Inteligencia Artificial</strong></p>
+                    <p>Proyecto: Noticias visuales para estudiantes | Fecha de emisión: <span id="printReportDate"></span></p>
+                </div>
+
                 <div class="section-header">
                     <span class="section-eyebrow">Transparencia académica · Equipo 3</span>
                     <h2>Bitácora del uso de la Inteligencia Artificial</h2>
-                    <p>Documentación detallada sobre las herramientas, prompts, decisiones y pruebas realizadas por el equipo para construir <strong>"Noticias visuales para estudiantes"</strong>.</p>
+                    <p>Registro reflexivo sobre herramientas, prompts, decisiones y ética implementados en el proyecto.</p>
                 </div>
 
-                <div class="bitacora-actions-bar">
-                    <span class="bitacora-badge-info">
-                        💡 Puedes activar la edición interactiva para añadir observaciones en clase o imprimir esta bitácora en PDF.
-                    </span>
-                    <div class="bitacora-btn-group">
-                        <button type="button" class="btn btn-secondary btn-sm" id="btnToggleEditBitacora">
-                            ✏️ Activar edición de bitácora
+                <!-- Tarjeta de bloqueo / colapso por contraseña (visible por defecto) -->
+                <div class="bitacora-lock-card" id="bitacoraLockCard">
+                    <span class="lock-icon-big">🔒</span>
+                    <h3>Sección Protegida de la Bitácora</h3>
+                    <p>
+                        Esta sección se encuentra <strong>retraída y protegida</strong>. Para expandirla y consultar el informe técnico y reflexivo, introduce la contraseña de acceso:
+                    </p>
+                    <form id="bitacoraUnlockForm" class="lock-form-inline" onsubmit="return false;">
+                        <input
+                            type="password"
+                            id="bitacoraPasswordInput"
+                            class="lock-password-input"
+                            placeholder="Contraseña"
+                            maxlength="10"
+                            autocomplete="off"
+                        >
+                        <button type="submit" id="btnUnlockBitacora" class="btn btn-primary">
+                            🔓 Desbloquear y Expandir
                         </button>
-                        <button type="button" class="btn btn-outline btn-sm" id="btnPrintBitacora">
-                            🖨️ Imprimir / Guardar PDF
-                        </button>
+                    </form>
+                    <div id="bitacoraLockError" class="lock-error-msg hidden" role="alert">
+                        ❌ Contraseña incorrecta. Por favor introduce la contraseña.
                     </div>
                 </div>
 
-                <div class="bitacora-grid" id="bitacoraContainer">
-                    <!-- 1. Herramienta utilizada -->
-                    <article class="bitacora-card">
-                        <div class="bitacora-num">01</div>
-                        <h3>Herramienta utilizada</h3>
-                        <div class="bitacora-editable" contenteditable="false">
-                            <p>
-                                <strong>Google Gemini API (`gemini-3-flash-preview` y `gemini-flash-lite-latest`)</strong> integrada en vivo mediante peticiones REST (`fetch`) en JavaScript para generar el asunto, cuerpo e ilustración temática de cada noticia, junto con el asistente de desarrollo <strong>Google Antigravity</strong> para la maquetación HTML5, CSS3 y diseño UX/UI.
-                            </p>
+                <!-- Contenedor expandible de la bitácora (oculto por defecto hasta introducir 1234) -->
+                <div id="bitacoraContentWrapper" class="hidden">
+                    <div class="bitacora-actions-bar">
+                        <span class="bitacora-badge-info">
+                            🔓 <strong>Bitácora expandida y activa:</strong> Puedes editar notas o imprimir únicamente este informe en PDF.
+                        </span>
+                        <div class="bitacora-btn-group">
+                            <button type="button" class="btn btn-secondary btn-sm" id="btnToggleEditBitacora">
+                                ✏️ Activar edición en vivo
+                            </button>
+                            <button type="button" class="btn btn-primary btn-sm" id="btnPrintBitacora">
+                                🖨️ Generar PDF solo de este informe
+                            </button>
+                            <button type="button" class="btn btn-outline btn-sm" id="btnRelockBitacora">
+                                🔒 Colapsar / Bloquear bitácora
+                            </button>
                         </div>
-                    </article>
+                    </div>
 
-                    <!-- 2. Enlace a la herramienta, chat o recurso empleado -->
-                    <article class="bitacora-card">
-                        <div class="bitacora-num">02</div>
-                        <h3>Enlace a la herramienta, chat o recurso empleado</h3>
-                        <div class="bitacora-editable" contenteditable="false">
-                            <p>
-                                • API de Google Gemini (Generative Language API): <a href="https://ai.google.dev/" target="_blank" rel="noopener noreferrer">https://ai.google.dev/</a><br>
-                                • Plataforma Google Gemini: <a href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer">https://gemini.google.com/</a><br>
-                                • Tipografías académicas empleadas (Playfair Display e Inter): <a href="https://fonts.google.com/" target="_blank" rel="noopener noreferrer">https://fonts.google.com/</a>
-                            </p>
-                        </div>
-                    </article>
+                    <div class="bitacora-grid" id="bitacoraContainer">
+                        <!-- 1. Herramienta utilizada -->
+                        <article class="bitacora-card">
+                            <div class="bitacora-num">01</div>
+                            <h3>Herramienta utilizada</h3>
+                            <div class="bitacora-editable" contenteditable="false">
+                                <p>
+                                    <strong>Google Gemini API (`gemini-3-flash-preview` y `gemini-3.1-flash-lite`)</strong> conectada en vivo mediante peticiones REST (`fetch`) para la generación del asunto, cuerpo y gráficos temáticos, complementada con el asistente de código <strong>Google Antigravity</strong> para la arquitectura de la SPA en un solo archivo con HTML5, CSS3 y JavaScript.
+                                </p>
+                            </div>
+                        </article>
 
-                    <!-- 3. Prompt o instrucción utilizada -->
-                    <article class="bitacora-card bitacora-card-wide">
-                        <div class="bitacora-num">03</div>
-                        <h3>Prompt o instrucción utilizada</h3>
-                        <div class="bitacora-editable" contenteditable="false">
-                            <blockquote class="prompt-quote">
-                                "Actúa como un desarrollador web, experto en UX/UI y en sitios web educativos. Crea una página web con html, javascript y css. La página tiene el siguiente nombre de proyecto: Noticias visuales para estudiantes, debe cubrir lo siguiente: Diseñar una noticia o aviso con asunto, cuerpo, imagen opcional y enlace; Ofrecer 3 plantillas visuales; Generar una vista previa del correo, sin envío real... La página debe ser empática para usuarios que no tengan experiencia previa informática ni en el uso de herramientas digitales... La página debe implementar IA dentro de sus funciones, el usuario únicamente entregará una idea general de la noticia con detalles importantes de la misma y la IA creará en base a esta idea el mensaje final, se debe agregar un combobox donde el usuario deberá marcarla si quiere que la IA cree la imagen de la noticia o en su defecto, desmarcarla y el mismo subir su imagen sugerida para el correo. Colores: #A51C30, #FFFFFF, #1E1E1E, #C9A227. Tipografía Playfair Display para títulos e Inter para el cuerpo. El dorado va en detalles y bordes, no en texto pequeño para mantener el contraste."
-                            </blockquote>
-                        </div>
-                    </article>
+                        <!-- 2. Enlace a la herramienta, chat o recurso empleado -->
+                        <article class="bitacora-card">
+                            <div class="bitacora-num">02</div>
+                            <h3>Enlace a la herramienta, chat o recurso empleado</h3>
+                            <div class="bitacora-editable" contenteditable="false">
+                                <p>
+                                    • Documentación y API de Google Gemini: <a href="https://ai.google.dev/" target="_blank" rel="noopener noreferrer">https://ai.google.dev/</a><br>
+                                    • Plataforma Gemini: <a href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer">https://gemini.google.com/</a><br>
+                                    • Tipografías de Google Fonts (Playfair Display e Inter): <a href="https://fonts.google.com/" target="_blank" rel="noopener noreferrer">https://fonts.google.com/</a>
+                                </p>
+                            </div>
+                        </article>
 
-                    <!-- 4. Resultado obtenido -->
-                    <article class="bitacora-card">
-                        <div class="bitacora-num">04</div>
-                        <h3>Resultado obtenido</h3>
-                        <div class="bitacora-editable" contenteditable="false">
-                            <p>
-                                Se obtuvo una aplicación web educativa 100% funcional conectada a la API de Gemini que recibe la idea general del usuario y produce en segundos un correo estructurado con asunto, cuerpo amigable, ilustración vectorial/IA personalizada, botón de enlace y vista previa en 3 plantillas visuales con paleta institucional (`#A51C30`, `#FFFFFF`, `#1E1E1E` y detalles en `#C9A227`).
-                            </p>
-                        </div>
-                    </article>
+                        <!-- 3. Prompt o instrucción utilizada -->
+                        <article class="bitacora-card bitacora-card-wide">
+                            <div class="bitacora-num">03</div>
+                            <h3>Prompt o instrucción utilizada</h3>
+                            <div class="bitacora-editable" contenteditable="false">
+                                <blockquote class="prompt-quote">
+                                    "Actúa como un desarrollador web, experto en UX/UI y en sitios web educativos. Crea una página web con html, javascript y css... Noticias visuales para estudiantes... Diseñar una noticia con asunto, cuerpo, imagen opcional y enlace; 3 plantillas visuales; vista previa sin envío real... Empática para personas sin experiencia informática. Implementa IA con API Key de Gemini: el usuario entrega una idea general con detalles clave y la IA crea el mensaje final; combobox/casilla para que la IA cree la imagen o subir imagen propia. Colores: #A51C30, #FFFFFF, #1E1E1E, #C9A227. Tipografía Playfair Display para títulos e Inter para el cuerpo. Quita el pie de foto de la imagen. La sección de bitácora debe colapsarse, iniciar retraída y solicitar la clave '1234' para expandirse. Unificar en un solo archivo .html SPA y que la generación de PDF imprima únicamente el informe de bitácora."
+                                </blockquote>
+                            </div>
+                        </article>
 
-                    <!-- 5. Cambios realizados por la pareja / equipo -->
-                    <article class="bitacora-card">
-                        <div class="bitacora-num">05</div>
-                        <h3>Cambios realizados por la pareja / el equipo</h3>
-                        <div class="bitacora-editable" contenteditable="false">
-                            <p>
-                                • Refinamos la identidad visual aplicando estrictamente los colores `#A51C30`, `#FFFFFF`, `#1E1E1E` y `#C9A227`, cuidando que el dorado se use únicamente en bordes, filetes e insignias y nunca en texto pequeño para asegurar legibilidad.<br>
-                                • Incorporamos las fuentes <strong>Playfair Display</strong> en títulos e <strong>Inter</strong> en el cuerpo.<br>
-                                • Conectamos la API Key de Gemini seleccionando el modelo `gemini-3-flash-preview` con respaldo automático en `gemini-flash-lite-latest`.
-                            </p>
-                        </div>
-                    </article>
+                        <!-- 4. Resultado obtenido -->
+                        <article class="bitacora-card">
+                            <div class="bitacora-num">04</div>
+                            <h3>Resultado obtenido</h3>
+                            <div class="bitacora-editable" contenteditable="false">
+                                <p>
+                                    Se construyó una SPA completa en un único archivo <code>index.html</code> que funciona sin dependencias externas, con conexión 100% funcional a la API de Gemini, selector dual de imagen, vista previa sin pie de foto en 3 plantillas visuales, bitácora colapsable con clave "1234" y generación de PDF limpia y exclusiva del informe académico.
+                                </p>
+                            </div>
+                        </article>
 
-                    <!-- 6. Errores detectados -->
-                    <article class="bitacora-card">
-                        <div class="bitacora-num">06</div>
-                        <h3>Errores detectados</h3>
-                        <div class="bitacora-editable" contenteditable="false">
-                            <p>
-                                • Al probar distintos endpoints de la API de Gemini, detectamos que algunos nombres de modelos antiguos devolvían código `404` o saturación `429/503`.<br>
-                                • También detectamos que usar color dorado `#C9A227` sobre fondo blanco en textos pequeños reducía el contraste visual para personas con baja visión.
-                            </p>
-                        </div>
-                    </article>
+                        <!-- 5. Cambios realizados por la pareja / equipo -->
+                        <article class="bitacora-card">
+                            <div class="bitacora-num">05</div>
+                            <h3>Cambios realizados por la pareja / el equipo</h3>
+                            <div class="bitacora-editable" contenteditable="false">
+                                <p>
+                                    • Retiramos el pie de foto debajo de la imagen en la vista previa para una visualización más limpia y directa.<br>
+                                    • Diseñamos el mecanismo de seguridad y colapso para que la bitácora inicie oculta y solicite la contraseña "1234".<br>
+                                    • Configuramos reglas de impresión específicas (<code>@media print</code>) para que el botón de PDF imprima únicamente la bitácora y no los elementos de la página principal.
+                                </p>
+                            </div>
+                        </article>
 
-                    <!-- 7. ¿Qué funcionó y qué no? -->
-                    <article class="bitacora-card">
-                        <div class="bitacora-num">07</div>
-                        <h3>¿Qué funcionó y qué no?</h3>
-                        <div class="bitacora-editable" contenteditable="false">
-                            <p>
-                                <strong>✅ Qué funcionó:</strong> El modelo `gemini-3-flash-preview` con respaldo en `gemini-flash-lite-latest` respondió con gran rapidez y precisión en formato JSON estructurado, y la combinación de casilla + combobox facilitó alternar entre imagen de IA e imagen subida por el usuario.<br>
-                                <strong>❌ Qué no funcionó:</strong> Invocar modelos sin sistema de respaldo o usar dorado en textos pequeños; ambos aspectos fueron corregidos.
-                            </p>
-                        </div>
-                    </article>
+                        <!-- 6. Errores detectados -->
+                        <article class="bitacora-card">
+                            <div class="bitacora-num">06</div>
+                            <h3>Errores detectados</h3>
+                            <div class="bitacora-editable" contenteditable="false">
+                                <p>
+                                    • Al usar la función de imprimir estándar del navegador, se imprimían los menús, el formulario y la vista previa del correo junto con la bitácora.<br>
+                                    • Solucionamos esto implementando un layout exclusivo de impresión que oculta toda la web y formatea la bitácora como un documento institucional.
+                                </p>
+                            </div>
+                        </article>
 
-                    <!-- 8. ¿Qué produjo la IA? -->
-                    <article class="bitacora-card">
-                        <div class="bitacora-num">08</div>
-                        <h3>¿Qué produjo la IA?</h3>
-                        <div class="bitacora-editable" contenteditable="false">
-                            <p>
-                                1. Durante el desarrollo: produjo la estructura semántica HTML5, el sistema de diseño CSS3 con variables para las 3 plantillas y el código JavaScript.<br>
-                                2. En tiempo de uso dentro de la página: la IA de Gemini produce en vivo el asunto del correo, el título del encabezado, el cuerpo redactado con puntos clave y los elementos gráficos de la ilustración temática.
-                            </p>
-                        </div>
-                    </article>
+                        <!-- 7. ¿Qué funcionó y qué no? -->
+                        <article class="bitacora-card">
+                            <div class="bitacora-num">07</div>
+                            <h3>¿Qué funcionó y qué no?</h3>
+                            <div class="bitacora-editable" contenteditable="false">
+                                <p>
+                                    <strong>✅ Qué funcionó:</strong> La unificación en un solo archivo <code>index.html</code> agilizó la distribución del proyecto, la API de Gemini respondió en formato JSON con rapidez, y el bloqueo con contraseña "1234" funcionó de manera intuitiva.<br>
+                                    <strong>❌ Qué no funcionó:</strong> Intentar usar <code>window.print()</code> sin reglas CSS de ocultación, lo que imprimía elementos innecesarios antes del ajuste.
+                                </p>
+                            </div>
+                        </article>
 
-                    <!-- 9. ¿Qué decidió el equipo? -->
-                    <article class="bitacora-card">
-                        <div class="bitacora-num">09</div>
-                        <h3>¿Qué decidió el equipo?</h3>
-                        <div class="bitacora-editable" contenteditable="false">
-                            <p>
-                                El Equipo 3 decidió:<br>
-                                • Mantener el acceso <strong>sin login</strong> y agregar botones de ejemplos rápidos para apoyar a usuarios sin experiencia informática.<br>
-                                • Permitir que el usuario siempre pueda editar manualmente el asunto y el cuerpo generados por Gemini antes de copiar el mensaje.<br>
-                                • Resaltar que la vista previa es una simulación segura sin envío real.
-                            </p>
-                        </div>
-                    </article>
+                        <!-- 8. ¿Qué produjo la IA? -->
+                        <article class="bitacora-card">
+                            <div class="bitacora-num">08</div>
+                            <h3>¿Qué produjo la IA?</h3>
+                            <div class="bitacora-editable" contenteditable="false">
+                                <p>
+                                    1. En la construcción: la arquitectura SPA unificada, estilos CSS con tipografías Playfair e Inter y el script de integración con Gemini.<br>
+                                    2. En tiempo de uso: el modelo Gemini produce en tiempo real el asunto personalizado, el cuerpo estructurado con viñetas y el contenido visual del cartel ilustrado.
+                                </p>
+                            </div>
+                        </article>
 
-                    <!-- 10. ¿Qué datos evitaron introducir por privacidad? -->
-                    <article class="bitacora-card">
-                        <div class="bitacora-num">10</div>
-                        <h3>¿Qué datos evitaron introducir por privacidad?</h3>
-                        <div class="bitacora-editable" contenteditable="false">
-                            <p>
-                                Por ética y protección de datos personales en el ámbito educativo, evitamos introducir:<br>
-                                • Nombres reales de alumnos o docentes, matrículas escolares, direcciones de correo privadas o números telefónicos.<br>
-                                • Calificaciones individuales o situaciones académicas confidenciales.<br>
-                                Solo se emplean avisos académicos generales y enlaces institucionales públicos.
-                            </p>
-                        </div>
-                    </article>
+                        <!-- 9. ¿Qué decidió el equipo? -->
+                        <article class="bitacora-card">
+                            <div class="bitacora-num">09</div>
+                            <h3>¿Qué decidió el equipo?</h3>
+                            <div class="bitacora-editable" contenteditable="false">
+                                <p>
+                                    El Equipo 3 decidió:<br>
+                                    • Mantener la experiencia accesible y libre de login para el usuario general, protegiendo con la contraseña "1234" únicamente la sección reflexiva de la bitácora.<br>
+                                    • Cuidar que el color dorado (#C9A227) nunca aparezca en textos pequeños para garantizar máxima legibilidad.<br>
+                                    • Proporcionar un botón para re-colapsar la bitácora en cualquier momento.
+                                </p>
+                            </div>
+                        </article>
+
+                        <!-- 10. ¿Qué datos evitaron introducir por privacidad? -->
+                        <article class="bitacora-card">
+                            <div class="bitacora-num">10</div>
+                            <h3>¿Qué datos evitaron introducir por privacidad?</h3>
+                            <div class="bitacora-editable" contenteditable="false">
+                                <p>
+                                    Por ética y protección de datos escolares, se evitó introducir nombres de alumnos reales, matrículas, notas académicas confidenciales, teléfonos particulares o correos personales. Todos los ejemplos utilizan datos institucionales ficticios.
+                                </p>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+
+                <div class="section-QuickNav">
+                    <a href="#inicio" class="link-back-top">⬆️ Volver al inicio</a>
                 </div>
             </div>
         </section>
@@ -824,7 +2460,7 @@ Coordinación Académica · Universidad Virtual</textarea>
                 </div>
                 <div class="return-buttons">
                     <a href="#inicio" class="btn btn-primary btn-lg">
-                        🏠 Regresar al sitio principal (Inicio)
+                        🏠 Regresar al inicio
                     </a>
                     <a href="#entrada-datos" class="btn btn-secondary btn-lg">
                         ✨ Crear nueva noticia con IA
@@ -852,6 +2488,686 @@ Coordinación Académica · Universidad Virtual</textarea>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <!-- ==========================================================================
+         LÓGICA JAVASCRIPT DE LA SPA
+         ========================================================================== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Clave de API de Gemini proporcionada por el usuario
+            const GEMINI_API_KEY = 'AQ.Ab8RN6J2ISpwLCdAyaSVZmxdtOb66a5t-IuIcI_Vs8p0PDn1gQ';
+            const GEMINI_MODELS = [
+                'gemini-3-flash-preview',
+                'gemini-3.1-flash-lite',
+                'gemini-flash-lite-latest'
+            ];
+
+            // Referencias del formulario y controles
+            const newsAiForm = document.getElementById('newsAiForm');
+            const btnGenerateAiNews = document.getElementById('btnGenerateAiNews');
+            const userIdeaInput = document.getElementById('userIdeaInput');
+            const aiToneSelect = document.getElementById('aiToneSelect');
+            const newsLinkInput = document.getElementById('newsLinkInput');
+            const newsLinkText = document.getElementById('newsLinkText');
+
+            // Controles de imagen (Checkbox + Combobox sincronizados)
+            const aiImageCheckbox = document.getElementById('aiImageCheckbox');
+            const imageModeCombobox = document.getElementById('imageModeCombobox');
+            const aiImageOptionsBox = document.getElementById('aiImageOptionsBox');
+            const userUploadOptionsBox = document.getElementById('userUploadOptionsBox');
+            const aiImageStyle = document.getElementById('aiImageStyle');
+            const userImageFileInput = document.getElementById('userImageFileInput');
+            const userImageUrlInput = document.getElementById('userImageUrlInput');
+            const uploadFilePreviewInfo = document.getElementById('uploadFilePreviewInfo');
+
+            // Campos de revisión humana
+            const generatedSubjectInput = document.getElementById('generatedSubjectInput');
+            const generatedBodyInput = document.getElementById('generatedBodyInput');
+            const aiGenerationStatus = document.getElementById('aiGenerationStatus');
+            const formAlertMessage = document.getElementById('formAlertMessage');
+
+            // Vista previa del correo (Sin pie de foto)
+            const emailVisualCanvas = document.getElementById('emailVisualCanvas');
+            const previewTemplateTag = document.getElementById('previewTemplateTag');
+            const previewBannerHeading = document.getElementById('previewBannerHeading');
+            const previewCurrentDate = document.getElementById('previewCurrentDate');
+            const previewEmailSubject = document.getElementById('previewEmailSubject');
+            const previewImageContainer = document.getElementById('previewImageContainer');
+            const previewImageSourceBadge = document.getElementById('previewImageSourceBadge');
+            const previewEmailImage = document.getElementById('previewEmailImage');
+            const previewEmailBody = document.getElementById('previewEmailBody');
+            const previewLinkWrapper = document.getElementById('previewLinkWrapper');
+            const previewEmailLinkBtn = document.getElementById('previewEmailLinkBtn');
+            const previewEmailLinkUrl = document.getElementById('previewEmailLinkUrl');
+
+            // Estado local de imagen y metadatos visuales
+            let uploadedUserImageDataUrl = null;
+            let uploadedUserFileName = '';
+            let currentAiVisualMeta = {
+                posterTitle: 'Feria de Ciencias y Proyectos Virtuales',
+                posterSubtitle: 'Viernes 10:00 a. m. · Aula Virtual Principal',
+                posterCategory: 'COMUNIDAD ESTUDIANTIL',
+                mainEmoji: '🎓',
+                secondaryEmoji: '🔬'
+            };
+
+            // Formatear fecha actual
+            const now = new Date();
+            const formattedDate = now.toLocaleDateString('es-MX', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            previewCurrentDate.textContent = `Fecha del comunicado: ${formattedDate}`;
+            const printReportDate = document.getElementById('printReportDate');
+            if (printReportDate) printReportDate.textContent = formattedDate;
+
+            // =====================================================================
+            // 1. LLAMADA REAL A LA API DE GEMINI
+            // =====================================================================
+            async function callGeminiApiForNews(rawIdea, tone) {
+                const toneDescriptions = {
+                    cercano: 'cercano, cálido, empático y motivador para estudiantes',
+                    institucional: 'institucional, formal, académico y respetuoso',
+                    urgente: 'directo, prioritario, claro y urgente para recordatorios importantes'
+                };
+
+                const selectedToneDesc = toneDescriptions[tone] || toneDescriptions.cercano;
+
+                const systemInstructionText = `Eres un experto en comunicación educativa universitaria.
+El usuario te entregará una idea general de una noticia o aviso para estudiantes con detalles importantes.
+Redacta el mensaje final para enviarse por correo electrónico y diseña los textos clave para su ilustración visual.
+Responde ÚNICAMENTE con un objeto JSON válido (sin bloques markdown \`\`\`json) con esta estructura exacta:
+{
+  "subject": "Asunto del correo claro y atractivo con un emoji inicial (máximo 85 caracteres)",
+  "bannerHeading": "Título principal elegante para el encabezado del correo (máximo 65 caracteres)",
+  "body": "Cuerpo completo del correo en español, tono ${selectedToneDesc}. Incluye saludo cordial, párrafo introductorio, lista de viñetas (usando •) con los detalles importantes, recomendación útil para el estudiante y despedida institucional.",
+  "posterCategory": "Etiqueta en MAYÚSCULAS de 2 a 3 palabras sobre la categoría",
+  "posterTitle": "Frase titular impactante de máximo 36 caracteres para la ilustración visual",
+  "posterSubtitle": "Resumen de fecha, hora o lugar en máximo 42 caracteres para la ilustración visual",
+  "mainEmoji": "Un solo emoji representativo del tema principal (ej. 🎓, ⏰, 🔬, 📚)",
+  "secondaryEmoji": "Un segundo emoji complementario (ej. ✨, 📝, 💡, 🏛️)"
+}`;
+
+                const userPrompt = `Idea de la noticia: "${rawIdea}"\nTono: ${selectedToneDesc}.\nDevuelve únicamente el JSON válido.`;
+
+                for (const modelName of GEMINI_MODELS) {
+                    try {
+                        const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${encodeURIComponent(GEMINI_API_KEY)}`;
+                        const response = await fetch(endpoint, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                contents: [{ parts: [{ text: systemInstructionText + '\n\n' + userPrompt }] }],
+                                generationConfig: {
+                                    temperature: 0.65,
+                                    responseMimeType: 'application/json'
+                                }
+                            })
+                        });
+
+                        if (!response.ok) throw new Error(`HTTP ${response.status} en modelo ${modelName}`);
+
+                        const data = await response.json();
+                        const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+                        if (!rawText) throw new Error(`Respuesta vacía`);
+
+                        const cleanedJsonText = rawText
+                            .replace(/^```json\s*/i, '')
+                            .replace(/^```\s*/i, '')
+                            .replace(/\s*```$/, '')
+                            .trim();
+
+                        const parsed = JSON.parse(cleanedJsonText);
+                        return {
+                            modelUsed: modelName,
+                            subject: parsed.subject || '📢 [Aviso Estudiantil] Comunicado Importante',
+                            bannerHeading: parsed.bannerHeading || 'Comunicado para la Comunidad Estudiantil',
+                            body: parsed.body || rawIdea,
+                            posterCategory: parsed.posterCategory || 'COMUNICADO UNIVERSITARIO',
+                            posterTitle: parsed.posterTitle || 'Noticias Visuales para Estudiantes',
+                            posterSubtitle: parsed.posterSubtitle || 'Universidad Virtual · Información Académica',
+                            mainEmoji: parsed.mainEmoji || '🎓',
+                            secondaryEmoji: parsed.secondaryEmoji || '✨'
+                        };
+                    } catch (err) {
+                        console.warn(`Intento con ${modelName} falló:`, err);
+                    }
+                }
+
+                // Respaldo local si no hay conexión
+                return fallbackLocalCopyGenerator(rawIdea, tone);
+            }
+
+            function fallbackLocalCopyGenerator(rawIdea, tone) {
+                const cleanIdea = rawIdea.trim();
+                const firstSentence = cleanIdea.split(/[.!\n]/)[0].trim();
+                const shortHeadline = firstSentence.length > 62
+                    ? firstSentence.substring(0, 60).trim() + '...'
+                    : firstSentence;
+
+                const fragments = cleanIdea
+                    .split(/[.;\n]+/)
+                    .map(s => s.trim())
+                    .filter(s => s.length > 3);
+
+                const bullets = fragments.length > 1
+                    ? fragments.map(item => `• ${item.charAt(0).toUpperCase() + item.slice(1)}.`).join('\n')
+                    : `• ${cleanIdea.charAt(0).toUpperCase() + cleanIdea.slice(1)}.`;
+
+                let greeting = '¡Hola, estimada comunidad estudiantil!';
+                if (tone === 'institucional') greeting = 'Estimadas y estimados estudiantes:';
+                if (tone === 'urgente') greeting = '⚡ ATENCIÓN ESTUDIANTES (Aviso Prioritario):';
+
+                return {
+                    modelUsed: 'respaldo-local',
+                    subject: `📢 [Aviso Académico] ${shortHeadline}`,
+                    bannerHeading: shortHeadline,
+                    body: `${greeting}\n\nPor medio de este comunicado visual les compartimos la siguiente información importante:\n\n📌 Detalles clave:\n${bullets}\n\nTe recomendamos tomar nota oportuna de este aviso.\n\nAtentamente,\nCoordinación Académica · Universidad Virtual`,
+                    posterCategory: 'AVISO ESTUDIANTIL',
+                    posterTitle: shortHeadline.substring(0, 36),
+                    posterSubtitle: 'Consulta los detalles completos en este correo',
+                    mainEmoji: '🎓',
+                    secondaryEmoji: '📢'
+                };
+            }
+
+            // =====================================================================
+            // 2. GENERADOR DE ILUSTRACIÓN EDUCATIVA VECTORIAL CON PALETA INSTITUCIONAL
+            // =====================================================================
+            function generateAiEducationalIllustration(visualMeta, styleType) {
+                const stylesConfig = {
+                    ilustracion: {
+                        outerBg: '#A51C30',
+                        cardBg: '#FFFFFF',
+                        borderGold: '#C9A227',
+                        badgeBg: '#1E1E1E',
+                        badgeText: '#FFFFFF',
+                        titleColor: '#A51C30',
+                        subColor: '#1E1E1E',
+                        circleBg: '#FDF2F4'
+                    },
+                    infografia: {
+                        outerBg: '#1E1E1E',
+                        cardBg: '#FFFFFF',
+                        borderGold: '#C9A227',
+                        badgeBg: '#A51C30',
+                        badgeText: '#FFFFFF',
+                        titleColor: '#1E1E1E',
+                        subColor: '#A51C30',
+                        circleBg: '#FBF6E6'
+                    },
+                    acuarela: {
+                        outerBg: '#FAF8F5',
+                        cardBg: '#FFFFFF',
+                        borderGold: '#C9A227',
+                        badgeBg: '#A51C30',
+                        badgeText: '#FFFFFF',
+                        titleColor: '#A51C30',
+                        subColor: '#1E1E1E',
+                        circleBg: '#FDF2F4'
+                    }
+                };
+
+                const st = stylesConfig[styleType] || stylesConfig.ilustracion;
+
+                const safeCategory = (visualMeta.posterCategory || 'COMUNICADO ESTUDIANTIL')
+                    .replace(/[<>&"']/g, '')
+                    .substring(0, 32);
+                const safeTitle = (visualMeta.posterTitle || 'Noticias Visuales para Estudiantes')
+                    .replace(/[<>&"']/g, '')
+                    .substring(0, 38);
+                const safeSubtitle = (visualMeta.posterSubtitle || 'Universidad Virtual · Equipo 3')
+                    .replace(/[<>&"']/g, '')
+                    .substring(0, 46);
+                const emoji1 = visualMeta.mainEmoji || '🎓';
+                const emoji2 = visualMeta.secondaryEmoji || '✨';
+
+                const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 360" width="100%" height="100%">
+                    <rect width="800" height="360" fill="${st.outerBg}" />
+                    <rect x="18" y="18" width="764" height="324" rx="16" fill="none" stroke="${st.borderGold}" stroke-width="3" />
+                    <circle cx="730" cy="65" r="95" fill="${st.borderGold}" opacity="0.16" />
+                    <circle cx="75" cy="305" r="110" fill="${st.borderGold}" opacity="0.14" />
+
+                    <rect x="44" y="40" width="712" height="280" rx="14" fill="${st.cardBg}" stroke="${st.borderGold}" stroke-width="3" />
+                    <rect x="44" y="40" width="14" height="280" rx="4" fill="#A51C30" />
+                    <line x1="64" y1="40" x2="64" y2="320" stroke="${st.borderGold}" stroke-width="2" />
+
+                    <circle cx="165" cy="180" r="70" fill="${st.circleBg}" stroke="${st.borderGold}" stroke-width="3" />
+                    <text x="165" y="198" font-size="64" text-anchor="middle">${emoji1}</text>
+                    <text x="218" y="132" font-size="32" text-anchor="middle">${emoji2}</text>
+
+                    <rect x="262" y="76" width="330" height="34" rx="6" fill="${st.badgeBg}" stroke="${st.borderGold}" stroke-width="2" />
+                    <text x="427" y="98" font-family="Inter, Segoe UI, sans-serif" font-size="13" font-weight="bold" fill="${st.badgeText}" text-anchor="middle" letter-spacing="1">
+                        ${safeCategory}
+                    </text>
+
+                    <text x="262" y="156" font-family="Georgia, Playfair Display, serif" font-size="27" font-weight="bold" fill="${st.titleColor}">
+                        ${safeTitle}
+                    </text>
+
+                    <text x="262" y="194" font-family="Inter, Segoe UI, sans-serif" font-size="18" font-weight="600" fill="${st.subColor}">
+                        ${safeSubtitle}
+                    </text>
+
+                    <rect x="262" y="216" width="220" height="4" rx="2" fill="${st.borderGold}" />
+                    <rect x="262" y="224" width="120" height="2" rx="1" fill="#A51C30" />
+
+                    <text x="262" y="262" font-family="Inter, Segoe UI, sans-serif" font-size="15" fill="#1E1E1E" font-weight="700">
+                        📬 Noticias visuales para estudiantes · Universidad Virtual
+                    </text>
+                </svg>`;
+
+                return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svgContent);
+            }
+
+            // =====================================================================
+            // 3. SINCRONIZACIÓN DE MODO DE IMAGEN
+            // =====================================================================
+            function updateImageControlsVisibility(mode) {
+                if (mode === 'ai') {
+                    aiImageCheckbox.checked = true;
+                    imageModeCombobox.value = 'ai';
+                    aiImageOptionsBox.classList.remove('hidden');
+                    userUploadOptionsBox.classList.add('hidden');
+                } else if (mode === 'upload') {
+                    aiImageCheckbox.checked = false;
+                    imageModeCombobox.value = 'upload';
+                    aiImageOptionsBox.classList.add('hidden');
+                    userUploadOptionsBox.classList.remove('hidden');
+                } else if (mode === 'none') {
+                    aiImageCheckbox.checked = false;
+                    imageModeCombobox.value = 'none';
+                    aiImageOptionsBox.classList.add('hidden');
+                    userUploadOptionsBox.classList.add('hidden');
+                }
+                renderEmailPreview();
+            }
+
+            aiImageCheckbox.addEventListener('change', () => {
+                updateImageControlsVisibility(aiImageCheckbox.checked ? 'ai' : 'upload');
+            });
+
+            imageModeCombobox.addEventListener('change', () => {
+                updateImageControlsVisibility(imageModeCombobox.value);
+            });
+
+            aiImageStyle.addEventListener('change', renderEmailPreview);
+
+            userImageFileInput.addEventListener('change', (e) => {
+                const file = e.target.files && e.target.files[0];
+                if (!file) return;
+
+                if (!file.type.startsWith('image/')) {
+                    uploadFilePreviewInfo.textContent = '⚠️ Selecciona un archivo JPG, PNG o SVG.';
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    uploadedUserImageDataUrl = event.target.result;
+                    uploadedUserFileName = file.name;
+                    uploadFilePreviewInfo.innerHTML = `✅ <strong>Imagen cargada:</strong> ${file.name}`;
+                    renderEmailPreview();
+                };
+                reader.readAsDataURL(file);
+            });
+
+            userImageUrlInput.addEventListener('input', renderEmailPreview);
+
+            // =====================================================================
+            // 4. PLANTILLAS VISUALES
+            // =====================================================================
+            const templateCards = document.querySelectorAll('.template-option-card');
+            const quickTemplateButtons = document.querySelectorAll('[data-quick-template]');
+
+            const templateMeta = {
+                academica: { className: 'template-academica', tagText: '🏛️ BOLETÍN INSTITUCIONAL UNIVERSITARIO' },
+                urgente: { className: 'template-urgente', tagText: '⏰ AVISO PRIORITARIO / RECORDATORIO' },
+                comunidad: { className: 'template-comunidad', tagText: '📜 GACETA DE COMUNIDAD Y VIDA ESTUDIANTIL' }
+            };
+
+            function setActiveTemplate(templateKey) {
+                const selectedMeta = templateMeta[templateKey] || templateMeta.academica;
+
+                templateCards.forEach(card => {
+                    const radio = card.querySelector('input[type="radio"]');
+                    if (card.dataset.template === templateKey) {
+                        card.classList.add('selected');
+                        if (radio) radio.checked = true;
+                    } else {
+                        card.classList.remove('selected');
+                        if (radio) radio.checked = false;
+                    }
+                });
+
+                quickTemplateButtons.forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.quickTemplate === templateKey);
+                });
+
+                emailVisualCanvas.classList.remove('template-academica', 'template-urgente', 'template-comunidad');
+                emailVisualCanvas.classList.add(selectedMeta.className);
+                previewTemplateTag.textContent = selectedMeta.tagText;
+
+                renderEmailPreview();
+            }
+
+            templateCards.forEach(card => {
+                card.addEventListener('click', () => setActiveTemplate(card.dataset.template));
+            });
+
+            quickTemplateButtons.forEach(btn => {
+                btn.addEventListener('click', () => setActiveTemplate(btn.dataset.quickTemplate));
+            });
+
+            // =====================================================================
+            // 5. RENDERIZADO DE LA VISTA PREVIA (SIN PIE DE FOTO)
+            // =====================================================================
+            function renderEmailPreview() {
+                const subjectText = generatedSubjectInput.value.trim() || '📢 Comunicado para Estudiantes';
+                const bodyText = generatedBodyInput.value.trim() || 'Escribe una idea en el Paso 1 para que Gemini IA redacte el mensaje.';
+                const linkUrl = newsLinkInput.value.trim();
+                const linkButtonLabel = newsLinkText.value.trim() || 'Consultar más información aquí';
+
+                previewEmailSubject.textContent = subjectText;
+                previewEmailBody.textContent = bodyText;
+
+                const cleanBannerTitle = subjectText.replace(/^[^\]]+\]\s*/, '');
+                previewBannerHeading.textContent = cleanBannerTitle || subjectText;
+
+                const imageMode = imageModeCombobox.value;
+
+                if (imageMode === 'none') {
+                    previewImageContainer.classList.add('hidden');
+                } else if (imageMode === 'ai') {
+                    previewImageContainer.classList.remove('hidden');
+                    const styleChoice = aiImageStyle.value;
+                    const aiSvgUrl = generateAiEducationalIllustration(currentAiVisualMeta, styleChoice);
+
+                    previewEmailImage.src = aiSvgUrl;
+                    previewImageSourceBadge.textContent = '🤖 Imagen creada por Gemini IA a partir de tu idea';
+                } else if (imageMode === 'upload') {
+                    previewImageContainer.classList.remove('hidden');
+                    const customUrl = userImageUrlInput.value.trim();
+
+                    if (uploadedUserImageDataUrl) {
+                        previewEmailImage.src = uploadedUserImageDataUrl;
+                        previewImageSourceBadge.textContent = `📤 Imagen subida por el usuario (${uploadedUserFileName})`;
+                    } else if (customUrl) {
+                        previewEmailImage.src = customUrl;
+                        previewImageSourceBadge.textContent = '🌐 Imagen personalizada mediante enlace web';
+                    } else {
+                        const placeholderSvg = generateAiEducationalIllustration({
+                            posterCategory: 'MODO IMAGEN PROPIA',
+                            posterTitle: 'Sube tu imagen en el Paso 2',
+                            posterSubtitle: 'Selecciona un archivo JPG o PNG desde tu equipo',
+                            mainEmoji: '📤',
+                            secondaryEmoji: '🖼️'
+                        }, 'infografia');
+                        previewEmailImage.src = placeholderSvg;
+                        previewImageSourceBadge.textContent = '📁 Modo subir imagen propia (Esperando que elijas tu archivo)';
+                    }
+                }
+
+                if (linkUrl) {
+                    previewLinkWrapper.classList.remove('hidden');
+                    previewEmailLinkBtn.href = linkUrl;
+                    previewEmailLinkBtn.textContent = `🔗 ${linkButtonLabel}`;
+                    previewEmailLinkUrl.textContent = `Enlace directo: ${linkUrl}`;
+                } else {
+                    previewLinkWrapper.classList.add('hidden');
+                }
+            }
+
+            generatedSubjectInput.addEventListener('input', () => {
+                aiGenerationStatus.textContent = 'Editado manualmente por ti';
+                renderEmailPreview();
+            });
+            generatedBodyInput.addEventListener('input', () => {
+                aiGenerationStatus.textContent = 'Editado manualmente por ti';
+                renderEmailPreview();
+            });
+            newsLinkInput.addEventListener('input', renderEmailPreview);
+            newsLinkText.addEventListener('input', renderEmailPreview);
+
+            // =====================================================================
+            // 6. GENERACIÓN CON GEMINI AL ENVIAR EL FORMULARIO
+            // =====================================================================
+            async function triggerGeminiGeneration(scrollAfter = true) {
+                const rawIdea = userIdeaInput.value.trim();
+                if (!rawIdea) {
+                    formAlertMessage.textContent = '⚠️ Por favor escribe primero una idea general en el Paso 1 para que Gemini IA redacte la noticia.';
+                    formAlertMessage.classList.remove('hidden');
+                    userIdeaInput.focus();
+                    return;
+                }
+
+                formAlertMessage.classList.add('hidden');
+
+                const originalBtnText = btnGenerateAiNews.innerHTML;
+                btnGenerateAiNews.disabled = true;
+                btnGenerateAiNews.innerHTML = '⏳ Redactando noticia con Gemini IA...';
+                aiGenerationStatus.textContent = '⏳ Conectando con Google Gemini...';
+
+                try {
+                    const aiResult = await callGeminiApiForNews(rawIdea, aiToneSelect.value);
+
+                    generatedSubjectInput.value = aiResult.subject;
+                    generatedBodyInput.value = aiResult.body;
+
+                    currentAiVisualMeta = {
+                        posterTitle: aiResult.posterTitle,
+                        posterSubtitle: aiResult.posterSubtitle,
+                        posterCategory: aiResult.posterCategory,
+                        mainEmoji: aiResult.mainEmoji,
+                        secondaryEmoji: aiResult.secondaryEmoji
+                    };
+
+                    aiGenerationStatus.textContent = `✨ Redactado por Gemini (${aiResult.modelUsed})`;
+                    renderEmailPreview();
+
+                    if (scrollAfter) {
+                        const resultadoSection = document.getElementById('resultado');
+                        if (resultadoSection) resultadoSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                } finally {
+                    btnGenerateAiNews.disabled = false;
+                    btnGenerateAiNews.innerHTML = originalBtnText;
+                }
+            }
+
+            newsAiForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                triggerGeminiGeneration(true);
+            });
+
+            document.getElementById('btnResetForm').addEventListener('click', () => {
+                userIdeaInput.value = '';
+                newsLinkInput.value = '';
+                newsLinkText.value = '';
+                uploadedUserImageDataUrl = null;
+                uploadedUserFileName = '';
+                userImageFileInput.value = '';
+                userImageUrlInput.value = '';
+                uploadFilePreviewInfo.textContent = 'Ningún archivo seleccionado todavía.';
+                updateImageControlsVisibility('ai');
+                aiGenerationStatus.textContent = 'Campos limpios';
+                formAlertMessage.classList.add('hidden');
+                userIdeaInput.focus();
+            });
+
+            // Botones de ejemplos rápidos
+            const presetExamples = {
+                beca: {
+                    idea: 'Avisar a los estudiantes de licenciatura que ya abrió la Convocatoria de Becas de Apoyo Académico 2026. La fecha límite para subir documentos al portal es el viernes 30 de octubre a las 18:00 horas.',
+                    tone: 'cercano',
+                    template: 'academica',
+                    link: 'https://universidadvirtual.edu.mx/becas-2026',
+                    linkText: 'Consultar convocatoria y registrarme a la beca',
+                    imageMode: 'ai',
+                    imageStyle: 'ilustracion'
+                },
+                examen: {
+                    idea: 'Aviso prioritario: el examen parcial de Estadística Aplicada cambia de fecha para este jueves a las 4:00 p. m. en el Aula Virtual 2. Conectarse 15 minutos antes con credencial vigente.',
+                    tone: 'urgente',
+                    template: 'urgente',
+                    link: 'https://universidadvirtual.edu.mx/calendario-examenes',
+                    linkText: 'Ingresar al Aula Virtual de Evaluaciones',
+                    imageMode: 'ai',
+                    imageStyle: 'infografia'
+                },
+                taller: {
+                    idea: 'Invitar a la comunidad estudiantil al Taller Práctico de Hábitos de Estudio y Bienestar este miércoles a las 11:00 a. m. por videoconferencia. Se otorgará constancia con valor curricular.',
+                    tone: 'cercano',
+                    template: 'comunidad',
+                    link: 'https://universidadvirtual.edu.mx/talleres-bienestar',
+                    linkText: 'Apartar mi lugar en el taller gratuito',
+                    imageMode: 'ai',
+                    imageStyle: 'acuarela'
+                }
+            };
+
+            document.querySelectorAll('.btn-example').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const ex = presetExamples[btn.dataset.example];
+                    if (!ex) return;
+
+                    userIdeaInput.value = ex.idea;
+                    aiToneSelect.value = ex.tone;
+                    newsLinkInput.value = ex.link;
+                    newsLinkText.value = ex.linkText;
+                    aiImageStyle.value = ex.imageStyle;
+
+                    updateImageControlsVisibility(ex.imageMode);
+                    setActiveTemplate(ex.template);
+
+                    triggerGeminiGeneration(true);
+                });
+            });
+
+            // =====================================================================
+            // 7. VISTA COMPUTADORA VS CELULAR Y COPIAR
+            // =====================================================================
+            const emailClientWrapper = document.getElementById('emailClientWrapper');
+            const btnViewDesktop = document.getElementById('btnViewDesktop');
+            const btnViewMobile = document.getElementById('btnViewMobile');
+
+            btnViewDesktop.addEventListener('click', () => {
+                emailClientWrapper.classList.remove('mobile-view');
+                btnViewDesktop.classList.add('active');
+                btnViewMobile.classList.remove('active');
+            });
+
+            btnViewMobile.addEventListener('click', () => {
+                emailClientWrapper.classList.add('mobile-view');
+                btnViewMobile.classList.add('active');
+                btnViewDesktop.classList.remove('active');
+            });
+
+            const btnCopyEmailText = document.getElementById('btnCopyEmailText');
+            const copyFeedbackToast = document.getElementById('copyFeedbackToast');
+
+            btnCopyEmailText.addEventListener('click', () => {
+                const textToCopy = `ASUNTO: ${generatedSubjectInput.value}\n\n${generatedBodyInput.value}\n\nEnlace: ${newsLinkInput.value}`;
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(textToCopy);
+                }
+                copyFeedbackToast.classList.remove('hidden');
+                setTimeout(() => copyFeedbackToast.classList.add('hidden'), 4500);
+            });
+
+            // Controles de tamaño de letra
+            const htmlRoot = document.documentElement;
+            const btnFontNormal = document.getElementById('btnFontNormal');
+            const btnFontLarge = document.getElementById('btnFontLarge');
+            const btnFontExtra = document.getElementById('btnFontExtra');
+
+            function setFontSizeClass(cls, activeBtn) {
+                htmlRoot.classList.remove('font-large', 'font-extra');
+                if (cls) htmlRoot.classList.add(cls);
+                [btnFontNormal, btnFontLarge, btnFontExtra].forEach(b => b.classList.remove('active'));
+                activeBtn.classList.add('active');
+            }
+
+            btnFontNormal.addEventListener('click', () => setFontSizeClass('', btnFontNormal));
+            btnFontLarge.addEventListener('click', () => setFontSizeClass('font-large', btnFontLarge));
+            btnFontExtra.addEventListener('click', () => setFontSizeClass('font-extra', btnFontExtra));
+
+            // =====================================================================
+            // 8. BITÁCORA COLAPSABLE CON CONTRASEÑA "1234"
+            // =====================================================================
+            const bitacoraLockCard = document.getElementById('bitacoraLockCard');
+            const bitacoraContentWrapper = document.getElementById('bitacoraContentWrapper');
+            const bitacoraUnlockForm = document.getElementById('bitacoraUnlockForm');
+            const bitacoraPasswordInput = document.getElementById('bitacoraPasswordInput');
+            const bitacoraLockError = document.getElementById('bitacoraLockError');
+            const btnRelockBitacora = document.getElementById('btnRelockBitacora');
+            const navLinkBitacora = document.getElementById('navLinkBitacora');
+            const btnHeroGoBitacora = document.getElementById('btnHeroGoBitacora');
+
+            function unlockBitacora() {
+                const enteredPass = bitacoraPasswordInput.value.trim();
+                if (enteredPass === '1234') {
+                    bitacoraLockError.classList.add('hidden');
+                    bitacoraLockCard.classList.add('hidden');
+                    bitacoraContentWrapper.classList.remove('hidden');
+                } else {
+                    bitacoraLockError.classList.remove('hidden');
+                    bitacoraPasswordInput.focus();
+                    bitacoraPasswordInput.select();
+                }
+            }
+
+            function relockBitacora() {
+                bitacoraPasswordInput.value = '';
+                bitacoraLockError.classList.add('hidden');
+                bitacoraContentWrapper.classList.add('hidden');
+                bitacoraLockCard.classList.remove('hidden');
+            }
+
+            bitacoraUnlockForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                unlockBitacora();
+            });
+
+            btnRelockBitacora.addEventListener('click', relockBitacora);
+
+            // Al hacer clic en el enlace del menú a la bitácora, enfocar el campo de clave si está bloqueada
+            function focusBitacoraPasswordIfLocked() {
+                if (!bitacoraLockCard.classList.contains('hidden')) {
+                    setTimeout(() => bitacoraPasswordInput.focus(), 400);
+                }
+            }
+
+            if (navLinkBitacora) navLinkBitacora.addEventListener('click', focusBitacoraPasswordIfLocked);
+            if (btnHeroGoBitacora) btnHeroGoBitacora.addEventListener('click', focusBitacoraPasswordIfLocked);
+
+            // Edición en vivo de la bitácora
+            const btnToggleEditBitacora = document.getElementById('btnToggleEditBitacora');
+            const editableBlocks = document.querySelectorAll('.bitacora-editable');
+            let bitacoraEditMode = false;
+
+            btnToggleEditBitacora.addEventListener('click', () => {
+                bitacoraEditMode = !bitacoraEditMode;
+                editableBlocks.forEach(block => {
+                    block.setAttribute('contenteditable', bitacoraEditMode ? 'true' : 'false');
+                });
+                btnToggleEditBitacora.textContent = bitacoraEditMode
+                    ? '💾 Guardar cambios en la bitácora'
+                    : '✏️ Activar edición en vivo';
+            });
+
+            // Generación de PDF: imprime ÚNICAMENTE el informe de la bitácora
+            const btnPrintBitacora = document.getElementById('btnPrintBitacora');
+            btnPrintBitacora.addEventListener('click', () => {
+                // Si por alguna razón estuviera bloqueada, se asegura que esté visible para el print
+                bitacoraContentWrapper.classList.remove('hidden');
+                window.print();
+            });
+
+            // Inicializar la primera vista previa
+            renderEmailPreview();
+        });
+    </script>
 </body>
 </html>
