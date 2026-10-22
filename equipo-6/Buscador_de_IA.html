@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IA Académica: Encuentra tu herramienta ideal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<style>
+/* ===== Estilos (separar en styles.css) =====
+   Paleta: granate #A51C30 (acciones y énfasis), blanco #FFFFFF (fondos), grafito #1E1E1E (texto y cabecera),
+   dorado #C9A227 (solo bordes y detalles; nunca texto pequeño sobre blanco por su bajo contraste).
+   Tipografía: Playfair Display para títulos, Inter para el cuerpo (con fuentes del sistema como respaldo si no hay conexión). */
+:root{--ink:#1E1E1E;--mut:#4a4a4a;--bg:#FFFFFF;--card:#FFFFFF;--line:#e2dcdd;--acc:#A51C30;--accd:#821424;--hl:#C9A227;--tint:#fbeff1;--r:14px}
+*{box-sizing:border-box}
+body{margin:0;font:17px/1.6 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg)}
+h1,h2,h3{font-family:"Playfair Display",Georgia,"Times New Roman",serif;font-weight:700}
+a{color:var(--acc)}
+:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+header :focus-visible{outline-color:var(--hl)}
+header{background:var(--ink);color:#fff;padding:12px 20px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;border-bottom:4px solid var(--hl)}
+header strong{font:700 1.3rem "Playfair Display",Georgia,serif}
+header strong span{border-bottom:3px solid var(--hl)}
+nav a{color:#fff;margin-left:16px;text-decoration:none;font-size:.95rem;font-weight:500}
+nav a:hover{text-decoration:underline;text-decoration-color:var(--hl);text-underline-offset:6px}
+main{max-width:1040px;margin:0 auto;padding:24px 16px 60px}
+.hero h1{font-size:clamp(1.9rem,5vw,3rem);line-height:1.15;margin:.3em 0}
+.hero p{max-width:60ch;color:var(--mut)}
+.aviso{background:#fff;border:1px solid var(--line);border-left:6px solid var(--hl);border-radius:var(--r);padding:12px 16px;font-size:.95rem;margin:16px 0}
+section{margin-top:40px}
+h2{font-size:1.65rem;margin:0 0 4px;padding-bottom:6px;border-bottom:2px solid var(--hl);display:inline-block}
+.help{color:var(--mut);margin:8px 0 14px;font-size:.95rem}
+.acts{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.act{all:unset;box-sizing:border-box;cursor:pointer;background:var(--card);border:1px solid var(--line);border-top:4px solid var(--hl);border-radius:var(--r);padding:16px;display:flex;gap:12px;align-items:flex-start;transition:border-color .15s,background .15s}
+.act:hover{border-color:var(--acc);border-top-color:var(--hl)}
+.act:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.act[aria-pressed=true]{border-color:var(--acc);border-top-color:var(--hl);background:var(--tint);box-shadow:inset 0 0 0 1px var(--acc)}
+.act .ic{font-size:1.8rem}
+.act b{display:block;font:700 1.15rem "Playfair Display",Georgia,serif}
+.act small{color:var(--mut);font:.9rem/1.45 Inter,system-ui,sans-serif}
+.act[aria-pressed=true] b::after{content:" ✓";color:var(--acc);font-family:Inter,sans-serif}
+.btn{font:600 1rem Inter,system-ui,sans-serif;background:var(--acc);color:#fff;border:2px solid var(--acc);border-radius:12px;padding:12px 22px;min-height:48px;cursor:pointer}
+.btn:hover{background:var(--accd);border-color:var(--accd)}
+.btn:disabled{background:#767676;border-color:#767676;cursor:not-allowed}
+.btn.sec{background:#fff;color:var(--ink);border:2px solid var(--ink)}
+.btn.sec:hover{background:var(--ink);color:#fff}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:16px}
+.ayuda{background:#fff;border:1px solid var(--line);border-left:6px solid var(--hl);border-radius:var(--r);padding:14px 16px;margin-top:14px}
+.ayuda ul{padding-left:0;list-style:none;margin:8px 0 0;display:grid;gap:8px}
+.ayuda li{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:.95rem}
+.filtros{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.fil{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px}
+.fil label{display:flex;gap:10px;align-items:flex-start;cursor:pointer;font-weight:600}
+.fil input[type=checkbox],.cmpchk input{accent-color:var(--acc)}
+.fil input[type=checkbox]{width:22px;height:22px;margin-top:2px;flex:none}
+.fil small{display:block;color:var(--mut);font:400 .88rem/1.4 Inter,system-ui,sans-serif;margin-top:3px}
+select{font:1rem Inter,system-ui,sans-serif;padding:9px;border-radius:8px;border:1px solid var(--ink);width:100%;margin-top:6px;background:#fff;color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.chip{background:var(--tint);border:1px solid var(--acc);color:var(--ink);border-radius:99px;padding:4px 12px;font:500 .88rem Inter,sans-serif}
+.res{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:16px;margin-top:14px}
+.card{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--hl);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:10px}
+.card header{all:unset;display:flex;gap:12px;align-items:center}
+.logo{width:46px;height:46px;border-radius:12px;background:var(--ink);color:var(--hl);border:2px solid var(--hl);display:grid;place-items:center;font:700 1.25rem "Playfair Display",Georgia,serif;flex:none}
+.card h3{margin:0;font-size:1.3rem}
+.card p{margin:0;font-size:.95rem}
+.why{background:#fff;border:1px solid var(--line);border-left:4px solid var(--hl);padding:8px 10px;border-radius:6px;font-size:.9rem}
+.lim{background:var(--tint);border-left:4px solid var(--acc);padding:8px 10px;border-radius:6px;font-size:.9rem}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font:500 .8rem Inter,sans-serif;border:1px solid var(--ink);border-radius:6px;padding:2px 8px;background:#fff}
+details{font-size:.92rem}
+summary{cursor:pointer;font:600 .95rem Inter,sans-serif;padding:6px 0;color:var(--acc)}
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pc ul{margin:4px 0 0;padding-left:18px}
+.card .acc{margin-top:auto;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.card .acc a{text-decoration:none;display:inline-flex;align-items:center;color:#fff}
+.cmpchk{display:flex;gap:8px;align-items:center;font:600 .92rem Inter,sans-serif;cursor:pointer}
+.cmpchk input{width:20px;height:20px}
+.vacio{background:#fff;border:2px dashed var(--hl);border-radius:var(--r);padding:24px;text-align:center}
+.tablewrap{overflow-x:auto;background:#fff;border:1px solid var(--line);border-top:4px solid var(--hl);border-radius:var(--r)}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:.92rem}
+th,td{border-bottom:1px solid var(--line);padding:10px;text-align:left;vertical-align:top}
+th{font-family:Inter,sans-serif;background:var(--tint)}
+tbody th{width:140px}
+footer{border-top:2px solid var(--hl);padding:20px;font-size:.9rem;color:var(--mut);max-width:1040px;margin:0 auto}
+[hidden]{display:none!important}
+@media(max-width:560px){.pc{grid-template-columns:1fr}nav a{margin:0 12px 0 0}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <strong>IA <span>Académica</span></strong>
+  <nav aria-label="Principal"><a href="#paso1">Actividad</a><a href="#paso2">Preferencias</a><a href="#paso3">Resultados</a><a href="#comparar">Comparar</a><a href="#avisos">Avisos</a></nav>
+</header>
+<main>
+  <div class="hero">
+    <h1>Encuentra la herramienta de IA gratuita que te sirve para estudiar</h1>
+    <p>Elige qué necesitas hacer, ajusta tus preferencias y compara opciones. No pedimos cuenta ni datos personales.</p>
+    <div class="aviso" role="note"><b>Antes de empezar:</b> este prototipo usa un catálogo local escrito a mano. <b>No se actualiza solo ni busca en internet</b>, y los datos aún no se han verificado en vivo. Antes de usar una herramienta, confirma planes, límites y privacidad en su sitio oficial.</div>
+  </div>
+
+  <section id="paso1" aria-labelledby="t1">
+    <h2 id="t1">¿Qué necesitas hacer hoy?</h2>
+    <p class="help">Puedes elegir una o varias.</p>
+    <div class="acts" id="acts" role="group" aria-labelledby="t1"></div>
+    <div class="row">
+      <button class="btn" id="seguir" disabled>Continuar</button>
+      <button class="btn sec" id="ayudaBtn" aria-expanded="false" aria-controls="ayuda">No estoy seguro, ayúdame a elegir</button>
+      <span class="help" id="msgSel" aria-live="polite"></span>
+    </div>
+    <div class="ayuda" id="ayuda" hidden>
+      <b>Ejemplos de tareas. Toca uno para elegir la categoría:</b>
+      <ul id="ejemplos"></ul>
+    </div>
+  </section>
+
+  <section id="paso2" aria-labelledby="t2" hidden>
+    <h2 id="t2">Ajusta tus preferencias</h2>
+    <p class="help">Todo es opcional. Los resultados cambian al instante.</p>
+    <div class="filtros">
+      <div class="fil"><label><input type="checkbox" id="fEs"><span>Necesito que funcione en español<small>Muestra solo herramientas con español admitido.</small></span></label></div>
+      <div class="fil"><label><input type="checkbox" id="fReg"><span>Prefiero no crear cuenta<small>Excluye las que exigen registro.</small></span></label></div>
+      <div class="fil"><label><input type="checkbox" id="fPriv"><span>Me importa la privacidad<small>Pone primero las que documentan cómo evitar el uso de tus datos para entrenar modelos.</small></span></label></div>
+      <div class="fil"><label><input type="checkbox" id="fLoc"><span>Quiero trabajar sin internet<small>Solo herramientas que se pueden ejecutar en tu equipo.</small></span></label></div>
+      <div class="fil"><label for="fDisp">Dispositivo que usaré</label>
+        <select id="fDisp"><option value="">Cualquiera</option><option value="pc">Computadora</option><option value="tab">Tableta</option><option value="mov">Teléfono móvil</option></select></div>
+      <div class="fil"><label for="fOrd">Ordenar por</label>
+        <select id="fOrd"><option value="rel">Relevancia</option><option value="fac">Facilidad de uso (menos pasos para empezar)</option><option value="res">Menos restricciones</option></select></div>
+    </div>
+    <p class="help" style="margin-top:10px">Todas las opciones del catálogo son gratuitas o gratuitas con límites. Ninguna es “totalmente gratis” sin condiciones.</p>
+  </section>
+
+  <section id="paso3" aria-labelledby="t3" hidden>
+    <h2 id="t3">Recomendaciones</h2>
+    <div class="chips" id="chips" aria-label="Filtros activos"></div>
+    <div class="row" style="margin:0 0 8px"><button class="btn sec" id="limpiar">Limpiar filtros y empezar de nuevo</button></div>
+    <p aria-live="polite" id="conteo" class="help"></p>
+    <div class="res" id="res"></div>
+  </section>
+
+  <section id="comparar" aria-labelledby="t4" hidden>
+    <h2 id="t4">Comparador</h2>
+    <p class="help">Marca “Comparar” en hasta 3 tarjetas.</p>
+    <div id="cmp"></div>
+  </section>
+
+  <section id="avisos" aria-labelledby="t5">
+    <h2 id="t5">Avisos importantes</h2>
+    <ul>
+      <li>Casi todas tienen <b>límites de uso</b> diarios o mensuales y funciones solo de pago.</li>
+      <li>La IA puede <b>equivocarse o inventar datos y fuentes</b>. Revisa lo que genera y verifica toda fuente académica antes de citarla.</li>
+      <li>No subas datos personales, documentos confidenciales ni trabajos con información sensible sin leer la política de privacidad.</li>
+      <li>Ninguna herramienta ofrece privacidad absoluta. Aquí solo resumimos lo que sus políticas indican, y estas pueden cambiar.</li>
+      <li>Revisa las reglas de tu escuela sobre el uso de IA en tareas y trabajos.</li>
+    </ul>
+  </section>
+</main>
+<footer>Prototipo local. Funciona: selección, filtros, orden y comparación. Requeriría servidor o API (no incluido): actualizar el catálogo automáticamente, verificar datos en vivo y buscar herramientas nuevas.</footer>
+
+<script>
+/* ===== Lógica (separar en script.js) ===== */
+
+/* Actividades. */
+const ACTS = {
+  prog:{n:"Programar",i:"💻",d:"Generar código, depurar errores y aprender programación."},
+  res:{n:"Resumir",i:"📝",d:"Resumir textos, documentos, artículos y apuntes."},
+  inv:{n:"Investigar",i:"🔎",d:"Buscar información, encontrar fuentes y consultar bibliografía."},
+  dis:{n:"Diseñar",i:"🎨",d:"Crear imágenes, diagramas, infografías y recursos visuales."},
+  pre:{n:"Presentar",i:"📊",d:"Preparar presentaciones, diapositivas y exposiciones."},
+  ana:{n:"Analizar",i:"📈",d:"Interpretar datos, resolver problemas, comparar información y analizar documentos."}
+};
+const EJEMPLOS = [
+  ["Mi código marca un error y no sé por qué",["prog"]],
+  ["Tengo un artículo de 30 páginas y poco tiempo",["res"]],
+  ["Necesito fuentes para mi trabajo final",["inv"]],
+  ["Quiero un cartel o infografía para mi proyecto",["dis"]],
+  ["Debo exponer mañana y no tengo diapositivas",["pre"]],
+  ["Tengo una tabla de datos y no sé interpretarla",["ana"]]
+];
+
+/* Catálogo local. Datos escritos a mano según conocimiento general del autor; NO verificados en vivo.
+   verificado:null => se muestra "pendiente de verificar". Cuando confirmes un dato en el sitio oficial,
+   escribe la fecha (ej. "2026-10-22") y actualiza los campos.
+   reg: "no" | "opc" | "si".  priv: true si documenta opciones para limitar uso de datos en entrenamiento (confirmar). */
+const TOOLS = [
+ {id:"chatgpt",n:"ChatGPT",ic:"C",url:"https://chatgpt.com",cats:["prog","res","inv","ana","dis"],
+  d:"Asistente de conversación para explicar, escribir, resumir y ayudar con código.",
+  gratis:"Plan gratuito con límites de uso; funciones y modelos avanzados en planes de pago.",
+  lim:["Límites de mensajes y de archivos subidos","Funciones avanzadas de pago"],
+  es:true,idi:"Español e inglés, entre otros",reg:"opc",regT:"Puede usarse sin cuenta en algunos casos, con funciones reducidas. Con cuenta hay más opciones.",
+  priv:true,privT:"Ofrece ajustes para evitar que tus conversaciones se usen para entrenar modelos. Revísalos.",
+  disp:["pc","tab","mov"],local:false,
+  pros:["Muy versátil","Entiende bien el español"],con:["Puede inventar datos","Límites en el plan gratuito"],verificado:null},
+ {id:"gemini",n:"Gemini",ic:"G",url:"https://gemini.google.com",cats:["prog","res","inv","ana","dis"],
+  d:"Asistente de Google, integrado con su ecosistema de servicios.",
+  gratis:"Acceso gratuito con límites; funciones ampliadas en planes de pago.",
+  lim:["Requiere cuenta de Google","Límites de uso y de funciones"],
+  es:true,idi:"Español e inglés, entre otros",reg:"si",regT:"Requiere cuenta de Google.",
+  priv:true,privT:"Permite administrar el historial de actividad. Revisa la política antes de subir documentos.",
+  disp:["pc","tab","mov"],local:false,
+  pros:["Fácil si ya usas Google","Maneja varios formatos"],con:["Necesita cuenta","Límites variables"],verificado:null},
+ {id:"claude",n:"Claude",ic:"Cl",url:"https://claude.ai",cats:["prog","res","ana","inv"],
+  d:"Asistente de IA de Anthropic, útil para leer textos largos, escribir y programar.",
+  gratis:"Plan gratuito con límites de uso; planes de pago con más capacidad.",
+  lim:["Requiere cuenta","Límites de uso en el plan gratuito"],
+  es:true,idi:"Español e inglés, entre otros",reg:"si",regT:"Requiere crear una cuenta.",
+  priv:true,privT:"Publica una política de privacidad y controles de datos. Revísalos antes de subir archivos.",
+  disp:["pc","tab","mov"],local:false,
+  pros:["Bueno con textos largos","Respuestas claras"],con:["Necesita cuenta","Límites que pueden agotarse pronto"],verificado:null},
+ {id:"copilot",n:"Microsoft Copilot",ic:"Co",url:"https://copilot.microsoft.com",cats:["res","inv","dis","ana","prog"],
+  d:"Asistente de Microsoft con búsqueda web y generación de imágenes.",
+  gratis:"Uso gratuito con límites; funciones ampliadas con suscripción.",
+  lim:["Algunas funciones piden cuenta Microsoft","Límites de uso"],
+  es:true,idi:"Español e inglés, entre otros",reg:"opc",regT:"Puede usarse sin cuenta de forma básica; con cuenta Microsoft hay más funciones.",
+  priv:true,privT:"Microsoft ofrece un panel de privacidad. Revísalo.",
+  disp:["pc","tab","mov"],local:false,
+  pros:["Muestra enlaces a sus fuentes","Genera imágenes"],con:["Funciones cambian seguido","Verifica sus fuentes"],verificado:null},
+ {id:"perplexity",n:"Perplexity",ic:"P",url:"https://www.perplexity.ai",cats:["inv","res"],
+  d:"Buscador con IA que responde con enlaces a sus fuentes.",
+  gratis:"Búsquedas gratuitas con límites; búsquedas avanzadas de pago.",
+  lim:["Límite en búsquedas avanzadas","Debes comprobar que las fuentes existan y digan lo citado"],
+  es:true,idi:"Español e inglés, entre otros",reg:"opc",regT:"Las búsquedas básicas pueden hacerse sin cuenta.",
+  priv:true,privT:"Ofrece ajustes de datos en la cuenta. Revisa su política.",
+  disp:["pc","tab","mov"],local:false,
+  pros:["Facilita encontrar fuentes","Respuestas con enlaces"],con:["Las fuentes pueden no ser académicas","Funciones potentes son de pago"],verificado:null},
+ {id:"notebooklm",n:"NotebookLM",ic:"N",url:"https://notebooklm.google.com",cats:["res","inv","ana","pre"],
+  d:"Resume y responde preguntas basándose en los documentos que tú subes.",
+  gratis:"Uso gratuito con límites en número de fuentes y funciones.",
+  lim:["Requiere cuenta de Google","Límites de fuentes y uso","Sube tus documentos: léete la política"],
+  es:true,idi:"Varios idiomas, incluido español",reg:"si",regT:"Requiere cuenta de Google.",
+  priv:true,privT:"Google publica información sobre el uso de datos del servicio. Confírmala antes de subir material sensible.",
+  disp:["pc","tab","mov"],local:false,
+  pros:["Responde con base en tus apuntes","Útil para estudiar un tema concreto"],con:["Necesita cuenta","Depende de la calidad de tus documentos"],verificado:null},
+ {id:"canva",n:"Canva",ic:"Cv",url:"https://www.canva.com",cats:["dis","pre"],
+  d:"Editor de diseño con plantillas para carteles, infografías y presentaciones, con funciones de IA.",
+  gratis:"Plan gratuito con plantillas y funciones básicas; algunas funciones de IA y recursos son de pago o tienen límite.",
+  lim:["Requiere cuenta","Recursos y funciones de IA limitadas en el plan gratuito"],
+  es:true,idi:"Español e inglés, entre otros",reg:"si",regT:"Requiere crear una cuenta.",
+  priv:false,privT:"Consulta su política de privacidad y ajustes de IA.",
+  disp:["pc","tab","mov"],local:false,
+  pros:["Muchas plantillas","Fácil para principiantes"],con:["Parte del contenido es de pago","Necesita cuenta"],verificado:null},
+ {id:"gamma",n:"Gamma",ic:"Ga",url:"https://gamma.app",cats:["pre","dis"],
+  d:"Crea presentaciones y documentos a partir de una idea o un texto.",
+  gratis:"Plan gratuito con créditos limitados; planes de pago para más uso.",
+  lim:["Requiere cuenta","Créditos limitados","Exportar o quitar marcas puede requerir plan de pago"],
+  es:true,idi:"Varios idiomas, incluido español",reg:"si",regT:"Requiere crear una cuenta.",
+  priv:false,privT:"Consulta su política de privacidad antes de subir contenido.",
+  disp:["pc","tab","mov"],local:false,
+  pros:["Genera un borrador rápido","Buen formato visual"],con:["Créditos se agotan","Revisa y corrige el contenido"],verificado:null},
+ {id:"ollama",n:"Ollama",ic:"O",url:"https://ollama.com",cats:["prog","res","ana"],
+  d:"Programa gratuito para ejecutar modelos de IA abiertos en tu propia computadora.",
+  gratis:"Software gratuito. El costo es el equipo que necesitas.",
+  lim:["Requiere instalar y algo de conocimiento técnico","Rendimiento depende de tu computadora","Calidad en español varía según el modelo"],
+  es:true,idi:"Depende del modelo elegido",reg:"no",regT:"No necesita cuenta para usarlo localmente.",
+  priv:true,privT:"Al correr en tu equipo, tus datos no tienen que salir de él. Confirma la configuración que uses.",
+  disp:["pc"],local:true,
+  pros:["Funciona sin conexión una vez instalado","Tú controlas tus datos"],con:["Instalación técnica","Exige un equipo potente"],verificado:null}
+];
+
+const DISP = {pc:"Computadora",tab:"Tableta",mov:"Teléfono"};
+const st = {acts:new Set(), cmp:[]};
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* ---- Tarjetas de actividades ---- */
+function drawActs(){
+  $("acts").innerHTML = Object.entries(ACTS).map(([k,a]) =>
+   `<button type="button" class="act" data-k="${k}" aria-pressed="${st.acts.has(k)}"><span class="ic" aria-hidden="true">${a.i}</span><span><b>${a.n}</b><small>${a.d}</small></span></button>`).join("");
+  $("seguir").disabled = st.acts.size === 0;
+  $("msgSel").textContent = st.acts.size ? `${st.acts.size} seleccionada(s)` : "Elige al menos una para continuar.";
+}
+$("acts").addEventListener("click", e => {
+  const b = e.target.closest(".act"); if(!b) return;
+  const k = b.dataset.k; st.acts.has(k) ? st.acts.delete(k) : st.acts.add(k);
+  drawActs(); $("acts").querySelector(`[data-k="${k}"]`).focus();
+  if(!$("paso3").hidden) render();
+});
+$("seguir").onclick = () => { $("paso2").hidden = false; $("paso3").hidden = false; render(); $("paso2").scrollIntoView({behavior:"smooth"}); $("t2").tabIndex=-1; $("t2").focus({preventScroll:true}); };
+
+/* ---- Ayuda para elegir ---- */
+$("ejemplos").innerHTML = EJEMPLOS.map((e,i) =>
+  `<li><button type="button" class="btn sec" style="min-height:40px;padding:8px 14px" data-i="${i}">${e[0]}</button><span>Categoría: <b>${ACTS[e[1][0]].n}</b></span></li>`).join("");
+$("ayudaBtn").onclick = () => { const h = $("ayuda"); h.hidden = !h.hidden; $("ayudaBtn").setAttribute("aria-expanded", String(!h.hidden)); };
+$("ejemplos").addEventListener("click", e => {
+  const b = e.target.closest("button"); if(!b) return;
+  EJEMPLOS[b.dataset.i][1].forEach(k => st.acts.add(k)); drawActs();
+});
+
+/* ---- Filtros ---- */
+function filtros(){ return {es:$("fEs").checked, sinReg:$("fReg").checked, priv:$("fPriv").checked, local:$("fLoc").checked, disp:$("fDisp").value, ord:$("fOrd").value}; }
+["fEs","fReg","fPriv","fLoc","fDisp","fOrd"].forEach(id => $(id).addEventListener("change", render));
+$("limpiar").onclick = () => {
+  st.acts.clear(); st.cmp = [];
+  ["fEs","fReg","fPriv","fLoc"].forEach(id => $(id).checked = false);
+  $("fDisp").value = ""; $("fOrd").value = "rel";
+  drawActs(); $("paso2").hidden = true; $("paso3").hidden = true; $("comparar").hidden = true;
+  $("paso1").scrollIntoView({behavior:"smooth"});
+};
+
+/* ---- Lógica de recomendación ---- */
+function cumple(t,f){
+  return (!f.es || t.es) && (!f.sinReg || t.reg !== "si") && (!f.local || t.local) && (!f.disp || t.disp.includes(f.disp));
+}
+function puntos(t,f){            // coincidencias de actividad + bonos por preferencias suaves
+  let p = [...st.acts].filter(a => t.cats.includes(a)).length * 10;
+  if(f.priv && t.priv) p += 3;
+  if(t.reg === "no") p += 1;
+  return p;
+}
+function pasos(t){ return (t.reg==="no"?0:t.reg==="opc"?1:2) + (t.local?3:0); }   // menos pasos = más fácil
+function porQue(t,f){
+  const m = [...st.acts].filter(a => t.cats.includes(a)).map(a => ACTS[a].n.toLowerCase());
+  const r = [`Sirve para ${m.join(" y ")}.`];
+  if(f.es && t.es) r.push("Admite español.");
+  if(f.sinReg && t.reg !== "si") r.push("No exige cuenta.");
+  if(f.priv && t.priv) r.push("Indica opciones de privacidad.");
+  if(f.local && t.local) r.push("Funciona en tu equipo.");
+  if(f.disp && t.disp.includes(f.disp)) r.push(`Compatible con ${DISP[f.disp].toLowerCase()}.`);
+  return r.join(" ");
+}
+function render(){
+  const f = filtros();
+  const activ = [...st.acts].map(a => ACTS[a].n);
+  const chips = [...activ.map(a => "Actividad: "+a)];
+  if(f.es) chips.push("Español"); if(f.sinReg) chips.push("Sin cuenta"); if(f.priv) chips.push("Priorizar privacidad");
+  if(f.local) chips.push("Sin internet"); if(f.disp) chips.push(DISP[f.disp]);
+  $("chips").innerHTML = chips.map(c => `<span class="chip">${esc(c)}</span>`).join("");
+
+  const porAct = TOOLS.filter(t => [...st.acts].some(a => t.cats.includes(a)));
+  let lista = porAct.filter(t => cumple(t,f));
+  let alt = false;
+  if(!lista.length && porAct.length){ lista = porAct; alt = true; }   // alternativas: ignora filtros duros
+
+  const ord = {rel:(a,b)=>puntos(b,f)-puntos(a,f), fac:(a,b)=>pasos(a)-pasos(b)||puntos(b,f)-puntos(a,f), res:(a,b)=>a.lim.length-b.lim.length||puntos(b,f)-puntos(a,f)}[f.ord];
+  lista.sort(ord);
+
+  if(!lista.length){
+    $("conteo").textContent = "";
+    $("res").innerHTML = `<div class="vacio" style="grid-column:1/-1"><h3>No hay herramientas para esta combinación</h3><p>Elige otra actividad o quita algún filtro.</p></div>`;
+    return;
+  }
+  $("conteo").innerHTML = alt
+    ? "<b>Ninguna herramienta cumple todos tus filtros.</b> Te mostramos alternativas para tu actividad y marcamos lo que no cumplen."
+    : `${lista.length} herramienta(s) encontradas.`;
+  $("res").innerHTML = lista.map(t => card(t,f,alt)).join("");
+}
+function card(t,f,alt){
+  const falla = alt ? [!t.es&&f.es?"No indica español":"", t.reg==="si"&&f.sinReg?"Exige cuenta":"", !t.local&&f.local?"Requiere internet":"", f.disp&&!t.disp.includes(f.disp)?"No compatible con ese dispositivo":""].filter(Boolean) : [];
+  const ver = t.verificado ? `Verificado: ${esc(t.verificado)}` : "Información sin verificar en vivo: confirma en el sitio oficial";
+  const sel = st.cmp.includes(t.id);
+  return `<article class="card" aria-labelledby="n-${t.id}">
+   <header><span class="logo" aria-hidden="true">${esc(t.ic)}</span><h3 id="n-${t.id}">${esc(t.n)}</h3></header>
+   <p>${esc(t.d)}</p>
+   <div class="why"><b>Por qué:</b> ${esc(porQue(t,f))}</div>
+   ${falla.length?`<div class="lim"><b>No cumple:</b> ${falla.join(", ")}.</div>`:""}
+   <div class="lim"><b>Antes de entrar:</b> ${esc(t.gratis)}<ul style="margin:4px 0 0;padding-left:18px">${t.lim.map(l=>`<li>${esc(l)}</li>`).join("")}</ul></div>
+   <div class="tags"><span class="tag">${t.es?"Español":"Sin confirmar español"}</span><span class="tag">${t.reg==="si"?"Requiere cuenta":t.reg==="opc"?"Cuenta opcional":"Sin cuenta"}</span>${t.local?'<span class="tag">Uso local</span>':""}<span class="tag">${t.disp.map(d=>DISP[d]).join(", ")}</span></div>
+   <details><summary>Ver más detalles</summary>
+    <p><b>Idiomas:</b> ${esc(t.idi)}</p><p><b>Registro:</b> ${esc(t.regT)}</p><p><b>Privacidad:</b> ${esc(t.privT)}</p>
+    <div class="pc"><div><b>Ventajas</b><ul>${t.pros.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div><div><b>Desventajas</b><ul>${t.con.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div></div>
+    <p style="color:var(--mut)">${ver}</p></details>
+   <div class="acc"><a class="btn" href="${esc(t.url)}" target="_blank" rel="noopener noreferrer">Visitar herramienta<span class="sr" style="position:absolute;left:-9999px"> (se abre en otra pestaña)</span></a>
+    <label class="cmpchk"><input type="checkbox" data-c="${t.id}" ${sel?"checked":""}>Comparar</label></div>
+  </article>`;
+}
+
+/* ---- Comparador (máx. 3) ---- */
+$("res").addEventListener("change", e => {
+  const id = e.target.dataset.c; if(!id) return;
+  if(e.target.checked){
+    if(st.cmp.length >= 3){ e.target.checked = false; alert("Puedes comparar hasta 3 herramientas. Quita una para añadir otra."); return; }
+    st.cmp.push(id);
+  } else st.cmp = st.cmp.filter(x => x !== id);
+  drawCmp();
+});
+function drawCmp(){
+  const sec = $("comparar"), L = st.cmp.map(id => TOOLS.find(t => t.id === id));
+  sec.hidden = L.length === 0;
+  if(!L.length) return;
+  const row = (h,fn) => `<tr><th scope="row">${h}</th>${L.map(t=>`<td>${fn(t)}</td>`).join("")}</tr>`;
+  const ul = a => "<ul style='margin:0;padding-left:16px'>"+a.map(x=>`<li>${esc(x)}</li>`).join("")+"</ul>";
+  $("cmp").innerHTML = `<div class="tablewrap"><table><thead><tr><th></th>${L.map(t=>`<th scope="col">${esc(t.n)} <button class="btn sec" style="min-height:32px;padding:4px 10px;font-size:.8rem" data-q="${t.id}" aria-label="Quitar ${esc(t.n)} de la comparación">Quitar</button></th>`).join("")}</tr></thead><tbody>
+   ${row("Plan gratuito",t=>esc(t.gratis))}${row("Límites",t=>ul(t.lim))}${row("Español",t=>t.es?"Sí":"Sin confirmar")}${row("Registro",t=>esc(t.regT))}
+   ${row("Privacidad",t=>esc(t.privT))}${row("Dispositivos",t=>t.disp.map(d=>DISP[d]).join(", "))}${row("Uso sin internet",t=>t.local?"Sí":"No")}
+   ${row("Ventajas",t=>ul(t.pros))}${row("Desventajas",t=>ul(t.con))}
+   ${row("Sitio oficial",t=>`<a href="${esc(t.url)}" target="_blank" rel="noopener noreferrer">Visitar ${esc(t.n)}</a>`)}</tbody></table></div>`;
+}
+$("cmp").addEventListener("click", e => {
+  const q = e.target.dataset.q; if(!q) return;
+  st.cmp = st.cmp.filter(x => x !== q); drawCmp(); render();
+});
+
+drawActs();
+</script>
+</body>
+</html>
