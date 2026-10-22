@@ -1,0 +1,15 @@
+{
+  "name": "sinergia-asistente",
+  "version": "1.0.0",
+  "description": "Asistente Educativo y Auditor de Prompts con marco ROCIL",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vite",
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^6.0.0"
+  }
+}
